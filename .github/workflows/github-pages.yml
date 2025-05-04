@@ -25,7 +25,12 @@ jobs:
 
       - name: Prepare yarn
         run: |
-            echo "nodeLinker: node-modules" >> ~/.yarnrc.yml
+            echo "nodeLinker: node-modules"                             >> ~/.yarnrc.yml
+            echo ""                                                     >> ~/.yarnrc.yml
+            echo "npmScopes:"                                           >> ~/.yarnrc.yml
+            echo "  fortawesome:"                                       >> ~/.yarnrc.yml
+            echo "    npmAlwaysAuth: true"                              >> ~/.yarnrc.yml
+            echo "    npmRegistryServer: 'https://registry.npmjs.org/'" >> ~/.yarnrc.yml
             corepack enable
 
       - name: Run install
