@@ -29,11 +29,13 @@ export const useConfig = defineStore('config', () => {
   }
 
   const configVerdicts: Record<string, Verdict> = {
-    AC: { id: 'AC', description: 'Accepted', abbr: 'AC' },
-    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
-    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
-    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
-    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE' },
+    AC: { id: 'AC', description: 'Accepted', abbr: 'AC', color: '#67C23A' },
+    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA', color: '#F56C6C' },
+    RE: { id: 'RE', description: 'Runtime Error', abbr: 'RE', color: '#6A3BC0' },
+    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE', color: '#E6A23C' },
+    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE', color: '#E6A23C' },
+    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE', color: '#909399' },
+    UKE: { id: 'UKE', description: 'Unknown Error', abbr: 'UKE', color: '#909399' },
   }
   return {
     configTags,

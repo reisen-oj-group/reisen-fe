@@ -14,8 +14,10 @@ export interface Verdict {
   id: VerdictId
   description: string // 描述，例如 Wrong Answer
   abbr: string // 缩写，例如 WA
+  color: string
 }
 
+// 测试点的简化结果，用于在记录列表展示
 export interface Submission {
   id: SubmissionId
 
@@ -32,7 +34,28 @@ export interface Submission {
   length: number // 代码长度
 }
 
+// 和 User 以及 Problem 表连接后的结果
 export interface SubmissionFull extends Omit<Submission, 'problem' | 'user'> {
   problem: Problem
   user: User
+}
+
+// 测试点的详细结果，用于在记录详情页展示
+export interface SubmissionDetail extends Submission {
+  code: string;
+  compile?: {
+    success: boolean;
+    message: string;
+  };
+  detail: Testcase[];
+}
+
+export interface Testcase {
+  verdict: VerdictId;
+  time?: number;
+  memory?: number;
+  score?: number;
+  input?: string;
+  output?: string;
+  checker?: string;
 }

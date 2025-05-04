@@ -41,7 +41,10 @@
       <tbody>
         <tr v-for="record in props.records" :key="record.id" class="entry">
           <td class="id">
-            {{ record.id }}
+            <router-link :to="`/record/${record.id}`" class="record-link">
+              <span>{{ record.id }}</span>
+            </router-link>
+            
           </td>
           <td class="time">
             {{ formatDate(record.submission) }}
@@ -60,11 +63,9 @@
             {{ configLangs[record.lang]?.description || 'Unknown' }}
           </td>
           <td class="verdict">
-            <el-tag :type="getVerdictColor(record.verdict)" effect="dark">
-              {{ configVerdicts[record.verdict]?.abbr || 'Unknown' }}
-            </el-tag>
+            <verdict-tag :verdict="record.verdict" />
           </td>
-          <td class="time">{{ record.time ? `${record.time}ms` : '-' }}</td>
+          <td class="time">{{ formatTime(record.time) }}</td>
           <td class="memory">{{ formatMemory(record.memory) }}</td>
         </tr>
       </tbody>
@@ -84,11 +85,14 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElAffix, ElPagination } from 'element-plus'
+import { ElCard, ElAffix, ElPagination, ElTag } from 'element-plus'
 import { computed, ref } from 'vue'
 import type { SubmissionFull } from '@/interface'
 
 import { useConfig } from '@/stores/config'
+
+import { formatDate, formatMemory, formatTime } from '@/tools/format'
+import VerdictTag from '../common/VerdictTag.vue'
 
 const { configLangs, configVerdicts } = useConfig()
 
@@ -105,37 +109,6 @@ const currentPage = ref(1)
 function handlePageChange(page: number) {
   currentPage.value = page
   emits('page-change', page)
-}
-
-function formatDate(date: Date) {
-  return date.toLocaleString()
-}
-
-function formatMemory(kb?: number) {
-  if (!kb) return '-'
-  if (kb >= 1024 * 1024) {
-    return `${(kb / (1024 * 1024)).toFixed(1)} GB`
-  } else if (kb >= 1024) {
-    return `${(kb / 1024).toFixed(1)} MB`
-  }
-  return `${kb} KB`
-}
-
-function getVerdictColor(verdict: string) {
-  switch (verdict) {
-    case 'AC':
-      return 'success'
-    case 'WA':
-      return 'danger'
-    case 'TLE':
-      return 'warning'
-    case 'MLE':
-      return 'warning'
-    case 'CE':
-      return 'info'
-    default:
-      return ''
-  }
 }
 </script>
 
@@ -225,7 +198,7 @@ table.record-list-head {
   }
 }
 
-.user-link {
+.user-link, .record-link {
   align-items: center;
   gap: 8px;
   color: inherit;

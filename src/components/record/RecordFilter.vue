@@ -3,10 +3,10 @@
     <el-card class="card">
       <el-form :inline="true" :model="form">
         <el-form-item label="用户" class="filter-item">
-          <el-input v-model="form.user" />
+          <el-input v-model="form.user" placeholder="用户名或 ID" />
         </el-form-item>
         <el-form-item label="试题" class="filter-item">
-          <el-input v-model="form.problem" />
+          <el-input v-model="form.problem" placeholder="题目 ID" />
         </el-form-item>
         <el-form-item label="语言" class="filter-item">
           <el-select v-model="form.lang">
@@ -30,6 +30,10 @@
             <el-option value="" label="任意状态" />
           </el-select>
         </el-form-item>
+
+        <div class="button-container">
+          <el-button type="primary">筛选</el-button>
+        </div>
       </el-form>
     </el-card>
   </div>
@@ -38,7 +42,7 @@
 <script setup lang="ts">
 import type { LangId, ProblemId, UserId, VerdictId } from '@/interface'
 
-import { ElCard, ElInput, ElForm, ElFormItem, ElSpace, ElSelect, ElOption } from 'element-plus'
+import { ElCard, ElInput, ElForm, ElFormItem, ElSpace, ElSelect, ElOption, ElButton } from 'element-plus'
 import { reactive, ref } from 'vue'
 
 import { useConfig } from '@/stores/config'
@@ -62,5 +66,9 @@ const form = reactive<{
 .filter-item {
   margin: 0 1em;
   width: 200px;
+}
+
+.button-container {
+  float: right;
 }
 </style>

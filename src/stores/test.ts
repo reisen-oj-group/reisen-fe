@@ -6,7 +6,10 @@ import type {
   Problem,
   Statement,
   Submission,
+  SubmissionDetail,
   SubmissionFull,
+  SubmissionId,
+  Testcase,
   User,
   Verdict,
 } from '@/interface'
@@ -139,30 +142,6 @@ export const useTest = defineStore('testdata', () => {
     },
   ]
 
-  const dataProblemsMany = (() => {
-    const extra: Problem[] = []
-    for (let id = 2000; id < 3000; ++id) {
-      extra.push({
-        id: id,
-        type: 'traditional',
-        limitTime: 1000,
-        limitMemory: 1024,
-        tags: [],
-        permission: 0,
-        i18n: {
-          'en-US': {
-            title: 'Random Problem',
-            statement: 1,
-          },
-        },
-        countCorrect: 50,
-        countTotal: 100,
-        difficulty: 0,
-      })
-    }
-    return extra
-  })()
-
   const dataSubmissions: Submission[] = [
     {
       id: 1,
@@ -202,7 +181,6 @@ export const useTest = defineStore('testdata', () => {
     },
   ]
 
-  // 生成 SubmissionFull 测试数据
   const dataSubmissionsFull: SubmissionFull[] = dataSubmissions.map((sub) => {
     const user = dataUsers.find((u) => u.id === sub.user)!
     const problem = dataProblems.find((p) => p.id === sub.problem)!
@@ -217,6 +195,105 @@ export const useTest = defineStore('testdata', () => {
       verdictInfo,
     }
   })
+
+  // 生成测试点数据
+  const generateTestcases = (count: number, verdict: string): Testcase[] => {
+    return Array.from({ length: count }, (_, i) => ({
+      verdict,
+      time: Math.floor(Math.random() * 100) + 10,
+      memory: Math.floor(Math.random() * 1024) + 128,
+      score: verdict === 'AC' ? 100 : 0,
+      input: `Sample input for test case ${i+1}\n${'a'.repeat(200)}`,
+      output: `Sample output for test case ${i+1}\n${'b'.repeat(200)}`,
+      checker: verdict === 'AC' 
+        ? 'Check passed: Output matches expected result' 
+        : 'Check failed: Output differs on line 3'
+    }))
+  }
+
+  // 生成 SubmissionDetail 测试数据
+  const dataSubmissionsDetail: SubmissionDetail[] = [
+    // AC 通过的提交
+    {
+      ...dataSubmissions[0],
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+  int a, b;
+  cin >> a >> b;
+  cout << a + b << endl;
+  return 0;
+}`,
+      compile: {
+        success: true,
+        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully'
+      },
+      detail: [
+        ...generateTestcases(5, 'AC'),
+        ...generateTestcases(2, 'WA')
+      ]
+    }, {
+      ...dataSubmissions[1],
+      code: `public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello World)
+  }
+}`,
+      compile: {
+        success: false,
+        message: `Main.java:3: error: unclosed string literal
+    System.out.println("Hello World)
+                        ^
+Main.java:3: error: ';' expected
+    System.out.println("Hello World)
+                                      ^
+2 errors`
+      },
+      detail: []
+    }, {
+      ...dataSubmissions[2],
+      code: `n = int(input())
+for i in range(n):
+    a, b = map(int, input().split())
+    print(a * b)  # 错误：应该是 a + b`,
+      compile: {
+        success: true,
+        message: 'Python 3.8 interpreter\nCompilation finished successfully'
+      },
+      detail: [
+        ...generateTestcases(3, 'AC'),
+        ...generateTestcases(4, 'WA')
+      ]
+    }, {
+      ...dataSubmissions[0],
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+  int a, b;
+  cin >> a >> b;
+  cout << a / b << endl;  // 除零错误
+  return 0;
+}`,
+      compile: {
+        success: true,
+        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully'
+      },
+      detail: [
+        {
+          verdict: 'RE',
+          time: 10,
+          memory: 1024,
+          score: 0,
+          input: '5 0',
+          output: '',
+          checker: 'Runtime error: division by zero'
+        },
+        ...generateTestcases(6, 'RE')
+      ]
+    }
+  ]
 
   function generateMany(source: object[]) {
     const result: object[] = []
@@ -235,6 +312,7 @@ export const useTest = defineStore('testdata', () => {
     dataStatements,
     dataSubmissions,
     dataSubmissionsFull,
+    dataSubmissionsDetail,
     dataUsers,
     generateMany,
   }

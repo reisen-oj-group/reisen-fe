@@ -1,5 +1,6 @@
 import ViewHome from '@/views/ViewHome.vue'
 import ViewProblemList from '@/views/ViewProblemList.vue'
+import ViewRecordDetail from '@/views/ViewRecordDetail.vue'
 import ViewRecordList from '@/views/ViewRecordList.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -26,6 +27,12 @@ const router = createRouter({
       path: '/record',
       name: 'record',
       component: ViewRecordList,
+    },
+    {
+      path: '/record/:rid',
+      name: 'record-detail',
+      component: ViewRecordDetail,
+      props: true,
     },
   ],
 })
