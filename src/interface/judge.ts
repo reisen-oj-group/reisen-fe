@@ -42,20 +42,20 @@ export interface SubmissionFull extends Omit<Submission, 'problem' | 'user'> {
 
 // 测试点的详细结果，用于在记录详情页展示
 export interface SubmissionDetail extends Submission {
-  code: string;
+  code: string
   compile?: {
-    success: boolean;
-    message: string;
-  };
-  detail: Testcase[];
+    success: boolean
+    message: string
+  }
+  detail: Testcase[]
 }
 
 export interface Testcase {
-  verdict: VerdictId;
-  time?: number;
-  memory?: number;
-  score?: number;
-  input?: string;
-  output?: string;
-  checker?: string;
+  verdict: VerdictId
+  time?: number
+  memory?: number
+  score?: number
+  input?: string
+  output?: string
+  checker?: string
 }

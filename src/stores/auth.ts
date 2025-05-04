@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 import type { User } from '@/interface'
 
 export const useAuth = defineStore('auth', () => {
-  let login = ref(sessionStorage.getItem('login') === 'true')
-  let token = ref(sessionStorage.getItem('token') || '')
+  const login = ref(sessionStorage.getItem('login') === 'true')
+  const token = ref(sessionStorage.getItem('token') || '')
 
   function readUser() {
     const result = JSON.parse(sessionStorage.getItem('user') || '{}')

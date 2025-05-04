@@ -19,9 +19,9 @@
       <el-tab-pane label="测试点" name="testcases">
         <div class="testcase-container">
           <div v-for="(testcase, index) in submission.detail" :key="index" class="testcase-item">
-            <div 
+            <div
               class="testcase-badge"
-              :style="{ backgroundColor: `${ configVerdicts[testcase.verdict].color }`}"
+              :style="{ backgroundColor: `${configVerdicts[testcase.verdict].color}` }"
               @click="showTestcase(testcase, index)"
             >
               <span class="testcase-id">#{{ index + 1 }}</span>
@@ -47,14 +47,20 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog v-model="testcaseDialogVisible" :title="`测试点 #${selectedTestcaseIndex + 1} 详情`" width="800">
+    <el-dialog
+      v-model="testcaseDialogVisible"
+      :title="`测试点 #${selectedTestcaseIndex + 1} 详情`"
+      width="800"
+    >
       <div v-if="selectedTestcase" class="testcase-detail">
         <el-descriptions :column="4" border>
           <el-descriptions-item label="状态">
             <verdict-tag :verdict="selectedTestcase.verdict" />
           </el-descriptions-item>
           <el-descriptions-item label="用时">{{ selectedTestcase.time }}ms</el-descriptions-item>
-          <el-descriptions-item label="内存">{{ formatMemory(selectedTestcase.memory) }}</el-descriptions-item>
+          <el-descriptions-item label="内存">{{
+            formatMemory(selectedTestcase.memory)
+          }}</el-descriptions-item>
           <el-descriptions-item label="得分" v-if="selectedTestcase.score !== undefined">
             {{ selectedTestcase.score }}分
           </el-descriptions-item>
@@ -75,19 +81,26 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { ElCard, ElTabs, ElTabPane, ElTag, ElAlert, ElEmpty, ElDialog, ElDescriptions, ElDescriptionsItem } from 'element-plus'
+import {
+  ElCard,
+  ElTabs,
+  ElTabPane,
+  ElTag,
+  ElAlert,
+  ElEmpty,
+  ElDialog,
+  ElDescriptions,
+  ElDescriptionsItem,
+} from 'element-plus'
 import type { SubmissionDetail, Testcase, Verdict } from '@/interface'
 
-import VerdictTag from '../common/VerdictTag.vue';
+import VerdictTag from '../common/VerdictTag.vue'
 
-import { useConfig } from '@/stores/config';
+import { useConfig } from '@/stores/config'
 
 import { formatDate, formatMemory, formatTime } from '@/tools/format'
 
-const {
-  configVerdicts,
-  configLangs
-} = useConfig();
+const { configVerdicts, configLangs } = useConfig()
 
 const props = defineProps<{
   submission: SubmissionDetail
@@ -100,12 +113,18 @@ const selectedTestcaseIndex = ref(0)
 
 function getVerdictColor(verdict: string) {
   switch (verdict) {
-    case 'AC': return 'success'
-    case 'WA': return 'danger'
-    case 'TLE': return 'warning'
-    case 'MLE': return ''
-    case 'CE': return 'info'
-    default: return ''
+    case 'AC':
+      return 'success'
+    case 'WA':
+      return 'danger'
+    case 'TLE':
+      return 'warning'
+    case 'MLE':
+      return ''
+    case 'CE':
+      return 'info'
+    default:
+      return ''
   }
 }
 
@@ -116,7 +135,7 @@ function getTestcaseBadgeClass(verdict: string) {
     'badge-tle': verdict === 'TLE',
     'badge-mle': verdict === 'MLE',
     'badge-re': ['RE', 'CE', 'IE'].includes(verdict),
-    'badge-uk': !['AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'IE'].includes(verdict)
+    'badge-uk': !['AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'IE'].includes(verdict),
   }
 }
 
@@ -148,7 +167,8 @@ function showTestcase(testcase: Testcase, index: number) {
     align-items: center;
     gap: 15px;
 
-    .time, .memory {
+    .time,
+    .memory {
       font-size: 0.9em;
       color: var(--el-text-color-secondary);
     }

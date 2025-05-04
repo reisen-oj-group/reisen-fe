@@ -42,7 +42,16 @@
 <script setup lang="ts">
 import type { LangId, ProblemId, UserId, VerdictId } from '@/interface'
 
-import { ElCard, ElInput, ElForm, ElFormItem, ElSpace, ElSelect, ElOption, ElButton } from 'element-plus'
+import {
+  ElCard,
+  ElInput,
+  ElForm,
+  ElFormItem,
+  ElSpace,
+  ElSelect,
+  ElOption,
+  ElButton,
+} from 'element-plus'
 import { reactive, ref } from 'vue'
 
 import { useConfig } from '@/stores/config'

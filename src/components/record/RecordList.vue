@@ -44,7 +44,6 @@
             <router-link :to="`/record/${record.id}`" class="record-link">
               <span>{{ record.id }}</span>
             </router-link>
-            
           </td>
           <td class="time">
             {{ formatDate(record.submission) }}
@@ -198,7 +197,8 @@ table.record-list-head {
   }
 }
 
-.user-link, .record-link {
+.user-link,
+.record-link {
   align-items: center;
   gap: 8px;
   color: inherit;

@@ -28,11 +28,13 @@ export const useTest = defineStore('testdata', () => {
   }
 
   const dataVerdicts: Record<string, Verdict> = {
-    AC: { id: 'AC', description: 'Accepted', abbr: 'AC' },
-    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
-    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
-    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
-    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE' },
+    AC: { id: 'AC', description: 'Accepted', abbr: 'AC', color: '#67C23A' },
+    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA', color: '#F56C6C' },
+    RE: { id: 'RE', description: 'Runtime Error', abbr: 'RE', color: '#6A3BC0' },
+    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE', color: '#E6A23C' },
+    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE', color: '#E6A23C' },
+    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE', color: '#909399' },
+    UKE: { id: 'UKE', description: 'Unknown Error', abbr: 'UKE', color: '#909399' },
   }
 
   const dataStatements: Statement[] = [
@@ -203,11 +205,12 @@ export const useTest = defineStore('testdata', () => {
       time: Math.floor(Math.random() * 100) + 10,
       memory: Math.floor(Math.random() * 1024) + 128,
       score: verdict === 'AC' ? 100 : 0,
-      input: `Sample input for test case ${i+1}\n${'a'.repeat(200)}`,
-      output: `Sample output for test case ${i+1}\n${'b'.repeat(200)}`,
-      checker: verdict === 'AC' 
-        ? 'Check passed: Output matches expected result' 
-        : 'Check failed: Output differs on line 3'
+      input: `Sample input for test case ${i + 1}\n${'a'.repeat(200)}`,
+      output: `Sample output for test case ${i + 1}\n${'b'.repeat(200)}`,
+      checker:
+        verdict === 'AC'
+          ? 'Check passed: Output matches expected result'
+          : 'Check failed: Output differs on line 3',
     }))
   }
 
@@ -227,13 +230,11 @@ int main() {
 }`,
       compile: {
         success: true,
-        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully'
+        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully',
       },
-      detail: [
-        ...generateTestcases(5, 'AC'),
-        ...generateTestcases(2, 'WA')
-      ]
-    }, {
+      detail: [...generateTestcases(5, 'AC'), ...generateTestcases(2, 'WA')],
+    },
+    {
       ...dataSubmissions[1],
       code: `public class Main {
   public static void main(String[] args) {
@@ -248,10 +249,11 @@ int main() {
 Main.java:3: error: ';' expected
     System.out.println("Hello World)
                                       ^
-2 errors`
+2 errors`,
       },
-      detail: []
-    }, {
+      detail: [],
+    },
+    {
       ...dataSubmissions[2],
       code: `n = int(input())
 for i in range(n):
@@ -259,13 +261,11 @@ for i in range(n):
     print(a * b)  # 错误：应该是 a + b`,
       compile: {
         success: true,
-        message: 'Python 3.8 interpreter\nCompilation finished successfully'
+        message: 'Python 3.8 interpreter\nCompilation finished successfully',
       },
-      detail: [
-        ...generateTestcases(3, 'AC'),
-        ...generateTestcases(4, 'WA')
-      ]
-    }, {
+      detail: [...generateTestcases(3, 'AC'), ...generateTestcases(4, 'WA')],
+    },
+    {
       ...dataSubmissions[0],
       code: `#include <iostream>
 using namespace std;
@@ -278,7 +278,7 @@ int main() {
 }`,
       compile: {
         success: true,
-        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully'
+        message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully',
       },
       detail: [
         {
@@ -288,11 +288,11 @@ int main() {
           score: 0,
           input: '5 0',
           output: '',
-          checker: 'Runtime error: division by zero'
+          checker: 'Runtime error: division by zero',
         },
-        ...generateTestcases(6, 'RE')
-      ]
-    }
+        ...generateTestcases(6, 'RE'),
+      ],
+    },
   ]
 
   function generateMany(source: object[]) {

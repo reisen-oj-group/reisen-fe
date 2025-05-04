@@ -48,17 +48,14 @@
 </template>
 
 <script setup lang="ts">
-
-import type { SubmissionDetail } from '@/interface';
-import { formatDate, formatMemory, formatTime } from '@/tools/format';
+import type { SubmissionDetail } from '@/interface'
+import { formatDate, formatMemory, formatTime } from '@/tools/format'
 import { ElButton, ElAffix, ElCard, ElSpace, ElRow, ElCol } from 'element-plus'
 import { ref } from 'vue'
 
-import { useConfig } from '@/stores/config';
+import { useConfig } from '@/stores/config'
 
-const {
-  configLangs
-} = useConfig();
+const { configLangs } = useConfig()
 
 const openSubmit = ref(false)
 
