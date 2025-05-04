@@ -1,26 +1,24 @@
 <template>
-  <el-card body-style="padding-top: 0; padding-bottom: 0">
+  <el-card body-style="padding-top: 0.5em; padding-bottom: 0.5em">
     <el-affix>
-      <div class="problemset-head">
-        <table class="problemset">
-          <colgroup>
-            <col class="col-status" />
-            <col class="col-id" />
-            <col class="col-title" />
-            <col class="col-difficulty" />
-            <col class="col-acceptance" />
-          </colgroup>
-          <thead>
-            <tr class="entry">
-              <th></th>
-              <th>#</th>
-              <th>题目</th>
-              <th>难度</th>
-              <th>通过率</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
+      <table class="problemset-head">
+        <colgroup>
+          <col class="col-status" />
+          <col class="col-id" />
+          <col class="col-title" />
+          <col class="col-difficulty" />
+          <col class="col-acceptance" />
+        </colgroup>
+        <thead>
+          <tr class="entry">
+            <th></th>
+            <th>#</th>
+            <th>题目</th>
+            <th>难度</th>
+            <th>通过率</th>
+          </tr>
+        </thead>
+      </table>
     </el-affix>
 
     <table class="problemset">
@@ -110,18 +108,28 @@ const props = defineProps<{
 }
 
 table.problemset {
+  tr.entry {
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+table.problemset, table.problemset-head {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 
-  tr {
+  tr.entry {
     height: 2.5em;
     border-bottom: 1px solid #e0e0e0;
   }
 
-  th td {
-    padding: 12px 8px;
-    text-align: left;
+  th, td {
+    padding: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .col {

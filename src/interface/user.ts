@@ -1,11 +1,9 @@
 import type { UserId } from './enum'
 
-interface BgUser {
-  uid: UserId
-
-  username: string
-  password: string
-  role: number
+interface Auth {
+  uid: UserId,
+  username: string,
+  password: string,
 }
 
 interface User {
@@ -13,6 +11,7 @@ interface User {
 
   name: string
   role: number
+  avatar?: string
 }
 
-export type { User, BgUser }
+export type { User, Auth }

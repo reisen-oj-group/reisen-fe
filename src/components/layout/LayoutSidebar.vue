@@ -27,7 +27,6 @@ import RSidebar from './RSidebar.vue'
 
 import { ElRow, ElCol } from 'element-plus'
 
-import { useTest } from '@/stores/test'
 </script>
 
 <style lang="scss" scoped>

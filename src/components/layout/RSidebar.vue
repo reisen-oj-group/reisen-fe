@@ -11,8 +11,12 @@
         <span class="nav-label">题库</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/contest">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faClipboardList" />
+        <font-awesome-icon class="nav-icon" size="lg" :icon="faChartSimple" />
         <span class="nav-label">比赛</span>
+      </el-menu-item>
+      <el-menu-item class="nav-item" index="/record">
+        <font-awesome-icon class="nav-icon" size="lg" :icon="faChartPie" />
+        <span class="nav-label">记录</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/user">
         <font-awesome-icon class="nav-icon" size="lg" :icon="faUser" />
@@ -26,7 +30,7 @@
 import { ElMenu, ElMenuItem } from 'element-plus'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faHouse, faBook, faClipboardList, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faBook, faClipboardList, faUser, faChartSimple, faChartPie } from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <style lang="scss" scoped>

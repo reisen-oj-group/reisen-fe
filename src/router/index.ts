@@ -1,5 +1,6 @@
 import ViewHome from '@/views/ViewHome.vue'
 import ViewProblemList from '@/views/ViewProblemList.vue'
+import ViewRecordList from '@/views/ViewRecordList.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,
     },
+    {
+      path: '/record',
+      name: 'record',
+      component: ViewRecordList,
+    }
   ],
 })
 

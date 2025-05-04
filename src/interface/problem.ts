@@ -1,8 +1,12 @@
-import type { ProblemId, StatementId, TagId } from './enum'
+import type { ProblemId, StatementId, TagClassifyId, TagId } from './enum'
 
+export interface TagClassify {
+  id: TagClassifyId
+  name: string
+}
 export interface Tag {
   id: TagId
-
+  classify: TagClassifyId
   name: string
 }
 
