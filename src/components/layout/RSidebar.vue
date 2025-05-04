@@ -30,7 +30,14 @@
 import { ElMenu, ElMenuItem } from 'element-plus'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faHouse, faBook, faClipboardList, faUser, faChartSimple, faChartPie } from '@fortawesome/free-solid-svg-icons'
+import {
+  faHouse,
+  faBook,
+  faClipboardList,
+  faUser,
+  faChartSimple,
+  faChartPie,
+} from '@fortawesome/free-solid-svg-icons'
 </script>
 
 <style lang="scss" scoped>

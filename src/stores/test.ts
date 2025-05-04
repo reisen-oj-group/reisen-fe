@@ -1,27 +1,35 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import type { Lang, Problem, Statement, Submission, SubmissionFull, User, Verdict } from '@/interface'
+import type {
+  Lang,
+  Problem,
+  Statement,
+  Submission,
+  SubmissionFull,
+  User,
+  Verdict,
+} from '@/interface'
 
 export const useTest = defineStore('testdata', () => {
   const dataUsers: User[] = [
     { id: 1, name: '琪露诺', role: 0, avatar: 'https://example.com/avatar1.jpg' },
     { id: 2, name: '魔理沙', role: 1 },
-    { id: 3, name: '大妖精', role: 0, avatar: 'https://example.com/avatar3.jpg' }
+    { id: 3, name: '大妖精', role: 0, avatar: 'https://example.com/avatar3.jpg' },
   ]
 
   const dataLangs: Record<string, Lang> = {
-    'cpp'   : { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
-    'java'  : { id: 'java', description: 'Java 11', ratio: 2 },
-    'python': { id: 'python', description: 'Python 3.8', ratio: 3 }
+    cpp: { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
+    java: { id: 'java', description: 'Java 11', ratio: 2 },
+    python: { id: 'python', description: 'Python 3.8', ratio: 3 },
   }
 
   const dataVerdicts: Record<string, Verdict> = {
-    'AC' : { id: 'AC', description: 'Accepted', abbr: 'AC' },
-    'WA' : { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
-    'TLE': { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
-    'MLE': { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
-    'CE' : { id: 'CE', description: 'Compile Error', abbr: 'CE' }
+    AC: { id: 'AC', description: 'Accepted', abbr: 'AC' },
+    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
+    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
+    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
+    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE' },
   }
 
   const dataStatements: Statement[] = [
@@ -59,7 +67,7 @@ export const useTest = defineStore('testdata', () => {
       },
       countCorrect: 10,
       countTotal: 100,
-      difficulty: 0,
+      difficulty: 800,
     },
     {
       id: 1002,
@@ -76,7 +84,7 @@ export const useTest = defineStore('testdata', () => {
       },
       countCorrect: 20,
       countTotal: 100,
-      difficulty: 0,
+      difficulty: 1200,
     },
     {
       id: 1003,
@@ -91,9 +99,9 @@ export const useTest = defineStore('testdata', () => {
           statement: 1,
         },
       },
-      countCorrect: 20,
+      countCorrect: 30,
       countTotal: 100,
-      difficulty: 0,
+      difficulty: 1600,
     },
     {
       id: 1004,
@@ -108,9 +116,9 @@ export const useTest = defineStore('testdata', () => {
           statement: 1,
         },
       },
-      countCorrect: 20,
+      countCorrect: 50,
       countTotal: 100,
-      difficulty: 0,
+      difficulty: 2400,
     },
     {
       id: 1005,
@@ -125,9 +133,9 @@ export const useTest = defineStore('testdata', () => {
           statement: 1,
         },
       },
-      countCorrect: 20,
+      countCorrect: 90,
       countTotal: 100,
-      difficulty: 0,
+      difficulty: 3000,
     },
   ]
 
@@ -155,7 +163,7 @@ export const useTest = defineStore('testdata', () => {
     return extra
   })()
 
-  const dataSubmissions: Submission[] = ([
+  const dataSubmissions: Submission[] = [
     {
       id: 1,
       submission: new Date('2023-07-20T10:30:00'),
@@ -166,7 +174,7 @@ export const useTest = defineStore('testdata', () => {
       memory: 1024,
       length: 120,
       verdict: 'AC',
-      lang: 'cpp'
+      lang: 'cpp',
     },
     {
       id: 2,
@@ -178,7 +186,7 @@ export const useTest = defineStore('testdata', () => {
       memory: 256000,
       length: 250,
       verdict: 'TLE',
-      lang: 'java'
+      lang: 'java',
     },
     {
       id: 3,
@@ -190,43 +198,40 @@ export const useTest = defineStore('testdata', () => {
       memory: 5120,
       length: 180,
       verdict: 'WA',
-      lang: 'python'
+      lang: 'python',
     },
-  ])
+  ]
 
   // 生成 SubmissionFull 测试数据
-  const dataSubmissionsFull: SubmissionFull[] = (
-    dataSubmissions.map(sub => {
-      const user = dataUsers.find(u => u.id === sub.user)!
-      const problem = dataProblems.find(p => p.id === sub.problem)!
-      const langInfo = dataLangs[sub.lang]
-      const verdictInfo = dataVerdicts[sub.verdict]
-      
-      return {
-        ...sub,
-        user,
-        problem,
-        langInfo,
-        verdictInfo
-      }
-    })
-  )
+  const dataSubmissionsFull: SubmissionFull[] = dataSubmissions.map((sub) => {
+    const user = dataUsers.find((u) => u.id === sub.user)!
+    const problem = dataProblems.find((p) => p.id === sub.problem)!
+    const langInfo = dataLangs[sub.lang]
+    const verdictInfo = dataVerdicts[sub.verdict]
 
-  function generateMany(source: object[]){
-    const result: object[] = [];
-    for(let i = 0;i < 500;++ i){
-      result.push(source[Math.floor(Math.random() * source.length)]);
+    return {
+      ...sub,
+      user,
+      problem,
+      langInfo,
+      verdictInfo,
     }
-    return result;
+  })
+
+  function generateMany(source: object[]) {
+    const result: object[] = []
+    for (let i = 0; i < 500; ++i) {
+      result.push(source[Math.floor(Math.random() * source.length)])
+    }
+    return result
   }
 
-  console.log(dataSubmissionsFull);
+  console.log(dataSubmissionsFull)
 
   return {
     dataLangs,
     dataVerdicts,
     dataProblems,
-    dataProblemsMany,
     dataStatements,
     dataSubmissions,
     dataSubmissionsFull,

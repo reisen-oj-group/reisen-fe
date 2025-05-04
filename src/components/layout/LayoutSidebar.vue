@@ -26,7 +26,6 @@ import RFooter from './RFooter.vue'
 import RSidebar from './RSidebar.vue'
 
 import { ElRow, ElCol } from 'element-plus'
-
 </script>
 
 <style lang="scss" scoped>

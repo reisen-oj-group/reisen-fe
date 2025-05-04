@@ -53,10 +53,7 @@
           </td>
 
           <td class="difficulty">
-            1000
-            <!-- <span :class="['difficulty', getDifficultyClass(problem.difficulty)]">
-              {{ problem.difficulty }}
-            </span> -->
+            {{ problem.difficulty }}
           </td>
 
           <td class="acceptance">
@@ -67,7 +64,6 @@
                   width: `${problem.countTotal ? (100 * problem.countCorrect) / problem.countTotal : 0}%`,
                 }"
               ></div>
-              <!-- <span class="acceptance-text">{{ problem.acceptanceRate }}%</span> -->
             </div>
           </td>
         </tr>
@@ -115,7 +111,8 @@ table.problemset {
   }
 }
 
-table.problemset, table.problemset-head {
+table.problemset,
+table.problemset-head {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
@@ -125,7 +122,8 @@ table.problemset, table.problemset-head {
     border-bottom: 1px solid #e0e0e0;
   }
 
-  th, td {
+  th,
+  td {
     padding: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -177,19 +175,6 @@ table.problemset, table.problemset-head {
     border-radius: 4px;
     overflow: hidden;
   }
-}
-
-/* 状态样式 */
-.status-accepted {
-  color: #4caf50;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-.status-failed {
-  color: #f44336;
-  font-weight: bold;
-  font-size: 1.2em;
 }
 
 /* 题目标题样式 */

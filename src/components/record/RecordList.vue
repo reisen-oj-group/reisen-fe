@@ -72,9 +72,9 @@
 
     <el-affix position="bottom">
       <div class="record-list-bottom">
-        <el-pagination 
-          :page-size="100" 
-          :current-page="currentPage" 
+        <el-pagination
+          :page-size="100"
+          :current-page="currentPage"
           :total="total"
           @current-change="handlePageChange"
         />
@@ -88,12 +88,9 @@ import { ElCard, ElAffix, ElPagination } from 'element-plus'
 import { computed, ref } from 'vue'
 import type { SubmissionFull } from '@/interface'
 
-import { useConfig } from '@/stores/config';
+import { useConfig } from '@/stores/config'
 
-const {
-  configLangs,
-  configVerdicts,
-} = useConfig();
+const { configLangs, configVerdicts } = useConfig()
 
 const props = defineProps<{
   records: SubmissionFull[]
@@ -126,12 +123,18 @@ function formatMemory(kb?: number) {
 
 function getVerdictColor(verdict: string) {
   switch (verdict) {
-    case 'AC': return 'success'
-    case 'WA': return 'danger'
-    case 'TLE': return 'warning'
-    case 'MLE': return 'warning'
-    case 'CE': return 'info'
-    default: return ''
+    case 'AC':
+      return 'success'
+    case 'WA':
+      return 'danger'
+    case 'TLE':
+      return 'warning'
+    case 'MLE':
+      return 'warning'
+    case 'CE':
+      return 'info'
+    default:
+      return ''
   }
 }
 </script>
@@ -158,7 +161,8 @@ table.record-list {
   }
 }
 
-table.record-list, table.record-list-head {
+table.record-list,
+table.record-list-head {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
@@ -168,7 +172,8 @@ table.record-list, table.record-list-head {
     border-bottom: 1px solid #e0e0e0;
   }
 
-  th, td {
+  th,
+  td {
     padding: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -176,21 +181,42 @@ table.record-list, table.record-list-head {
   }
 
   .col {
-    &-id { width: 60px; }
-    &-submit { width: 180px; }
-    &-user { width: 150px; }
-    &-problem { width: auto; }
-    &-lang { width: 150px; }
-    &-verdict { width: 80px; }
-    &-time { width: 80px; }
-    &-memory { width: 80px; }
+    &-id {
+      width: 60px;
+    }
+    &-submit {
+      width: 180px;
+    }
+    &-user {
+      width: 150px;
+    }
+    &-problem {
+      width: auto;
+    }
+    &-lang {
+      width: 150px;
+    }
+    &-verdict {
+      width: 80px;
+    }
+    &-time {
+      width: 80px;
+    }
+    &-memory {
+      width: 80px;
+    }
   }
 
   td {
-    &.id, &.verdict, &.time, &.memory, &.user {
+    &.id,
+    &.verdict,
+    &.time,
+    &.memory,
+    &.user {
       text-align: center;
     }
-    &.time, &.memory {
+    &.time,
+    &.memory {
       font-family: monospace;
     }
     &.verdict {

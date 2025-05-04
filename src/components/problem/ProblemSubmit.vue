@@ -2,14 +2,9 @@
   <el-dialog v-model="visible" title="提交代码" width="800">
     <el-form :model="form" label-width="auto">
       <el-form-item label="语言">
-        <el-select
-          v-model="form.lang"
-          class="input-lang"
-          placeholder="Language"
-          size="large"
-        >
+        <el-select v-model="form.lang" class="input-lang" placeholder="Language" size="large">
           <el-option
-            v-for="item in configLang"
+            v-for="item in configLangs"
             :key="item.id"
             :label="item.description"
             :value="item.id"
@@ -41,14 +36,21 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 
-import { ElForm, ElFormItem, ElInput, ElButton, ElSelect, ElOption, ElRadio, ElDialog } from 'element-plus'
+import {
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElButton,
+  ElSelect,
+  ElOption,
+  ElRadio,
+  ElDialog,
+} from 'element-plus'
 import type { Problem } from '@/interface'
 
-import { useConfig } from '@/stores/config';
+import { useConfig } from '@/stores/config'
 
-const {
-  configLang
-} = useConfig();
+const { configLangs } = useConfig()
 
 const props = defineProps<{
   problem: Problem

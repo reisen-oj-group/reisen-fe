@@ -22,7 +22,7 @@ import { ElCard, ElAffix } from 'element-plus'
 
 import { useTest } from '@/stores/test'
 
-const problems = useTest().dataProblemsMany
+const problems = useTest().dataProblems
 const statements = useTest().dataStatements
 
 const props = defineProps<{

@@ -23,17 +23,17 @@ export const useConfig = defineStore('config', () => {
   }
 
   const configLangs: Record<string, Lang> = {
-    'cpp'   : { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
-    'java'  : { id: 'java', description: 'Java 11', ratio: 2 },
-    'python': { id: 'python', description: 'Python 3.8', ratio: 3 }
+    cpp: { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
+    java: { id: 'java', description: 'Java 11', ratio: 2 },
+    python: { id: 'python', description: 'Python 3.8', ratio: 3 },
   }
 
   const configVerdicts: Record<string, Verdict> = {
-    'AC' : { id: 'AC', description: 'Accepted', abbr: 'AC' },
-    'WA' : { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
-    'TLE': { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
-    'MLE': { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
-    'CE' : { id: 'CE', description: 'Compile Error', abbr: 'CE' }
+    AC: { id: 'AC', description: 'Accepted', abbr: 'AC' },
+    WA: { id: 'WA', description: 'Wrong Answer', abbr: 'WA' },
+    TLE: { id: 'TLE', description: 'Time Limit Exceeded', abbr: 'TLE' },
+    MLE: { id: 'MLE', description: 'Memory Limit Exceeded', abbr: 'MLE' },
+    CE: { id: 'CE', description: 'Compile Error', abbr: 'CE' },
   }
   return {
     configTags,

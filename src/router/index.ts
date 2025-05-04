@@ -26,7 +26,7 @@ const router = createRouter({
       path: '/record',
       name: 'record',
       component: ViewRecordList,
-    }
+    },
   ],
 })
 

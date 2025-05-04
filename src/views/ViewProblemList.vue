@@ -19,10 +19,9 @@ import ProblemFilter from '@/components/problem/ProblemFilter.vue'
 
 import { ElAffix } from 'element-plus'
 import { useTest } from '@/stores/test'
+import type { Problem } from '@/interface'
 
-const problems = useTest().dataProblemsMany
+const problems = useTest().generateMany(useTest().dataProblems) as Problem[]
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

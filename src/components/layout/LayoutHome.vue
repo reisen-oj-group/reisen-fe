@@ -1,7 +1,6 @@
 <template>
   <div class="layout">
     <div class="layout-body">
-      
       <div class="main-wrapper">
         <div class="main-content">
           <slot />
