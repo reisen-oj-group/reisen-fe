@@ -28,11 +28,11 @@
           </el-tabs>
         </template>
         <template v-else>
-        <el-tabs v-model="activeTab" class="profile-tabs">
-          <el-tab-pane label="练习" name="practice">
+          <el-tabs v-model="activeTab" class="profile-tabs">
+            <el-tab-pane label="练习" name="practice">
               <tab-practice :user="user" />
-          </el-tab-pane>
-        </el-tabs>
+            </el-tab-pane>
+          </el-tabs>
         </template>
       </template>
     </div>

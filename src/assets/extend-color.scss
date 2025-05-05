@@ -1,0 +1,23 @@
+// 扩展 Element Plus 颜色变量和样式
+
+@use 'sass:color';
+
+// 定义紫色调色板
+$--color-purple: (
+  'base': #6a3bc0,
+  'light-1': color.mix(#fff, #6a3bc0, 20%),
+  'light-2': color.mix(#fff, #6a3bc0, 40%),
+  'light-3': color.mix(#fff, #6a3bc0, 60%),
+  'light-4': color.mix(#fff, #6a3bc0, 80%),
+  'light-5': color.mix(#fff, #6a3bc0, 90%),
+  'dark-1': color.mix(#000, #6a3bc0, 10%),
+  'dark-2': color.mix(#000, #6a3bc0, 20%),
+  'dark-3': color.mix(#000, #6a3bc0, 30%),
+) !default;
+
+// 覆盖 Element 变量，添加紫色
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'purple': $--color-purple,
+  )
+);

@@ -1,3 +1,4 @@
+import ViewContestList from '@/views/ViewContestList.vue'
 import ViewHome from '@/views/ViewHome.vue'
 import ViewProblemList from '@/views/ViewProblemList.vue'
 import ViewRecordList from '@/views/ViewRecordList.vue'
@@ -22,6 +23,17 @@ const router = createRouter({
       component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,
     },
+    {
+      path: '/contest',
+      name: 'contest',
+      component: ViewContestList,
+    },
+    // {
+    //   path: '/contest/:cid',
+    //   name: 'contest-detail',
+    //   component: () => import('@/views/ViewContestDetail.vue'),
+    //   props: true,
+    // },
     {
       path: '/record',
       name: 'record',
