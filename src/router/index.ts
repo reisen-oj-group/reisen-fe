@@ -30,18 +30,18 @@ const router = createRouter({
     {
       path: '/record/:rid',
       name: 'record-detail',
-      component: import('@/views/ViewRecordDetail.vue'),
+      component: () => import('@/views/ViewRecordDetail.vue'),
       props: true,
     },
     {
       path: '/user',
       name: 'user-default',
-      component: import('@/views/ViewUser.vue'),
+      component: () => import('@/views/ViewUser.vue'),
     },
     {
       path: '/user/:uid_str',
       name: 'user',
-      component: import('@/views/ViewUser.vue'),
+      component: () => import('@/views/ViewUser.vue'),
       props: true,
     },
   ],
