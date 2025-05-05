@@ -39,7 +39,7 @@
       <el-tab-pane label="代码" name="code">
         <div class="code-container">
           <div class="code-meta">
-            <!-- <span>语言: {{ langInfo?.description || submission.lang }}</span> -->
+            <span>语言: {{ configLangs[submission.lang].description }}</span>
             <span>代码长度: {{ submission.length }} bytes</span>
           </div>
           <pre class="code-content"><code>{{ submission.code }}</code></pre>

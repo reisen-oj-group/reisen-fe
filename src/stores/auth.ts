@@ -8,17 +8,15 @@ export const useAuth = defineStore('auth', () => {
   const token = ref(sessionStorage.getItem('token') || '')
 
   function readUser() {
-    const result = JSON.parse(sessionStorage.getItem('user') || '{}')
-
-    const user: User = {
-      id: result['id'] || 0,
-      name: result['name'] || '未知用户',
-      role: result['role'] || 0,
+    const data = sessionStorage.getItem('user')
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return null
     }
-    return user
   }
 
-  const currentUser = ref<User>(readUser())
+  const currentUser = ref<User | null>(readUser())
 
   function setLogin(l: boolean) {
     login.value = l
@@ -38,13 +36,8 @@ export const useAuth = defineStore('auth', () => {
   function logout() {
     setLogin(false)
     setToken('')
-    sessionStorage.setItem('user', '{}')
-
-    currentUser.value = {
-      id: 0,
-      name: '未知用户',
-      role: 0,
-    }
+    sessionStorage.removeItem('user')
+    currentUser.value = null
   }
 
   function setUser(user: User) {

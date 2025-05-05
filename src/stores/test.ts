@@ -16,9 +16,21 @@ import type {
 
 export const useTest = defineStore('testdata', () => {
   const dataUsers: User[] = [
-    { id: 1, name: '琪露诺', role: 0, avatar: 'https://example.com/avatar1.jpg' },
-    { id: 2, name: '魔理沙', role: 1 },
-    { id: 3, name: '大妖精', role: 0, avatar: 'https://example.com/avatar3.jpg' },
+    {
+      id: 1,
+      name: '琪露诺',
+      role: 0,
+      avatar: 'https://example.com/avatar1.jpg',
+      register: new Date('2023-07-20T10:30:00'),
+    },
+    { id: 2, name: '魔理沙', role: 1, register: new Date('2023-07-20T10:30:00') },
+    {
+      id: 3,
+      name: '大妖精',
+      role: 0,
+      avatar: 'https://example.com/avatar3.jpg',
+      register: new Date('2023-07-20T10:30:00'),
+    },
   ]
 
   const dataLangs: Record<string, Lang> = {
@@ -58,7 +70,7 @@ export const useTest = defineStore('testdata', () => {
 
   const dataProblems: Problem[] = [
     {
-      id: 1001,
+      id: 'P1001',
       type: 'traditional',
       limitTime: 1000,
       limitMemory: 1024,
@@ -75,7 +87,7 @@ export const useTest = defineStore('testdata', () => {
       difficulty: 800,
     },
     {
-      id: 1002,
+      id: 'P1002',
       type: 'traditional',
       limitTime: 1000,
       limitMemory: 1024,
@@ -92,7 +104,7 @@ export const useTest = defineStore('testdata', () => {
       difficulty: 1200,
     },
     {
-      id: 1003,
+      id: 'P1003',
       type: 'traditional',
       limitTime: 1000,
       limitMemory: 1024,
@@ -109,7 +121,7 @@ export const useTest = defineStore('testdata', () => {
       difficulty: 1600,
     },
     {
-      id: 1004,
+      id: 'P1004',
       type: 'traditional',
       limitTime: 1000,
       limitMemory: 1024,
@@ -126,7 +138,7 @@ export const useTest = defineStore('testdata', () => {
       difficulty: 2400,
     },
     {
-      id: 1005,
+      id: 'P1005',
       type: 'traditional',
       limitTime: 1000,
       limitMemory: 1024,
@@ -150,7 +162,7 @@ export const useTest = defineStore('testdata', () => {
       submission: new Date('2023-07-20T10:30:00'),
       evaluation: new Date('2023-07-20T10:30:05'),
       user: 1,
-      problem: 1001,
+      problem: 'P1001',
       time: 42,
       memory: 1024,
       length: 120,
@@ -162,7 +174,7 @@ export const useTest = defineStore('testdata', () => {
       submission: new Date('2023-07-20T11:15:00'),
       evaluation: new Date('2023-07-20T11:15:10'),
       user: 2,
-      problem: 1002,
+      problem: 'P1002',
       time: 1500,
       memory: 256000,
       length: 250,
@@ -174,7 +186,7 @@ export const useTest = defineStore('testdata', () => {
       submission: new Date('2023-07-20T12:45:00'),
       evaluation: new Date('2023-07-20T12:45:03'),
       user: 3,
-      problem: 1003,
+      problem: 'P1003',
       time: 85,
       memory: 5120,
       length: 180,

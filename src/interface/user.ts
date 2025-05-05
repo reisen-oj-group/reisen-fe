@@ -11,6 +11,7 @@ interface User {
 
   name: string
   role: number
+  register: Date
   avatar?: string
 }
 

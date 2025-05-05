@@ -43,21 +43,26 @@
       </div>
     </el-card>
 
-    <el-button type="primary" @click="openSubmit = true">查看试题</el-button>
+    <el-button type="primary" @click="goToProblem"> 查看试题 </el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { SubmissionDetail } from '@/interface'
 import { formatDate, formatMemory, formatTime } from '@/tools/format'
+
 import { ElButton, ElAffix, ElCard, ElSpace, ElRow, ElCol } from 'element-plus'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import { useConfig } from '@/stores/config'
 
 const { configLangs } = useConfig()
 
-const openSubmit = ref(false)
+const router = useRouter()
+const goToProblem = () => {
+  router.push(`/problem/${props.submission.problem}`)
+}
 
 const props = defineProps<{
   submission: SubmissionDetail

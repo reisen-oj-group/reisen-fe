@@ -49,3 +49,9 @@ export interface Statement {
   }[]
   hint?: string // 提示，含样例解释
 }
+
+export interface Difficulty {
+  name: string
+  min: number
+  max: number
+}

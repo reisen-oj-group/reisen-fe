@@ -1,4 +1,4 @@
-import type { Lang, LangId, Tag, TagId, Verdict, VerdictId } from '@/interface'
+import type { Difficulty, Lang, LangId, Tag, TagId, Verdict, VerdictId } from '@/interface'
 import { defineStore } from 'pinia'
 
 import { ref } from 'vue'
@@ -37,9 +37,23 @@ export const useConfig = defineStore('config', () => {
     CE: { id: 'CE', description: 'Compile Error', abbr: 'CE', color: '#909399' },
     UKE: { id: 'UKE', description: 'Unknown Error', abbr: 'UKE', color: '#909399' },
   }
+
+  const configDifficulty: Difficulty[] = [
+    { min: 800, max: 1099, name: '入门' },
+    { min: 1100, max: 1399, name: '简单' },
+    { min: 1400, max: 1699, name: '中等' },
+    { min: 1700, max: 1999, name: '较难' },
+    { min: 2000, max: 2299, name: '困难' },
+    { min: 2300, max: 2599, name: '挑战' },
+    { min: 2600, max: 2899, name: '精英' },
+    { min: 2900, max: 3199, name: '专家' },
+    { min: 3200, max: 3500, name: '大师' },
+  ]
+
   return {
     configTags,
     configLangs,
     configVerdicts,
+    configDifficulty,
   }
 })
