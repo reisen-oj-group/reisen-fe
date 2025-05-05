@@ -89,7 +89,7 @@ function editProblem(id: string) {
 
 <style lang="scss" scoped>
 .problem-tab {
-  padding: 0 10px;
+  padding: 8px;
 }
 
 .panel-header {

@@ -14,17 +14,26 @@
         </div>
 
         <!-- 标签页导航 -->
+        <template v-if="isCurrentUser">
+          <el-tabs v-model="activeTab" class="profile-tabs">
+            <el-tab-pane label="练习" name="practice">
+              <tab-practice :user="user" />
+            </el-tab-pane>
+            <el-tab-pane label="题库" name="problems">
+              <tab-problem :user="user" />
+            </el-tab-pane>
+            <el-tab-pane label="设置" name="settings">
+              <tab-settings :user="user" />
+            </el-tab-pane>
+          </el-tabs>
+        </template>
+        <template v-else>
         <el-tabs v-model="activeTab" class="profile-tabs">
           <el-tab-pane label="练习" name="practice">
-            <tab-practice :user="user" v-if="activeTab === 'practice'" />
-          </el-tab-pane>
-          <el-tab-pane v-if="isCurrentUser" label="题库" name="problems">
-            <tab-problem :user="user" v-if="activeTab === 'problems'" />
-          </el-tab-pane>
-          <el-tab-pane v-if="isCurrentUser" label="设置" name="settings">
-            <tab-settings :user="user" v-if="activeTab === 'settings'" />
+              <tab-practice :user="user" />
           </el-tab-pane>
         </el-tabs>
+        </template>
       </template>
     </div>
   </layout-main>
@@ -63,7 +72,6 @@ const user = useTest().dataUsers[0]
 .user-profile {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .user-header {

@@ -100,9 +100,9 @@ function getLevelName(index: number) {
 
 <style scoped>
 .practice-tab {
-  padding: 0 10px;
+  padding: 8px;
 
-  > * {
+  > *:not(:last-child) {
     margin-bottom: 24px;
   }
 }
