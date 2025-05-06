@@ -3,6 +3,7 @@ import ViewHome from '@/views/ViewHome.vue'
 import ViewProblemList from '@/views/ViewProblemList.vue'
 import ViewRecordList from '@/views/ViewRecordList.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { setupRouterGuard } from './guard'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,7 @@ const router = createRouter({
       path: '/user',
       name: 'user-default',
       component: () => import('@/views/ViewUser.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/user/:uid_str',
@@ -58,5 +60,7 @@ const router = createRouter({
     },
   ],
 })
+
+setupRouterGuard(router)
 
 export default router

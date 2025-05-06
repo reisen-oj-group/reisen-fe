@@ -1,7 +1,9 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <RouterView />
+  <router-view />
+  <login-modal />
 </template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import LoginModal from './components/auth/LoginModal.vue'
+</script>

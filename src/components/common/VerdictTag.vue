@@ -1,6 +1,6 @@
 <template>
-  <el-tag class="verdict-tag" :color="configVerdicts[verdict].color">
-    {{ configVerdicts[verdict]?.abbr || 'Unknown' }}
+  <el-tag class="verdict-tag" :color="verdicts[verdict]?.color || '#000'">
+    {{ verdicts[verdict]?.abbr || 'Unknown' }}
   </el-tag>
 </template>
 
@@ -10,7 +10,7 @@ import { ElTag } from 'element-plus'
 
 import { useConfig } from '@/stores/config'
 
-const configVerdicts = useConfig().configVerdicts
+const verdicts = useConfig().config.verdicts
 
 const props = defineProps<{
   verdict: VerdictId

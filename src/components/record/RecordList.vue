@@ -27,7 +27,7 @@
       </table>
     </el-affix>
 
-    <table class="record-list">
+    <table class="record-list" v-if="records && records.length > 0">
       <colgroup>
         <col class="col-id" />
         <col class="col-submit" />
@@ -39,7 +39,7 @@
         <col class="col-memory" />
       </colgroup>
       <tbody>
-        <tr v-for="record in props.records" :key="record.id" class="entry">
+        <tr v-for="record in records" :key="record.id" class="entry">
           <td class="id">
             <router-link :to="`/record/${record.id}`" class="record-link">
               <span>{{ record.id }}</span>
@@ -59,7 +59,7 @@
             </router-link>
           </td>
           <td class="lang">
-            {{ configLangs[record.lang]?.description || 'Unknown' }}
+            {{ langs[record.lang]?.description || 'Unknown' }}
           </td>
           <td class="verdict">
             <verdict-tag :verdict="record.verdict" />
@@ -69,12 +69,16 @@
         </tr>
       </tbody>
     </table>
+    <template v-else>
+      <div v-if="loading" v-loading="true" style="height: 200px" />
+      <el-empty v-else description="暂无记录" />
+    </template>
 
     <el-affix position="bottom">
       <div class="record-list-bottom">
         <el-pagination
           :page-size="100"
-          :current-page="currentPage"
+          :current-page="current"
           :total="total"
           @current-change="handlePageChange"
         />
@@ -84,31 +88,65 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElAffix, ElPagination, ElTag } from 'element-plus'
-import { computed, ref } from 'vue'
-import type { SubmissionFull } from '@/interface'
+import { ElCard, ElAffix, ElPagination, ElTag, ElEmpty } from 'element-plus'
+import { computed, onMounted, ref, watch } from 'vue'
+import type { RecordFilterForm, SubmissionLite } from '@/interface'
 
 import { useConfig } from '@/stores/config'
 
 import { formatDate, formatMemory, formatTime } from '@/tools/format'
 import VerdictTag from '../common/VerdictTag.vue'
-
-const { configLangs, configVerdicts } = useConfig()
+import { apiRecordList } from '@/api/record'
 
 const props = defineProps<{
-  records: SubmissionFull[]
-  total: number
+  initFilter: RecordFilterForm
 }>()
+
+const { langs } = useConfig().config
+
+const records = ref<SubmissionLite[] | null>(null)
+const total = ref(0)
+const current = ref(1)
+
+const filter = ref(props.initFilter)
+const loading = ref(false)
+
+onMounted(() => {
+  getList(true)
+})
 
 const emits = defineEmits(['page-change'])
 
-const pageSize = ref(20)
-const currentPage = ref(1)
+async function getList(resetPage: boolean) {
+  loading.value = true
+  records.value = null
+  if (resetPage) {
+    current.value = 1
+  }
+  apiRecordList({ page: current.value, filter: filter.value })
+    .then((response) => {
+      records.value = response.records
+      total.value = response.total
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 
 function handlePageChange(page: number) {
-  currentPage.value = page
+  current.value = page
   emits('page-change', page)
+  getList(false)
 }
+
+function setFilter(newFilter: RecordFilterForm) {
+  filter.value = newFilter
+  getList(true)
+}
+
+defineExpose({
+  setFilter,
+})
 </script>
 
 <style lang="scss" scoped>

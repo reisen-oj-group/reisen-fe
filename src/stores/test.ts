@@ -8,9 +8,9 @@ import type {
   Ranking,
   Registration,
   Statement,
+  SubmissionCore,
   Submission,
-  SubmissionDetail,
-  SubmissionFull,
+  SubmissionLite,
   SubmissionId,
   Testcase,
   User,
@@ -159,7 +159,7 @@ export const useTest = defineStore('testdata', () => {
     },
   ]
 
-  const dataSubmissions: Submission[] = [
+  const dataSubmissions: SubmissionCore[] = [
     {
       id: 1,
       submission: new Date('2023-07-20T10:30:00'),
@@ -198,7 +198,7 @@ export const useTest = defineStore('testdata', () => {
     },
   ]
 
-  const dataSubmissionsFull: SubmissionFull[] = dataSubmissions.map((sub) => {
+  const dataSubmissionsFull: SubmissionLite[] = dataSubmissions.map((sub) => {
     const user = dataUsers.find((u) => u.id === sub.user)!
     const problem = dataProblems.find((p) => p.id === sub.problem)!
     const langInfo = dataLangs[sub.lang]
@@ -230,7 +230,7 @@ export const useTest = defineStore('testdata', () => {
   }
 
   // 生成 SubmissionDetail 测试数据
-  const dataSubmissionsDetail: SubmissionDetail[] = [
+  const dataSubmissionsDetail: Submission[] = [
     // AC 通过的提交
     {
       ...dataSubmissions[0],

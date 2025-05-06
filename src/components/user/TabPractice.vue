@@ -57,7 +57,7 @@ const props = defineProps<{
   user: User
 }>()
 
-const { configDifficulty } = useConfig()
+const { difficulties } = useConfig().config
 
 // 模拟数据
 const solvedTime = useTest().dataSubmissions
@@ -67,7 +67,7 @@ const solvedProblems = useTest().dataProblems
 const solvedProblemsByLevel = computed(() => {
   const groups: Record<number, Problem[]> = {}
 
-  configDifficulty.forEach((level, index) => {
+  difficulties.forEach((level, index) => {
     groups[index] = solvedProblems
       .filter((p) => p.difficulty >= level.min && p.difficulty <= level.max)
       .sort((a, b) => a.id.localeCompare(b.id))
@@ -78,7 +78,7 @@ const solvedProblemsByLevel = computed(() => {
 
 // 练习热度数据
 const dataContribution = computed(() => {
-  return configDifficulty.map((level, index) => ({
+  return difficulties.map((level, index) => ({
     name: level.name,
     value: solvedProblemsByLevel.value[index]?.length || 0,
   }))
@@ -86,14 +86,14 @@ const dataContribution = computed(() => {
 
 // 难度饼图数据
 const dataDifficulty = computed(() => {
-  return configDifficulty.map((level, index) => ({
+  return difficulties.map((level, index) => ({
     name: level.name,
     value: solvedProblemsByLevel.value[index]?.length || 0,
   }))
 })
 
 function getLevelName(index: number) {
-  const level = configDifficulty[index]
+  const level = difficulties[index]
   return `${level.name}`
 }
 </script>

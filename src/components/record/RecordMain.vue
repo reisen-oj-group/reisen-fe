@@ -2,49 +2,55 @@
   <div class="submission-detail-main">
     <!-- 主内容标签页 -->
     <el-tabs v-model="activeTab" class="detail-tabs">
-      <!-- 编译信息标签页 -->
-      <el-tab-pane label="编译信息" name="compile">
-        <div v-if="submission.compile" class="compile-info">
-          <el-alert
-            :type="submission.verdict === 'CE' ? 'error' : 'success'"
-            :title="submission.verdict === 'CE' ? '编译错误' : '编译成功'"
-            :closable="false"
-          />
-          <pre class="compile-message">{{ submission.compile.message }}</pre>
-        </div>
-        <el-empty v-else description="暂无编译信息" />
-      </el-tab-pane>
+      <template v-if="record">
+        <!-- 编译信息标签页 -->
+        <el-tab-pane label="编译信息" name="compile">
+          <div v-if="record.compile" class="compile-info">
+            <el-alert
+              :type="record.verdict === 'CE' ? 'error' : 'success'"
+              :title="record.verdict === 'CE' ? '编译错误' : '编译成功'"
+              :closable="false"
+            />
+            <pre class="compile-message">{{ record.compile.message }}</pre>
+          </div>
+          <el-empty v-else description="暂无编译信息" />
+        </el-tab-pane>
 
-      <!-- 测试点信息标签页 -->
-      <el-tab-pane label="测试点" name="testcases">
-        <div class="testcase-container">
-          <div v-for="(testcase, index) in submission.detail" :key="index" class="testcase-item">
-            <div
-              class="testcase-badge"
-              :style="{ backgroundColor: `${configVerdicts[testcase.verdict].color}` }"
-              @click="showTestcase(testcase, index)"
-            >
-              <span class="testcase-id">#{{ index + 1 }}</span>
-              <span class="testcase-verdict">{{ configVerdicts[testcase.verdict].abbr }}</span>
-              <span class="testcase-meta">
-                <span v-if="testcase.time">{{ testcase.time }}ms</span>
-                <span v-if="testcase.memory">{{ formatMemory(testcase.memory) }}</span>
-              </span>
+        <!-- 测试点信息标签页 -->
+        <el-tab-pane label="测试点" name="testcases">
+          <div class="testcase-container">
+            <div v-for="(testcase, index) in record.detail" :key="index" class="testcase-item">
+              <div
+                class="testcase-badge"
+                :style="{ backgroundColor: `${verdicts[testcase.verdict].color}` }"
+                @click="showTestcase(testcase, index)"
+              >
+                <span class="testcase-id">#{{ index + 1 }}</span>
+                <span class="testcase-verdict">{{ verdicts[testcase.verdict].abbr }}</span>
+                <span class="testcase-meta">
+                  <span v-if="testcase.time">{{ testcase.time }}ms</span>
+                  <span v-if="testcase.memory">{{ formatMemory(testcase.memory) }}</span>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </el-tab-pane>
+        </el-tab-pane>
 
-      <!-- 代码展示标签页 -->
-      <el-tab-pane label="代码" name="code">
-        <div class="code-container">
-          <div class="code-meta">
-            <span>语言: {{ configLangs[submission.lang].description }}</span>
-            <span>代码长度: {{ submission.length }} bytes</span>
+        <!-- 代码展示标签页 -->
+        <el-tab-pane label="代码" name="code">
+          <div class="code-container">
+            <div class="code-meta">
+              <span>语言: {{ langs[record.lang].description }}</span>
+              <span>代码长度: {{ record.length }} bytes</span>
+            </div>
+            <pre class="code-content"><code>{{ record.code }}</code></pre>
           </div>
-          <pre class="code-content"><code>{{ submission.code }}</code></pre>
-        </div>
-      </el-tab-pane>
+        </el-tab-pane>
+      </template>
+      <template v-else>
+        <div v-if="loading" v-loading="true" style="height: 300px" />
+        <el-empty v-else description="未查询到记录" />
+      </template>
     </el-tabs>
 
     <el-dialog
@@ -82,17 +88,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import {
-  ElCard,
   ElTabs,
   ElTabPane,
-  ElTag,
   ElAlert,
   ElEmpty,
   ElDialog,
   ElDescriptions,
   ElDescriptionsItem,
 } from 'element-plus'
-import type { SubmissionDetail, Testcase, Verdict } from '@/interface'
+import type { SubmissionFull, Testcase, Verdict } from '@/interface'
 
 import VerdictTag from '../common/VerdictTag.vue'
 
@@ -100,44 +104,17 @@ import { useConfig } from '@/stores/config'
 
 import { formatDate, formatMemory, formatTime } from '@/tools/format'
 
-const { configVerdicts, configLangs } = useConfig()
+const { verdicts, langs } = useConfig().config
 
 const props = defineProps<{
-  submission: SubmissionDetail
+  record: null | SubmissionFull
+  loading: boolean
 }>()
 
 const activeTab = ref('testcases')
 const testcaseDialogVisible = ref(false)
 const selectedTestcase = ref<Testcase | null>(null)
 const selectedTestcaseIndex = ref(0)
-
-function getVerdictColor(verdict: string) {
-  switch (verdict) {
-    case 'AC':
-      return 'success'
-    case 'WA':
-      return 'danger'
-    case 'TLE':
-      return 'warning'
-    case 'MLE':
-      return ''
-    case 'CE':
-      return 'info'
-    default:
-      return ''
-  }
-}
-
-function getTestcaseBadgeClass(verdict: string) {
-  return {
-    'badge-ac': verdict === 'AC',
-    'badge-wa': verdict === 'WA',
-    'badge-tle': verdict === 'TLE',
-    'badge-mle': verdict === 'MLE',
-    'badge-re': ['RE', 'CE', 'IE'].includes(verdict),
-    'badge-uk': !['AC', 'WA', 'TLE', 'MLE', 'RE', 'CE', 'IE'].includes(verdict),
-  }
-}
 
 function showTestcase(testcase: Testcase, index: number) {
   selectedTestcase.value = testcase

@@ -11,7 +11,7 @@
         <el-form-item label="语言" class="filter-item">
           <el-select v-model="form.lang">
             <el-option
-              v-for="lang in configLangs"
+              v-for="lang in langs"
               :key="lang.id"
               :value="lang.id"
               :label="lang.description"
@@ -22,7 +22,7 @@
         <el-form-item label="评测结果" class="filter-item">
           <el-select v-model="form.verdict">
             <el-option
-              v-for="verdict in configVerdicts"
+              v-for="verdict in verdicts"
               :key="verdict.id"
               :value="verdict.id"
               :label="verdict.description"
@@ -32,7 +32,7 @@
         </el-form-item>
 
         <div class="button-container">
-          <el-button type="primary">筛选</el-button>
+          <el-button type="primary" @click="emits('filter', form)">筛选</el-button>
         </div>
       </el-form>
     </el-card>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import type { LangId, ProblemId, UserId, VerdictId } from '@/interface'
+import type { LangId, ProblemId, RecordFilterForm, UserId, VerdictId } from '@/interface'
 
 import {
   ElCard,
@@ -56,19 +56,17 @@ import { reactive, ref } from 'vue'
 
 import { useConfig } from '@/stores/config'
 
-const { configVerdicts, configLangs } = useConfig()
+const props = defineProps<{
+  initFilter: RecordFilterForm
+}>()
 
-const form = reactive<{
-  user: null | string | UserId
-  problem: null | ProblemId
-  lang: LangId
-  verdict: VerdictId
-}>({
-  user: null,
-  problem: null,
-  lang: '',
-  verdict: '',
-})
+const form = ref(props.initFilter)
+
+const { verdicts, langs } = useConfig().config
+
+const emits = defineEmits<{
+  filter: [filter: RecordFilterForm]
+}>()
 </script>
 
 <style lang="scss" scoped>

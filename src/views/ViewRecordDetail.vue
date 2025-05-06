@@ -2,12 +2,12 @@
   <layout-sidebar>
     <template #main>
       <el-card>
-        <record-main :submission="submissions[0]" />
+        <record-main :record="record" :loading="loading" />
       </el-card>
     </template>
     <template #sidebar>
       <el-affix :offset="16">
-        <record-sidebar :submission="submissions[0]" />
+        <record-sidebar :record="record" :loading="loading" />
       </el-affix>
     </template>
   </layout-sidebar>
@@ -20,13 +20,28 @@ import RecordSidebar from '@/components/record/RecordSidebar.vue'
 
 import { ElCard, ElAffix } from 'element-plus'
 
-import { useTest } from '@/stores/test'
-
-const submissions = useTest().dataSubmissionsDetail
+import { apiRecordDetail } from '@/api/record'
+import { onMounted, ref } from 'vue'
+import type { SubmissionFull } from '@/interface'
 
 const props = defineProps<{
   rid: string
 }>()
+
+const record = ref<SubmissionFull | null>(null)
+const loading = ref(true)
+
+onMounted(() => {
+  apiRecordDetail({
+    id: parseInt(props.rid),
+  })
+    .then((response) => {
+      record.value = response.record
+    })
+    .finally(() => {
+      loading.value = false
+    })
+})
 </script>
 
 <style lang="scss" scoped></style>

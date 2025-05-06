@@ -17,11 +17,21 @@ export interface Verdict {
   color: string
 }
 
-// 测试点的简化结果，用于在记录列表展示
-export interface Submission {
+export interface Testcase {
+  verdict: VerdictId
+  time?: number
+  memory?: number
+  score?: number
+  input?: string
+  output?: string
+  checker?: string
+}
+
+// 测试点的子集
+export interface SubmissionCore {
   id: SubmissionId
 
-  user: UserId // 关联用户
+  user: UserId
   problem: ProblemId // 关联试题
 
   submission: Date // 提交时间
@@ -34,14 +44,8 @@ export interface Submission {
   length: number // 代码长度
 }
 
-// 和 User 以及 Problem 表连接后的结果
-export interface SubmissionFull extends Omit<Submission, 'problem' | 'user'> {
-  problem: Problem
-  user: User
-}
-
-// 测试点的详细结果，用于在记录详情页展示
-export interface SubmissionDetail extends Submission {
+// 测试点，数据库里实际存储的表元素
+export interface Submission extends SubmissionCore {
   code: string
   compile?: {
     success: boolean
@@ -50,12 +54,14 @@ export interface SubmissionDetail extends Submission {
   detail: Testcase[]
 }
 
-export interface Testcase {
-  verdict: VerdictId
-  time?: number
-  memory?: number
-  score?: number
-  input?: string
-  output?: string
-  checker?: string
+// 用于在评测列表展示的轻量查询结果
+export interface SubmissionLite extends Omit<SubmissionCore, 'problem' | 'user'> {
+  problem: Problem
+  user: User
+}
+
+// 用于在评测详情展示的完整查询结果
+export interface SubmissionFull extends Omit<Submission, 'problem' | 'user'> {
+  problem: Problem
+  user: User
 }

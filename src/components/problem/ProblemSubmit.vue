@@ -4,7 +4,7 @@
       <el-form-item label="语言">
         <el-select v-model="form.lang" class="input-lang" placeholder="Language" size="large">
           <el-option
-            v-for="item in configLangs"
+            v-for="item in langs"
             :key="item.id"
             :label="item.description"
             :value="item.id"
@@ -50,7 +50,7 @@ import type { Problem } from '@/interface'
 
 import { useConfig } from '@/stores/config'
 
-const { configLangs } = useConfig()
+const { langs } = useConfig().config
 
 const props = defineProps<{
   problem: Problem
