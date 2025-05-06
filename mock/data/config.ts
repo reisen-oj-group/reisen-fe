@@ -1,4 +1,4 @@
-import { Difficulty, Lang, Tag, TagId, Verdict } from '../interface'
+import type { Difficulty, Lang, Tag, TagId, Verdict } from '../interface'
 
 export const configLangs: Record<string, Lang> = {
   cpp: { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },

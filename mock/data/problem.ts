@@ -1,4 +1,4 @@
-import { Problem, Statement } from '../interface'
+import type { Problem, Statement } from '../interface'
 
 export const mockStatements: Statement[] = [
   {

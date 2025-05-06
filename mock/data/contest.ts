@@ -1,4 +1,4 @@
-import { Contest, Ranking, Registration } from '../interface'
+import type { Contest, Ranking, Registration } from '../interface'
 
 // 比赛测试数据
 export const mockContests: Contest[] = [
