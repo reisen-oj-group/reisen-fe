@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { User } from '@/interface'
+import type { Problem, User } from '@/interface'
 
 import { ElRow, ElCol, ElButton, ElPagination } from 'element-plus'
 import { useTest } from '@/stores/test'
@@ -70,7 +70,8 @@ const props = defineProps<{
 
 const problemPage = ref(1)
 const problemTotal = ref(0)
-const userProblems = useTest().dataProblems
+// const userProblems = useTest().dataProblems
+const userProblems = [] as Problem[]
 
 function getProblemStatusTag(status: string) {
   const map: Record<string, string> = {

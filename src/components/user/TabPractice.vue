@@ -1,7 +1,7 @@
 <template>
   <div class="practice-tab">
     <!-- 统计图表区 -->
-    <el-row class="section" :gutter="24">
+    <!-- <el-row class="section" :gutter="24">
       <el-col :span="15">
         <el-card>
           <template #header> 练习情况 </template>
@@ -13,7 +13,7 @@
           <chart-pie :data="dataDifficulty" />
         </el-card>
       </el-col>
-    </el-row>
+    </el-row> -->
 
     <!-- 比赛列表 -->
     <el-card class="section">
@@ -22,7 +22,7 @@
     </el-card>
 
     <!-- 通过题目列表 -->
-    <el-card class="section">
+    <!-- <el-card class="section">
       <template #header> 通过的题目 </template>
       <div v-for="(problems, level) in solvedProblemsByLevel" :key="level">
         <template v-if="problems.length">
@@ -37,7 +37,7 @@
           </el-row>
         </template>
       </div>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
@@ -60,37 +60,39 @@ const props = defineProps<{
 const { difficulties } = useConfig().config
 
 // 模拟数据
-const solvedTime = useTest().dataSubmissions
-const solvedProblems = useTest().dataProblems
+// const solvedTime = useTest().dataSubmissions
+// const solvedProblems = useTest().dataProblems
+// const solvedTime = []
+// const solvedProblems = useTest().dataProblems
 
-// 按难度分组
-const solvedProblemsByLevel = computed(() => {
-  const groups: Record<number, Problem[]> = {}
+// // 按难度分组
+// const solvedProblemsByLevel = computed(() => {
+//   const groups: Record<number, Problem[]> = {}
 
-  difficulties.forEach((level, index) => {
-    groups[index] = solvedProblems
-      .filter((p) => p.difficulty >= level.min && p.difficulty <= level.max)
-      .sort((a, b) => a.id.localeCompare(b.id))
-  })
+//   difficulties.forEach((level, index) => {
+//     groups[index] = solvedProblems
+//       .filter((p) => p.difficulty >= level.min && p.difficulty <= level.max)
+//       .sort((a, b) => a.id.localeCompare(b.id))
+//   })
 
-  return groups
-})
+//   return groups
+// })
 
-// 练习热度数据
-const dataContribution = computed(() => {
-  return difficulties.map((level, index) => ({
-    name: level.name,
-    value: solvedProblemsByLevel.value[index]?.length || 0,
-  }))
-})
+// // 练习热度数据
+// const dataContribution = computed(() => {
+//   return difficulties.map((level, index) => ({
+//     name: level.name,
+//     value: solvedProblemsByLevel.value[index]?.length || 0,
+//   }))
+// })
 
-// 难度饼图数据
-const dataDifficulty = computed(() => {
-  return difficulties.map((level, index) => ({
-    name: level.name,
-    value: solvedProblemsByLevel.value[index]?.length || 0,
-  }))
-})
+// // 难度饼图数据
+// const dataDifficulty = computed(() => {
+//   return difficulties.map((level, index) => ({
+//     name: level.name,
+//     value: solvedProblemsByLevel.value[index]?.length || 0,
+//   }))
+// })
 
 function getLevelName(index: number) {
   const level = difficulties[index]

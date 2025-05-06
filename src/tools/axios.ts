@@ -42,7 +42,6 @@ instance.interceptors.response.use(
     return response
   },
   (error) => {
-    console.log(error)
     const config = error.config as ReisenAxiosConfig
     const message = error?.response?.data?.message || '请求失败'
 

@@ -20,8 +20,8 @@ import { apiRecordList } from '@/api/record'
 const records = ref<InstanceType<typeof RecordList> | null>(null)
 
 const initFilter: RecordFilterForm = {
-  user: null,
-  problem: null,
+  user: undefined,
+  problem: undefined,
   lang: '',
   verdict: '',
 }

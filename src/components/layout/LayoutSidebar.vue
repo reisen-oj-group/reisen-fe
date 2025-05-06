@@ -8,9 +8,19 @@
             <el-col :span="18">
               <slot name="main" />
             </el-col>
-            <el-col :span="6">
-              <slot name="sidebar" />
-            </el-col>
+
+            <template v-if="props.affix">
+                <el-col :span="6" class="affix-container">
+                  <el-affix target=".affix-container">
+                    <slot name="sidebar" />
+                  </el-affix>
+                </el-col>
+            </template>
+            <template v-else>
+              <el-col :span="6">
+                <slot name="sidebar" />
+              </el-col>
+            </template>
           </el-row>
         </div>
       </div>
@@ -25,7 +35,13 @@ import RHeader from './RHeader.vue'
 import RFooter from './RFooter.vue'
 import RSidebar from './RSidebar.vue'
 
-import { ElRow, ElCol } from 'element-plus'
+import { ElRow, ElCol, ElAffix } from 'element-plus'
+
+const props = withDefaults(defineProps<{
+  affix?: boolean
+}>(), {
+  affix: true
+});
 </script>
 
 <style lang="scss" scoped>
@@ -52,5 +68,9 @@ import { ElRow, ElCol } from 'element-plus'
   margin: 0 auto;
   padding: 24px;
   padding-right: 64px;
+}
+
+.affix-container {
+  margin-bottom: 1em;
 }
 </style>

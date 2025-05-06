@@ -1,5 +1,7 @@
 <template>
   <div class="panel-container">
+    <contest-sidebar />
+    
     <el-card>
       <h3>题目信息</h3>
 
@@ -42,6 +44,7 @@
 <script setup lang="ts">
 import type { ProblemVerdict } from '@/interface'
 import ProblemSubmit from './ProblemSubmit.vue'
+import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 
 import { ElButton, ElAffix, ElCard, ElSpace, ElRow, ElCol } from 'element-plus'
 import { ref } from 'vue'

@@ -1,16 +1,15 @@
 import type { MockMethod } from 'vite-plugin-mock'
 
-import { configVerdicts, configLangs, configTags, configDifficulties, mockUsers } from '../data'
-import type { LoginRequest, LoginResponse, SyncConfigResponse } from '../interface'
+import { mockUsers } from '../data'
+import { UserRequest, UserResponse } from '../interface'
 
 export default [
   {
-    url: '/api/user/login',
+    url: '/api/user',
     method: 'post',
-    response: (request: { body: LoginRequest }) => {
-      const response: LoginResponse = {
-        token: 'CIRNO-BAKA',
-        user: mockUsers[0],
+    response: (request: { body: UserRequest }) => {
+      const response: UserResponse = {
+        user: mockUsers[0]
       }
       return response
     },

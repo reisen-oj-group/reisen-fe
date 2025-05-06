@@ -1,4 +1,4 @@
-import type { Problem, ProblemVerdict, Statement } from '../interface'
+import type { Judge, Problem, ProblemVerdict, Statement, VerdictId } from '../interface'
 
 import { random, sample } from 'lodash-es'
 
@@ -25,6 +25,7 @@ export const mockProblems: Problem[] = [
   {
     id: 'P1001',
     type: 'traditional',
+    status: 'public',
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
@@ -42,6 +43,7 @@ export const mockProblems: Problem[] = [
   {
     id: 'P1002',
     type: 'traditional',
+    status: 'public',
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
@@ -59,6 +61,7 @@ export const mockProblems: Problem[] = [
   {
     id: 'P1003',
     type: 'traditional',
+    status: 'public',
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
@@ -76,6 +79,7 @@ export const mockProblems: Problem[] = [
   {
     id: 'P1004',
     type: 'traditional',
+    status: 'public',
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
@@ -93,6 +97,7 @@ export const mockProblems: Problem[] = [
   {
     id: 'P1005',
     type: 'traditional',
+    status: 'public',
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
@@ -113,26 +118,11 @@ export const mockProblemsVerdict: ProblemVerdict[] = (() => {
   const list: ProblemVerdict[] = []
   for (let i = 0; i < 200; ++i) {
     const problem = sample(mockProblems) || mockProblems[0]
-    let verdict: 'correct' | 'incorrect' | number | null = null
+    let judge: Judge = sample(['correct', 'incorrect', random(1, 100)]) || 1;
 
-    // verdict = i;
-    switch (random(1, 4)) {
-      case 0:
-        verdict = 'correct'
-        break
-      case 1:
-        verdict = 'incorrect'
-        break
-      case 2:
-        verdict = Math.floor(Math.random() * 100)
-        break
-      case 3:
-        verdict = null
-        break
-    }
     list.push({
       ...problem,
-      verdict: verdict,
+      judge: judge,
     })
   }
   return list

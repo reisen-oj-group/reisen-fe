@@ -27,7 +27,7 @@
           </div>
           <div class="description-item">
             <span class="item-label">最终用时</span>
-            <span class="item-value">{{ formatTime(record.time) }}</span>
+            <span class="item-value">{{ formatTimeShort(record.time) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">评测空间</span>
@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import type { SubmissionFull } from '@/interface'
-import { formatDate, formatMemory, formatTime } from '@/tools/format'
+import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
 
 import { ElButton, ElCard } from 'element-plus'
 import { useRouter } from 'vue-router'

@@ -1,4 +1,5 @@
-import type { ProblemId, StatementId, TagClassifyId, TagId } from './enum'
+import type { ProblemId, StatementId, TagClassifyId, TagId, VerdictId } from './enum'
+import type { Judge } from './judge'
 
 export interface TagClassify {
   id: TagClassifyId
@@ -14,6 +15,7 @@ export interface Problem {
   id: ProblemId
 
   type: 'traditional' | 'interactive' // 传统题、交互题
+  status: 'public' | 'private' | 'contest'
 
   limitTime: number
   limitMemory: number
@@ -35,7 +37,7 @@ export interface Problem {
 }
 
 export interface ProblemVerdict extends Problem {
-  verdict: 'correct' | 'incorrect' | number | null
+  judge: Judge
 }
 
 export interface Statement {

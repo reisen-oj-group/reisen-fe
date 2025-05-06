@@ -4,7 +4,10 @@
 
     <div class="contest-content">
       <div class="section">
-        <h3 class="contest-title">{{ contest.title }}</h3>
+        <router-link :to="`/contest/${contest.id}`">
+          <h3 class="contest-title">{{ contest.title }}</h3>
+        </router-link>
+        
 
         <div class="contest-actions">
           <el-button v-if="type === 'upcoming'" type="primary" @click="$emit('register')">
@@ -97,6 +100,11 @@ function getRuleName(rule: string) {
 .contest-title {
   font-size: larger;
   margin: 0;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--el-color-primary)
+  }
 }
 
 .section {

@@ -1,4 +1,4 @@
-import type { Contest, Ranking, Registration } from '../interface'
+import type { Contest, Grade, Ranking, Registration } from '../interface'
 
 // 比赛测试数据
 export const mockContests: Contest[] = [
@@ -13,7 +13,20 @@ export const mockContests: Contest[] = [
     startTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3天后开始
     endTime: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), // 持续1天
     rule: 'OI',
-    problems: ['P1001', 'P1002', 'P1003'],
+    problems: {
+      'A': 'P1001',
+      'B': 'P1002',
+      'C': 'P1003',
+      'D1': 'P1004',
+      'D2': 'P1004',
+      'E': 'P1001',
+      'F': 'P1001',
+      'G': 'P1001',
+      'H': 'P1001',
+      'I': 'P1001',
+      'J': 'P1001',
+      'K': 'P1001',
+    },
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-01-15'),
   },
@@ -28,7 +41,10 @@ export const mockContests: Contest[] = [
     startTime: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2天前开始
     endTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 已结束
     rule: 'ACM',
-    problems: ['P1001', 'P1004'],
+    problems: {
+      'A': 'P1001',
+      'B': 'P1004',
+    },
     createdAt: new Date('2023-02-10'),
     updatedAt: new Date('2023-02-10'),
   },
@@ -43,7 +59,11 @@ export const mockContests: Contest[] = [
     startTime: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5天后开始
     endTime: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000), // 持续1天
     rule: 'IOI',
-    problems: ['P1002', 'P1003', 'P1004'],
+    problems: {
+      'A': 'P1001',
+      'B1': 'P1002',
+      'B2': 'P1004'
+    },
     createdAt: new Date('2023-03-01'),
     updatedAt: new Date('2023-03-01'),
   },
@@ -63,22 +83,44 @@ export const mockRegistrations: Registration[] = [
   },
 ]
 
+export const mockGrades: Grade[] = [
+  {
+    judge: 'correct',
+    time: 100,
+    score: 100,
+  },
+  {
+    judge: 'incorrect',
+    time: 100,
+    score: 0,
+  }
+]
+
 // 比赛排名数据
 export const mockRankings: Ranking[] = [
   {
+    id: 1,
     contest: 2,
     user: 1,
-    submissions: [1, 2, 3],
+    grades: {
+      'P1001': mockGrades[0],
+      'P1002': mockGrades[0],
+      'P1003': mockGrades[1],
+    },
     totalScore: 100,
     totalTime: 192,
-    solvedCount: 1,
+    solved: 1,
   },
   {
+    id: 2,
     contest: 2,
     user: 2,
-    submissions: [2, 3, 4],
+    grades: {
+      'P1001': mockGrades[0],
+      'P1003': mockGrades[1],
+    },
     totalScore: 250,
     totalTime: 300,
-    solvedCount: 2,
+    solved: 2,
   },
 ]

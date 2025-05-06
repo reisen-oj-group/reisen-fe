@@ -20,6 +20,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     length: 120,
     verdict: 'AC',
     lang: 'cpp',
+    score: 100,
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     length: 250,
     verdict: 'TLE',
     lang: 'java',
+    score: 0,
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     length: 180,
     verdict: 'WA',
     lang: 'python',
+    score: 10,
   },
 ]
 

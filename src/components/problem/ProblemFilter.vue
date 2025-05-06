@@ -2,9 +2,7 @@
   <div class="filter-container">
     <el-card class="card">
       <template #header>
-        <div class="card-header">
-          <span>筛选</span>
-        </div>
+        筛选
       </template>
 
       <el-form :model="form">
@@ -91,11 +89,6 @@ const clearFilter = () => {
 
 .tag-selector {
   margin-left: auto;
-}
-
-.card-header {
-  padding: 0;
-  margin: 0;
 }
 
 .card {

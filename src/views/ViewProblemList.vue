@@ -23,16 +23,9 @@ import { ref } from 'vue'
 
 const problems = ref<InstanceType<typeof ProblemList> | null>(null)
 
-const initFilter: ProblemFilterForm = {
-  minDifficulty: 0,
-  maxDifficulty: 3000,
-  tags: [],
-  keywords: '',
-}
+const initFilter: ProblemFilterForm = {}
 
 const handleFilterSubmit = (form: ProblemFilterForm) => {
-  console.log(form)
-  console.log(problems.value?.setFilter)
   problems.value?.setFilter(form)
 }
 </script>

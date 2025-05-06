@@ -20,7 +20,7 @@ import ProblemPanel from '@/components/problem/ProblemPanel.vue'
 
 import { ElCard, ElAffix } from 'element-plus'
 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type { ProblemVerdict, Statement } from '@/interface'
 import { apiProblem, apiStatement } from '@/api'
 
@@ -30,9 +30,12 @@ const statement = ref<Statement | null>(null)
 const loadingP = ref(false)
 const loadingS = ref(false)
 
-onMounted(() => {
+async function getProblem(){
+  problem.value = null
+  statement.value = null
+
   loadingP.value = true
-  apiProblem({ problem: props.pid })
+  await apiProblem({ problem: props.pid })
     .then((response) => {
       problem.value = response.problem
       apiStatement({ statement: problem.value.i18n['en-US'].statement })
@@ -49,11 +52,18 @@ onMounted(() => {
     .finally(() => {
       loadingP.value = false
     })
-})
+}
 
 const props = defineProps<{
   pid: string
 }>()
+
+onMounted(() => {
+  getProblem();
+})
+
+watch(props, () => getProblem());
+
 </script>
 
 <style lang="scss" scoped></style>

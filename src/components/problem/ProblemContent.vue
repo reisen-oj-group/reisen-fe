@@ -5,7 +5,7 @@
       <div class="problem-header">
         <h1 class="problem-title">{{ problem.i18n[language]?.title || 'Unknown' }}</h1>
         <div class="problem-meta">
-          <span class="time-limit">时间限制: {{ formatTime(problem.limitTime) }}</span>
+          <span class="time-limit">时间限制: {{ formatTimeShort(problem.limitTime) }}</span>
           <span class="memory-limit">内存限制: {{ formatMemory(problem.limitMemory) }}</span>
           <span class="problem-type">{{ formatProblemType(problem.type) }}</span>
         </div>
@@ -97,7 +97,7 @@ import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type { Problem, Statement } from '@/interface'
-import { formatMemory, formatProblemType, formatTime } from '@/tools/format'
+import { formatMemory, formatProblemType, formatTimeShort } from '@/tools/format'
 
 const props = withDefaults(
   defineProps<{

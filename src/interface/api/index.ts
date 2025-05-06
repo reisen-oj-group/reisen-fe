@@ -1,4 +1,6 @@
 export * from './config'
 export * from './record'
 export * from './auth'
+export * from './user'
 export * from './problem'
+export * from './contest'

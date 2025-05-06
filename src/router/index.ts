@@ -29,12 +29,6 @@ const router = createRouter({
       name: 'contest',
       component: ViewContestList,
     },
-    // {
-    //   path: '/contest/:cid',
-    //   name: 'contest-detail',
-    //   component: () => import('@/views/ViewContestDetail.vue'),
-    //   props: true,
-    // },
     {
       path: '/record',
       name: 'record',
@@ -56,6 +50,24 @@ const router = createRouter({
       path: '/user/:uid_str',
       name: 'user',
       component: () => import('@/views/ViewUser.vue'),
+      props: true,
+    },
+    {
+      path: '/contest/problem/:pid',
+      name: 'contest-problem-detail',
+      component: () => import('@/views/ViewProblemDetail.vue'),
+      props: true,
+    },
+    {
+      path: '/contest/record/:rid',
+      name: 'contest-record-detail',
+      component: () => import('@/views/ViewRecordDetail.vue'),
+      props: true,
+    },
+    {
+      path: '/contest/:cid_str',
+      name: 'contest-detail',
+      component: () => import('@/views/ViewContestDetail.vue'),
       props: true,
     },
   ],

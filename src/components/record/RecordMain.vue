@@ -102,7 +102,7 @@ import VerdictTag from '../common/VerdictTag.vue'
 
 import { useConfig } from '@/stores/config'
 
-import { formatDate, formatMemory, formatTime } from '@/tools/format'
+import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
 
 const { verdicts, langs } = useConfig().config
 

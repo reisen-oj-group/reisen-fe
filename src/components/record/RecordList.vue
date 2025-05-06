@@ -64,7 +64,7 @@
           <td class="verdict">
             <verdict-tag :verdict="record.verdict" />
           </td>
-          <td class="time">{{ formatTime(record.time) }}</td>
+          <td class="time">{{ formatTimeShort(record.time) }}</td>
           <td class="memory">{{ formatMemory(record.memory) }}</td>
         </tr>
       </tbody>
@@ -77,8 +77,9 @@
     <el-affix position="bottom">
       <div class="record-list-bottom">
         <el-pagination
-          :page-size="100"
           :current-page="current"
+          :page-size="100"
+          :pager-count="11"
           :total="total"
           @current-change="handlePageChange"
         />
@@ -94,7 +95,7 @@ import type { RecordFilterForm, SubmissionLite } from '@/interface'
 
 import { useConfig } from '@/stores/config'
 
-import { formatDate, formatMemory, formatTime } from '@/tools/format'
+import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
 import VerdictTag from '../common/VerdictTag.vue'
 import { apiRecordList } from '@/api/record'
 

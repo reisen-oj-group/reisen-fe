@@ -19,10 +19,10 @@ export interface RecordListResponse {
 }
 
 export interface RecordFilterForm {
-  user: null | string | UserId
-  problem: null | ProblemId
-  lang: LangId
-  verdict: VerdictId
+  user?: string | UserId | undefined
+  problem?: ProblemId | undefined
+  lang?: LangId | undefined
+  verdict?: VerdictId | undefined
 }
 
 export interface RecordDetailRequest {

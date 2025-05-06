@@ -33,24 +33,24 @@
         <tr class="entry" v-for="problem in problems" :key="problem.id">
           <!-- 状态列 -->
           <td class="status">
-            <template v-if="problem.verdict === 'correct'">
+            <template v-if="problem.judge === 'correct'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
             </template>
-            <template v-else-if="problem.verdict === 'incorrect'">
+            <template v-else-if="problem.judge === 'incorrect'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
             </template>
-            <template v-else-if="problem.verdict !== null">
+            <template v-else-if="problem.judge !== null">
               <span
                 :style="{
                   color:
-                    problem.verdict < 30
+                    problem.judge < 30
                       ? 'var(--el-color-danger)'
-                      : problem.verdict < 70
+                      : problem.judge < 70
                         ? 'var(--el-color-warning)'
                         : 'var(--el-color-success)',
                 }"
               >
-                {{ problem.verdict }}
+                {{ problem.judge }}
               </span>
             </template>
           </td>
@@ -91,8 +91,9 @@
     <el-affix position="bottom">
       <div class="problemset-bottom">
         <el-pagination
+          :current-page="current"
           :page-size="50"
-          :pager-count="10"
+          :pager-count="11"
           :total="total"
           @current-change="handlePageChange"
         />

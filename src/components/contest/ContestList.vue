@@ -1,34 +1,59 @@
 <template>
   <div class="contest-list-container">
-    <el-divider>即将开始</el-divider>
-    <!-- 即将开始的比赛 -->
-    <div class="contest-section" v-if="upcomingContests.length > 0">
-      <contest-card
-        v-for="contest in upcomingContests"
-        :key="contest.id"
-        :contest="contest"
-        type="upcoming"
-        @register="handleRegister"
-      />
-    </div>
+    <template v-if="!searchOld">
+      <template v-if="runningContests && runningContests.length > 0">
+        <el-divider>正在进行</el-divider>
+        
+        <div class="contest-section">
+          <contest-card
+            v-for="contest in runningContests"
+            :key="contest.id"
+            :contest="contest"
+            type="upcoming"
+            @register="handleRegister"
+          />
+        </div>
+      </template>
 
-    <el-divider>已经结束</el-divider>
+      <template v-if="pendingContests && pendingContests.length > 0">
+        <el-divider>即将开始</el-divider>
 
-    <!-- 已结束的比赛 -->
-    <div class="contest-section">
-      <contest-card
-        v-for="contest in finishedContests"
-        :key="contest.id"
-        :contest="contest"
-        type="finished"
-      />
+        <div class="contest-section" v-if="runningContests && runningContests.length > 0">
+          <contest-card
+            v-for="contest in runningContests"
+            :key="contest.id"
+            :contest="contest"
+            type="upcoming"
+            @register="handleRegister"
+          />
+        </div>
+      </template>
 
-      <el-pagination
-        v-model:current-page="finishedPage"
-        :page-size="pageSize"
-        :total="finishedTotal"
-      />
-    </div>
+      <template v-if="!runningContests && !pendingContests">
+        最近没有比赛。
+      </template>
+    </template>
+
+    <template v-if="finishedContests">
+      <el-divider>已经结束</el-divider>
+
+      <div class="contest-section">
+        <contest-card
+          v-for="contest in finishedContests"
+          :key="contest.id"
+          :contest="contest"
+          type="finished"
+        />
+        <el-pagination
+          :current-page="finishedPage"
+          :page-size="10"
+          :pager-count="11"
+          :total="total"
+          @update:current-page="handlePageChange"
+        />
+      </div>
+    </template>
+
   </div>
 </template>
 
@@ -38,14 +63,18 @@ import ContestCard from './ContestCard.vue'
 
 import { ElPagination, ElDivider } from 'element-plus'
 
-import { useTest } from '@/stores/test'
+import { apiContestFinished, apiContestRecent } from '@/api/contest'
+import type { Contest, ContestFilterForm } from '@/interface'
 
 // 比赛数据
-const upcomingContests = useTest().dataContests
-const finishedContests = useTest().dataContests
+const runningContests = ref<Contest[] | null>(null);
+const pendingContests = ref<Contest[] | null>(null);
+
+const finishedContests = ref<Contest[] | null>(null);
 const finishedPage = ref(1)
-const pageSize = ref(10)
-const finishedTotal = ref(0)
+const total = ref(0)
+
+const searchOld = ref(false)
 
 // 处理报名
 function handleRegister(contestId: number) {
@@ -53,15 +82,62 @@ function handleRegister(contestId: number) {
   console.log('Register for contest:', contestId)
 }
 
-// 重新加载数据
-function reloadContests() {
-  // fetchUpcomingContests()
-  // finishedPage.value = 1
-  // fetchFinishedContests()
-}
+const props = defineProps<{
+  initFilter: ContestFilterForm
+}>()
+
+const filter = ref(props.initFilter)
+const loadingU = ref(false)
+const loadingF = ref(false)
 
 onMounted(() => {
-  reloadContests()
+  getRecent()
+  getList(true)
+})
+
+const emits = defineEmits(['page-change'])
+
+async function getRecent() {
+  loadingU.value = true;
+  apiContestRecent({})
+    .then((response) => {
+      runningContests.value = response.running;
+      pendingContests.value = response.pending;
+    })
+    .finally(() => {
+      loadingU.value = false
+    })
+}
+
+async function getList(resetPage: boolean) {
+  loadingF.value = true
+  finishedContests.value = null
+  if (resetPage) {
+    finishedPage.value = 1
+  }
+  apiContestFinished({ page: finishedPage.value, filter: filter.value })
+    .then((response) => {
+      finishedContests.value = response.contests
+      total.value = response.total
+    })
+    .finally(() => {
+      loadingF.value = false
+    })
+}
+
+function handlePageChange(page: number) {
+  finishedPage.value = page
+  emits('page-change', page)
+  getList(false)
+}
+
+function setFilter(newFilter: ContestFilterForm) {
+  filter.value = newFilter
+  getList(true)
+}
+
+defineExpose({
+  setFilter,
 })
 </script>
 

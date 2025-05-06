@@ -1,40 +1,22 @@
 <template>
   <span class="countdown-timer">
-    {{ days }}天 {{ hours }}小时 {{ minutes }}分钟 {{ seconds }}秒
+    {{ left }}
   </span>
 </template>
 
 <script setup lang="ts">
+import { formatTimeLong } from '@/tools/format';
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   target: Date
 }>()
 
-const now = ref(new Date())
-const days = ref(0)
-const hours = ref(0)
-const minutes = ref(0)
-const seconds = ref(0)
-
+const left = ref('')
 let timer: number
 
 function update() {
-  now.value = new Date()
-  const diff = props.target.getTime() - now.value.getTime()
-
-  if (diff <= 0) {
-    days.value = 0
-    hours.value = 0
-    minutes.value = 0
-    seconds.value = 0
-    return
-  }
-
-  days.value = Math.floor(diff / (1000 * 60 * 60 * 24))
-  hours.value = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  minutes.value = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-  seconds.value = Math.floor((diff % (1000 * 60)) / 1000)
+  left.value = formatTimeLong(Math.max(0, props.target.getTime() - Date.now()));
 }
 
 onMounted(() => {

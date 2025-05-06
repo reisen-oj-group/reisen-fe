@@ -19,7 +19,6 @@ export const useAuth = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!currentToken.value)
 
   const setRedirectUrl = (url: string) => {
-    console.log('new url: ', url)
     redirectUrl.value = url
   }
 

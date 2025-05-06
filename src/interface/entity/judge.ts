@@ -1,4 +1,4 @@
-import type { LangId, ProblemId, SubmissionId, UserId, VerdictId } from './enum'
+import type { ContestId, LangId, ProblemId, SubmissionId, UserId, VerdictId } from './enum'
 import type { Problem } from './problem'
 import type { User } from './user'
 
@@ -9,6 +9,8 @@ export interface Lang {
   description: string // 语言描述，例如 C++11 (GCC9)
   ratio: number // 时限比率，用于给更慢的时间开大空间
 }
+
+export type Judge = 'correct' | 'incorrect' | number;
 
 export interface Verdict {
   id: VerdictId
@@ -33,15 +35,21 @@ export interface SubmissionCore {
 
   user: UserId
   problem: ProblemId // 关联试题
+  contest?: ContestId // 关联比赛
 
   submission: Date // 提交时间
   evaluation: Date // 评测时间
   lang: LangId // 评测语言
 
   verdict: VerdictId // 评测结果
+  score: number // 得分，主要用于部分分
   time: number // 评测用时
   memory: number // 占用空间
   length: number // 代码长度
+}
+
+export interface Result {
+  
 }
 
 // 测试点，数据库里实际存储的表元素

@@ -6,9 +6,7 @@
       </el-card>
     </template>
     <template #sidebar>
-      <el-affix :offset="16">
-        <record-sidebar :record="record" :loading="loading" />
-      </el-affix>
+      <record-sidebar :record="record" :loading="loading" />
     </template>
   </layout-sidebar>
 </template>
@@ -22,18 +20,19 @@ import { ElCard, ElAffix } from 'element-plus'
 
 import { apiRecordDetail } from '@/api/record'
 import { onMounted, ref } from 'vue'
-import type { SubmissionFull } from '@/interface'
+import type { SubmissionFull, SubmissionId } from '@/interface'
 
 const props = defineProps<{
-  rid: string
+  rid_str: string
 }>()
+const rid: SubmissionId = parseInt(props.rid_str)
 
 const record = ref<SubmissionFull | null>(null)
 const loading = ref(true)
 
 onMounted(() => {
   apiRecordDetail({
-    id: parseInt(props.rid),
+    id: rid,
   })
     .then((response) => {
       record.value = response.record

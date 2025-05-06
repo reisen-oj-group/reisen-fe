@@ -1,80 +1,167 @@
 <template>
-  <el-card class="contest-sidebar">
-    <h3>比赛筛选</h3>
+  <div v-if="contest" class="contest-sidebar">
+    <el-card>
+      <template v-if="contest">
+        <div class="contest-info">
+          <router-link :to="`/contest/${contest.id}`">
+            <h3>{{ contest.title }}</h3>
+          </router-link>
+          
+          <div class="contest-time">
+            <el-progress :percentage="left / zone" :stroke-width="15" striped :show-text="false" />
 
-    <!-- <el-form label-width="80px">
-      <el-form-item label="赛制">
-        <el-select v-model="localFilter.rule" placeholder="全部赛制" clearable>
-          <el-option label="OI赛制" value="OI" />
-          <el-option label="ICPC赛制" value="ICPC" />
-          <el-option label="ACM赛制" value="ACM" />
-        </el-select>
-      </el-form-item>
-      
-      <el-form-item label="难度">
-        <el-select v-model="localFilter.difficulty" placeholder="全部难度" clearable>
-          <el-option v-for="i in 5" :key="i" :label="`${i}星`" :value="i" />
-        </el-select>
-      </el-form-item>
-      
-      <el-form-item label="状态">
-        <el-radio-group v-model="localFilter.status">
-          <el-radio-button label="public">公开</el-radio-button>
-          <el-radio-button label="private">私有</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      
-      <el-form-item>
-        <el-button type="primary" @click="applyFilter">应用筛选</el-button>
-        <el-button @click="resetFilter">重置</el-button>
-      </el-form-item>
-    </el-form> -->
-  </el-card>
+            <span v-if="left > 0">剩余时间: {{ formatTimeLong(left) }}</span>
+            <span v-else>比赛已结束</span>
+          </div>
+        </div>
+        
+        <div class="problem-badges">
+          <div 
+              v-for="(problem, label) of contest.problems" 
+              class="problem-badge"
+              :class="getProblemStatusClass(problem)"
+              @click="goToProblem(problem)"
+            >
+              {{ label }}
+            </div>
+        </div>
+      </template>
+    </el-card>
+    
+    <el-button type="primary" @click="exitContest">退出比赛模式</el-button>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-// import type { ContestFilter } from '@/interface'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useContest } from '@/stores/contest'
 
-// const props = defineProps<{
-//   filter: ContestFilter
-// }>()
+import { formatDate, formatTimeLong } from '@/tools/format'
+import type { Contest, ProblemId, Ranking } from '@/interface'
 
-const emit = defineEmits(['filter-change'])
+import { ElButton, ElProgress, ElCard } from 'element-plus'
 
-// const localFilter = ref<ContestFilter>({ ...props.filter })
+// const props = withDefaults(defineProps<{
+//   force?: boolean
+// }>(), {
+//   force: false
+// });
 
-// function applyFilter() {
-//   emit('filter-change', { ...localFilter.value })
-// }
+const router = useRouter()
+const contestStore = useContest()
+const contest = computed(() => contestStore.currentContest);
+const ranking = computed(() => contestStore.currentRanking);
 
-// function resetFilter() {
-//   localFilter.value = {
-//     rule: null,
-//     difficulty: null,
-//     status: 'public'
-//   }
-//   applyFilter()
-// }
+const left = ref(0);
+const zone = ref(1);
 
-// watch(() => props.filter, (newVal) => {
-//   localFilter.value = { ...newVal }
-// }, { deep: true })
-</script>
-
-<style scoped>
-.contest-sidebar {
-  position: sticky;
-  top: 20px;
-
-  h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.2em;
+function update() {
+  if(contest.value){
+    left.value = Math.max(0, contest.value.endTime.getTime() - Date.now());
+    zone.value =
+      contest.value.endTime.getTime() - 
+      contest.value.startTime.getTime();
   }
 }
 
-.el-form-item {
+function getProblemStatusClass(problem: ProblemId) {
+  if(!ranking.value)
+    return '';
+
+  if(problem in ranking.value.grades){
+    const grade = ranking.value.grades[problem];
+    if(grade.judge === 'correct')
+      return 'status-success';
+    else 
+    if(grade.judge === 'incorrect')
+      return 'status-danger';
+    else 
+      return 'status-warning';
+  }
+  return ''
+}
+
+// 跳转到题目
+function goToProblem(problem: ProblemId) {
+  router.push(`/contest/problem/${problem}`)
+}
+
+// 退出比赛模式
+function exitContest() {
+  contestStore.exit()
+  router.push('/contest')
+}
+
+let timer: number
+onMounted(() => {
+  update()
+  timer = window.setInterval(update, 1000)
+})
+
+onUnmounted(() => {
+  clearInterval(timer)
+})
+</script>
+
+<style lang="scss" scoped>
+
+.contest-sidebar {
+  > * {
+    width: 100%;
+  }
+
+  > *:not(:last-child){
+    margin-bottom: 1em;
+  }
+}
+
+.contest-info {
   margin-bottom: 20px;
+  
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    word-break: break-word;
+
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--el-color-primary);
+    }
+  }
+  
+  .contest-time {
+    font-size: 0.9em;
+    color: var(--el-text-color-secondary);
+  }
+}
+
+.problem-badges {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.problem-badge {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: var(--el-fill-color-light);
+  cursor: pointer;
+  font-weight: bold;
+  
+  &.status-success {
+    background-color: var(--el-color-success-light-9);
+    color: var(--el-color-success);
+  }
+  
+  &.status-danger {
+    background-color: var(--el-color-danger-light-9);
+    color: var(--el-color-danger);
+  }
 }
 </style>
