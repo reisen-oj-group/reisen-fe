@@ -6,21 +6,29 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    vueDevTools(),
-    viteMockServe({
-      mockPath: 'mock',
-      // enable: process.env.NODE_ENV === 'development',
-      enable: true,   // We are now displaying the fe, so we enable it in production env
-      logger: true,
-      watchFiles: true,
-    }),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+export default defineConfig(({ command }) => {
+  const isDev = command === 'serve'
+  const isBuild = command === 'build'
+  return {
+    plugins: [
+      vue(),
+      vueDevTools(),
+      viteMockServe({
+        mockPath: 'mock',
+        localEnabled: isDev,
+        prodEnabled: isBuild,
+        logger: true,
+        watchFiles: true,
+        injectCode: `
+          import { setupProdMockServer } from '../mock-prod-server';
+          setupProdMockServer();
+        `
+      }),
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      },
     },
-  },
+  }
 })
