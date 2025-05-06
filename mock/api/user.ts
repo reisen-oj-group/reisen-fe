@@ -9,7 +9,7 @@ export default [
     method: 'post',
     response: (request: { body: UserRequest }) => {
       const response: UserResponse = {
-        user: mockUsers[0]
+        user: mockUsers[0],
       }
       return response
     },

@@ -1,4 +1,4 @@
-import type { Contest, ContestDifficulty, ContestId, ContestRule, Ranking, UserId } from "../entity"
+import type { Contest, ContestDifficulty, ContestId, ContestRule, Ranking, UserId } from '../entity'
 
 export interface ContestFinishedRequest {
   page: number
@@ -10,9 +10,7 @@ export interface ContestFinishedResponse {
   contests: Contest[]
 }
 
-export interface ContestRecentRequest {
-  
-}
+export interface ContestRecentRequest {}
 
 export interface ContestRecentResponse {
   running: Contest[]
@@ -20,8 +18,8 @@ export interface ContestRecentResponse {
 }
 
 export interface ContestFilterForm {
-  rule?: ContestRule | undefined,
-  difficulty?: ContestDifficulty | undefined,
+  rule?: ContestRule | undefined
+  difficulty?: ContestDifficulty | undefined
 }
 
 export interface ContestRequest {

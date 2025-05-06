@@ -1,7 +1,7 @@
 <template>
   <div class="panel-container">
     <contest-sidebar />
-    
+
     <el-card>
       <h3>题目信息</h3>
 

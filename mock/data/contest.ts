@@ -14,18 +14,18 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), // 持续1天
     rule: 'OI',
     problems: {
-      'A': 'P1001',
-      'B': 'P1002',
-      'C': 'P1003',
-      'D1': 'P1004',
-      'D2': 'P1004',
-      'E': 'P1001',
-      'F': 'P1001',
-      'G': 'P1001',
-      'H': 'P1001',
-      'I': 'P1001',
-      'J': 'P1001',
-      'K': 'P1001',
+      A: 'P1001',
+      B: 'P1002',
+      C: 'P1003',
+      D1: 'P1004',
+      D2: 'P1004',
+      E: 'P1001',
+      F: 'P1001',
+      G: 'P1001',
+      H: 'P1001',
+      I: 'P1001',
+      J: 'P1001',
+      K: 'P1001',
     },
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-01-15'),
@@ -42,8 +42,8 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 已结束
     rule: 'ACM',
     problems: {
-      'A': 'P1001',
-      'B': 'P1004',
+      A: 'P1001',
+      B: 'P1004',
     },
     createdAt: new Date('2023-02-10'),
     updatedAt: new Date('2023-02-10'),
@@ -60,9 +60,9 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000), // 持续1天
     rule: 'IOI',
     problems: {
-      'A': 'P1001',
-      'B1': 'P1002',
-      'B2': 'P1004'
+      A: 'P1001',
+      B1: 'P1002',
+      B2: 'P1004',
     },
     createdAt: new Date('2023-03-01'),
     updatedAt: new Date('2023-03-01'),
@@ -93,7 +93,7 @@ export const mockGrades: Grade[] = [
     judge: 'incorrect',
     time: 100,
     score: 0,
-  }
+  },
 ]
 
 // 比赛排名数据
@@ -103,9 +103,9 @@ export const mockRankings: Ranking[] = [
     contest: 2,
     user: 1,
     grades: {
-      'P1001': mockGrades[0],
-      'P1002': mockGrades[0],
-      'P1003': mockGrades[1],
+      P1001: mockGrades[0],
+      P1002: mockGrades[0],
+      P1003: mockGrades[1],
     },
     totalScore: 100,
     totalTime: 192,
@@ -116,8 +116,8 @@ export const mockRankings: Ranking[] = [
     contest: 2,
     user: 2,
     grades: {
-      'P1001': mockGrades[0],
-      'P1003': mockGrades[1],
+      P1001: mockGrades[0],
+      P1003: mockGrades[1],
     },
     totalScore: 250,
     totalTime: 300,

@@ -1,4 +1,4 @@
-import type { User, UserId } from "../entity";
+import type { User, UserId } from '../entity'
 
 export interface UserRequest {
   user: UserId

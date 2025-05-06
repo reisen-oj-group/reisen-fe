@@ -10,7 +10,7 @@ export interface Lang {
   ratio: number // 时限比率，用于给更慢的时间开大空间
 }
 
-export type Judge = 'correct' | 'incorrect' | number;
+export type Judge = 'correct' | 'incorrect' | number
 
 export interface Verdict {
   id: VerdictId
@@ -48,9 +48,7 @@ export interface SubmissionCore {
   length: number // 代码长度
 }
 
-export interface Result {
-  
-}
+export interface Result {}
 
 // 测试点，数据库里实际存储的表元素
 export interface Submission extends SubmissionCore {

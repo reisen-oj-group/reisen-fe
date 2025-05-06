@@ -3,7 +3,7 @@
     <template v-if="!searchOld">
       <template v-if="runningContests && runningContests.length > 0">
         <el-divider>正在进行</el-divider>
-        
+
         <div class="contest-section">
           <contest-card
             v-for="contest in runningContests"
@@ -29,9 +29,7 @@
         </div>
       </template>
 
-      <template v-if="!runningContests && !pendingContests">
-        最近没有比赛。
-      </template>
+      <template v-if="!runningContests && !pendingContests"> 最近没有比赛。 </template>
     </template>
 
     <template v-if="finishedContests">
@@ -53,7 +51,6 @@
         />
       </div>
     </template>
-
   </div>
 </template>
 
@@ -67,10 +64,10 @@ import { apiContestFinished, apiContestRecent } from '@/api/contest'
 import type { Contest, ContestFilterForm } from '@/interface'
 
 // 比赛数据
-const runningContests = ref<Contest[] | null>(null);
-const pendingContests = ref<Contest[] | null>(null);
+const runningContests = ref<Contest[] | null>(null)
+const pendingContests = ref<Contest[] | null>(null)
 
-const finishedContests = ref<Contest[] | null>(null);
+const finishedContests = ref<Contest[] | null>(null)
 const finishedPage = ref(1)
 const total = ref(0)
 
@@ -98,11 +95,11 @@ onMounted(() => {
 const emits = defineEmits(['page-change'])
 
 async function getRecent() {
-  loadingU.value = true;
+  loadingU.value = true
   apiContestRecent({})
     .then((response) => {
-      runningContests.value = response.running;
-      pendingContests.value = response.pending;
+      runningContests.value = response.running
+      pendingContests.value = response.pending
     })
     .finally(() => {
       loadingU.value = false

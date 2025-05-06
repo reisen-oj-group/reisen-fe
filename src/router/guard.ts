@@ -22,13 +22,13 @@ export function setupRouterGuard(router: Router) {
 
     // 初始化比赛状态
     if (!contestStore.isInitialized) {
-      if(contestStore.valid){
-        to.path = `/contest/${ contestStore.currentContest!.id }`;
+      if (contestStore.valid) {
+        to.path = `/contest/${contestStore.currentContest!.id}`
       }
-      contestStore.isInitialized = true;
+      contestStore.isInitialized = true
     } else {
-      if(contestStore.valid){
-        if(!from.path.startsWith('/contest/')){
+      if (contestStore.valid) {
+        if (!from.path.startsWith('/contest/')) {
           contestStore.exit()
         } else {
           contestStore.refresh()

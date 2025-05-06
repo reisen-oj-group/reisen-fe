@@ -41,19 +41,17 @@ export default [
     method: 'post',
     timeout: 1000,
     response: (request: { body: ProblemRequest }) => {
-      if(request.body.problem === 'P1001'){
+      if (request.body.problem === 'P1001') {
         const response: ProblemResponse = {
           problem: mockProblemsVerdict[0],
         }
         return response
-      } else 
-      if(request.body.problem === 'P1002'){
+      } else if (request.body.problem === 'P1002') {
         const response: ProblemResponse = {
           problem: mockProblemsVerdict[1],
         }
         return response
-      } else 
-      if(request.body.problem === 'P1003'){
+      } else if (request.body.problem === 'P1003') {
         const response: ProblemResponse = {
           problem: mockProblemsVerdict[2],
         }

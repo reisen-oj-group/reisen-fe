@@ -1,9 +1,7 @@
 <template>
   <div class="filter-container">
     <el-card class="card">
-      <template #header>
-        筛选
-      </template>
+      <template #header> 筛选 </template>
 
       <el-form :model="form">
         <el-form-item label="难度" class="filter-item">

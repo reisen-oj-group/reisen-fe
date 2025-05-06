@@ -18,7 +18,6 @@ import type {
 } from '@/interface'
 
 export const useTest = defineStore('testdata', () => {
-
   // 比赛报名数据
   const dataRegistrations: Registration[] = [
     {

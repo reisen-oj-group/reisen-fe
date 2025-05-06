@@ -17,7 +17,9 @@ export const apiProblemList = async (request: ProblemListRequest) => {
 }
 
 export const apiProblemSolved = async (request: ProblemSolvedRequest) => {
-  return (await axios.post<ProblemSolvedResponse>('/problem/solved', request, {} as ReisenAxiosConfig)).data
+  return (
+    await axios.post<ProblemSolvedResponse>('/problem/solved', request, {} as ReisenAxiosConfig)
+  ).data
 }
 
 export const apiProblem = async (request: ProblemRequest) => {

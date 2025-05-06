@@ -1,9 +1,7 @@
 <template>
   <div class="filter-container">
     <el-card class="card">
-      <template #header>
-        筛选
-      </template>
+      <template #header> 筛选 </template>
 
       <el-form :model="form">
         <el-form-item label="赛制" class="filter-item">
@@ -29,10 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ContestFilterForm } from '@/interface';
+import type { ContestFilterForm } from '@/interface'
 import { ref } from 'vue'
 
-import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElCard } from 'element-plus';
+import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElCard } from 'element-plus'
 
 const props = defineProps<{
   initFilter: ContestFilterForm
@@ -45,8 +43,7 @@ const emits = defineEmits<{
 }>()
 
 const clearFilter = () => {
-  form.value.difficulty = 1,
-  form.value.rule = 'IOI'
+  ;(form.value.difficulty = 1), (form.value.rule = 'IOI')
 }
 </script>
 
@@ -65,5 +62,4 @@ const clearFilter = () => {
     margin-bottom: 0.5em;
   }
 }
-
 </style>

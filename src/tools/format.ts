@@ -40,24 +40,19 @@ export function formatMemory(kb: number | undefined) {
 }
 
 export function formatTimeLong(ms: number | undefined, short: boolean = true) {
-  if (!ms) return '-';
+  if (!ms) return '-'
 
   const dd = Math.floor(ms / (1000 * 60 * 60 * 24))
   const hh = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
   const mm = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60))
   const ss = Math.floor((ms % (1000 * 60)) / 1000)
 
-  if(short){
-    if(dd)
-      return `${dd}:${padZero(hh)}:${padZero(mm)}:${padZero(ss)}`
-    else 
-      return `${hh}:${padZero(mm)}:${padZero(ss)}`
+  if (short) {
+    if (dd) return `${dd}:${padZero(hh)}:${padZero(mm)}:${padZero(ss)}`
+    else return `${hh}:${padZero(mm)}:${padZero(ss)}`
   } else {
-    if(dd)
-      return `${dd} 天 ${padZero(hh)} 小时 ${padZero(mm)} 分钟 ${padZero(ss)} 秒`
-    else 
-      return `${hh} 小时 ${padZero(mm)} 分钟 ${padZero(ss)} 秒`
-
+    if (dd) return `${dd} 天 ${padZero(hh)} 小时 ${padZero(mm)} 分钟 ${padZero(ss)} 秒`
+    else return `${hh} 小时 ${padZero(mm)} 分钟 ${padZero(ss)} 秒`
   }
 }
 

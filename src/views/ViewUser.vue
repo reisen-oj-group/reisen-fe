@@ -60,7 +60,7 @@ const props = defineProps<{
 }>()
 
 const currentUser = useAuth().currentUser
-const visitingUser = ref<User | null>(null);
+const visitingUser = ref<User | null>(null)
 
 const uid: number = props.uid_str ? parseInt(props.uid_str) : currentUser?.id || 0
 const activeTab = ref('practice')
@@ -68,9 +68,9 @@ const activeTab = ref('practice')
 const isCurrentUser = computed(() => currentUser?.id === uid)
 
 onMounted(() => {
-  apiUser({ user: uid }).then(response => {
+  apiUser({ user: uid }).then((response) => {
     visitingUser.value = response.user
-  });
+  })
 })
 </script>
 

@@ -30,7 +30,7 @@ const statement = ref<Statement | null>(null)
 const loadingP = ref(false)
 const loadingS = ref(false)
 
-async function getProblem(){
+async function getProblem() {
   problem.value = null
   statement.value = null
 
@@ -59,11 +59,10 @@ const props = defineProps<{
 }>()
 
 onMounted(() => {
-  getProblem();
+  getProblem()
 })
 
-watch(props, () => getProblem());
-
+watch(props, () => getProblem())
 </script>
 
 <style lang="scss" scoped></style>

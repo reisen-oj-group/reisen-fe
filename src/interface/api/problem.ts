@@ -1,4 +1,12 @@
-import type { Problem, ProblemId, ProblemVerdict, Statement, StatementId, TagId, UserId } from '../entity'
+import type {
+  Problem,
+  ProblemId,
+  ProblemVerdict,
+  Statement,
+  StatementId,
+  TagId,
+  UserId,
+} from '../entity'
 
 export interface ProblemListRequest {
   page: number

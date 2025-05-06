@@ -20,13 +20,12 @@ const contests = ref<InstanceType<typeof ContestList> | null>(null)
 
 const initFilter: ContestFilterForm = {
   rule: 'OI',
-  difficulty: 1
+  difficulty: 1,
 }
 
 const handleFilterSubmit = (form: ContestFilterForm) => {
   contests.value?.setFilter(form)
 }
-
 </script>
 
 <style lang="scss" scoped></style>

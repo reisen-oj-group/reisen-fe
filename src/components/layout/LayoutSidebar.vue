@@ -10,11 +10,11 @@
             </el-col>
 
             <template v-if="props.affix">
-                <el-col :span="6" class="affix-container">
-                  <el-affix target=".affix-container">
-                    <slot name="sidebar" />
-                  </el-affix>
-                </el-col>
+              <el-col :span="6" class="affix-container">
+                <el-affix target=".affix-container">
+                  <slot name="sidebar" />
+                </el-affix>
+              </el-col>
             </template>
             <template v-else>
               <el-col :span="6">
@@ -37,11 +37,14 @@ import RSidebar from './RSidebar.vue'
 
 import { ElRow, ElCol, ElAffix } from 'element-plus'
 
-const props = withDefaults(defineProps<{
-  affix?: boolean
-}>(), {
-  affix: true
-});
+const props = withDefaults(
+  defineProps<{
+    affix?: boolean
+  }>(),
+  {
+    affix: true,
+  },
+)
 </script>
 
 <style lang="scss" scoped>

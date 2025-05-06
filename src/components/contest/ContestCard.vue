@@ -7,7 +7,6 @@
         <router-link :to="`/contest/${contest.id}`">
           <h3 class="contest-title">{{ contest.title }}</h3>
         </router-link>
-        
 
         <div class="contest-actions">
           <el-button v-if="type === 'upcoming'" type="primary" @click="$emit('register')">
@@ -103,7 +102,7 @@ function getRuleName(rule: string) {
   transition: color 0.2s;
 
   &:hover {
-    color: var(--el-color-primary)
+    color: var(--el-color-primary);
   }
 }
 

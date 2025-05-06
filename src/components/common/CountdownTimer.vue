@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatTimeLong } from '@/tools/format';
+import { formatTimeLong } from '@/tools/format'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
@@ -16,7 +16,7 @@ const left = ref('')
 let timer: number
 
 function update() {
-  left.value = formatTimeLong(Math.max(0, props.target.getTime() - Date.now()));
+  left.value = formatTimeLong(Math.max(0, props.target.getTime() - Date.now()))
 }
 
 onMounted(() => {

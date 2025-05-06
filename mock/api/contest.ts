@@ -1,6 +1,15 @@
 import type { MockMethod } from 'vite-plugin-mock'
 
-import type { ContestFinishedRequest, ContestFinishedResponse, ContestRecentRequest, ContestRecentResponse, ContestRequest, ContestResponse, RankingRequest, RankingResponse } from '../interface'
+import type {
+  ContestFinishedRequest,
+  ContestFinishedResponse,
+  ContestRecentRequest,
+  ContestRecentResponse,
+  ContestRequest,
+  ContestResponse,
+  RankingRequest,
+  RankingResponse,
+} from '../interface'
 import { mockContests, mockRankings } from '../data'
 
 export default [
@@ -22,7 +31,7 @@ export default [
     timeout: 1000,
     response: (request: { body: ContestRequest }) => {
       const response: ContestResponse = {
-        contest: mockContests[0]
+        contest: mockContests[0],
       }
       return response
     },
@@ -34,7 +43,7 @@ export default [
     response: (request: { body: ContestRecentRequest }) => {
       const response: ContestRecentResponse = {
         running: [mockContests[0]],
-        pending: [mockContests[1]]
+        pending: [mockContests[1]],
       }
       return response
     },
@@ -45,7 +54,7 @@ export default [
     timeout: 1000,
     response: (request: { body: RankingRequest }) => {
       const response: RankingResponse = {
-        ranking: mockRankings[0]
+        ranking: mockRankings[0],
       }
       return response
     },

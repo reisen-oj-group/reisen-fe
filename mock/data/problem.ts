@@ -118,7 +118,7 @@ export const mockProblemsVerdict: ProblemVerdict[] = (() => {
   const list: ProblemVerdict[] = []
   for (let i = 0; i < 200; ++i) {
     const problem = sample(mockProblems) || mockProblems[0]
-    let judge: Judge = sample(['correct', 'incorrect', random(1, 100)]) || 1;
+    let judge: Judge = sample(['correct', 'incorrect', random(1, 100)]) || 1
 
     list.push({
       ...problem,
