@@ -5,7 +5,7 @@ import type { LoginRequest, LoginResponse } from '../interface'
 
 export default [
   {
-    url: '/api/user/login',
+    url: '/api/auth/login',
     method: 'post',
     response: (request: { body: LoginRequest }) => {
       const response: LoginResponse = {

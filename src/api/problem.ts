@@ -27,7 +27,10 @@ export const apiProblem = async (request: ProblemRequest) => {
 }
 
 export const apiStatement = async (request: StatementRequest) => {
-  return (
+  const data = (
     await axios.post<StatementResponse>('/problem/statement', request, {} as ReisenAxiosConfig)
   ).data
+  console.log('i get smoke')
+  console.log(data)
+  return data
 }

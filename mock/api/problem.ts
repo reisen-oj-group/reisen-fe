@@ -37,10 +37,23 @@ export default [
     },
   },
   {
+    url: '/api/problem/statement',
+    method: 'post',
+    timeout: 1000,
+    response: (request: { body: StatementRequest }) => {
+      console.log('statement: ', request)
+      const response: StatementResponse = {
+        statement: mockStatements[0],
+      }
+      return response
+    },
+  },
+  {
     url: '/api/problem',
     method: 'post',
     timeout: 1000,
     response: (request: { body: ProblemRequest }) => {
+      console.log(request)
       if (request.body.problem === 'P1001') {
         const response: ProblemResponse = {
           problem: mockProblemsVerdict[0],
@@ -62,17 +75,6 @@ export default [
         }
         return response
       }
-    },
-  },
-  {
-    url: '/api/problem/statement',
-    method: 'post',
-    timeout: 1000,
-    response: (request: { body: StatementRequest }) => {
-      const response: StatementResponse = {
-        statement: mockStatements[0],
-      }
-      return response
     },
   },
 ] as MockMethod[]
