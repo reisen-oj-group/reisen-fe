@@ -8,6 +8,10 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import App from './App.vue'
 import router from './router'
 
+// 在开发环境中启用 Mock Server
+import { setupProdMockServer } from '../mock-prod-server'
+setupProdMockServer()
+
 const app = createApp(App)
 
 app.use(createPinia())

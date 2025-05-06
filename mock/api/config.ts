@@ -1,7 +1,7 @@
-import { MockMethod } from 'vite-plugin-mock'
+import type { MockMethod } from 'vite-plugin-mock'
 
 import { configVerdicts, configLangs, configTags, configDifficulties } from '../data'
-import { SyncConfigResponse } from '../interface'
+import type { SyncConfigResponse } from '../interface'
 
 export default [
   {

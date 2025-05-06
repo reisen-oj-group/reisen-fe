@@ -1,4 +1,10 @@
-import { SubmissionCore, Submission, SubmissionLite, Testcase, SubmissionFull } from '../interface'
+import type {
+  SubmissionCore,
+  Submission,
+  SubmissionLite,
+  Testcase,
+  SubmissionFull,
+} from '../interface'
 import { mockProblems } from './problem'
 import { mockUsers } from './user'
 
