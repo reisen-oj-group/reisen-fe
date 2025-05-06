@@ -7,23 +7,28 @@
         </div>
       </template>
 
-      <el-form>
+      <el-form :model="form">
         <el-form-item label="难度" class="filter-item">
           <el-space spacer="-" :fill-ratio="40">
-            <el-input v-model="minDifficulty" />
-            <el-input v-model="maxDifficulty" />
+            <el-input v-model="form.minDifficulty" />
+            <el-input v-model="form.maxDifficulty" />
           </el-space>
         </el-form-item>
         <el-form-item label="标签" class="filter-item">
           <a class="tag-selector">标签选择器</a>
         </el-form-item>
 
-        <el-input v-model="keywords" placeholder="题目名称、ID" class="filter-item">
+        <el-input v-model="form.keywords" placeholder="题目名称、ID" class="filter-item">
           <template #prefix>
             <font-awesome-icon :icon="faMagnifyingGlass" />
           </template>
         </el-input>
       </el-form>
+
+      <div class="button-container">
+        <el-button type="primary" @click="clearFilter">清空</el-button>
+        <el-button type="primary" @click="emits('filter', form)">筛选</el-button>
+      </div>
     </el-card>
 
     <el-card class="card">
@@ -43,16 +48,32 @@
 </template>
 
 <script setup lang="ts">
+import type { ProblemFilterForm } from '@/interface'
+import { useConfig } from '@/stores/config'
+
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { ElCard, ElInput, ElForm, ElFormItem, ElSpace } from 'element-plus'
+import { ElCard, ElInput, ElForm, ElFormItem, ElSpace, ElButton } from 'element-plus'
 
 import { ref } from 'vue'
 
-const keywords = ref('')
-const minDifficulty = ref(0)
-const maxDifficulty = ref(3000)
+const props = defineProps<{
+  initFilter: ProblemFilterForm
+}>()
+
+const form = ref(props.initFilter)
+
+const emits = defineEmits<{
+  filter: [filter: ProblemFilterForm]
+}>()
+
+const clearFilter = () => {
+  form.value.keywords = ''
+  form.value.minDifficulty = 0
+  form.value.maxDifficulty = 3000
+  form.value.tags = []
+}
 </script>
 
 <style lang="scss" scoped>
@@ -84,5 +105,10 @@ const maxDifficulty = ref(3000)
   > ::v-deep(.el-card__header) {
     padding: 0.5em 1em;
   }
+}
+
+.button-container {
+  margin-top: 0.5em;
+  width: 100%;
 }
 </style>

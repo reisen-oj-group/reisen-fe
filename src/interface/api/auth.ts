@@ -17,7 +17,6 @@ export interface LogoutResponse {}
 export interface RegisterRequest {
   username: string
   password: string
-  info: User
 }
 
 export interface RegisterResponse {

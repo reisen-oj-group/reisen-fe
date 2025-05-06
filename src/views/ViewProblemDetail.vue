@@ -2,12 +2,12 @@
   <layout-sidebar>
     <template #main>
       <el-card>
-        <problem-content :problem="problems[0]" :statement="statements[0]" />
+        <problem-content :loading="loadingS" :problem="problem" :statement="statement" />
       </el-card>
     </template>
     <template #sidebar>
       <el-affix :offset="16">
-        <problem-panel :problem="problems[0]" />
+        <problem-panel :loading="loadingP" :problem="problem" />
       </el-affix>
     </template>
   </layout-sidebar>
@@ -20,13 +20,39 @@ import ProblemPanel from '@/components/problem/ProblemPanel.vue'
 
 import { ElCard, ElAffix } from 'element-plus'
 
-import { useTest } from '@/stores/test'
+import { onMounted, ref } from 'vue'
+import type { ProblemVerdict, Statement } from '@/interface'
+import { apiProblem, apiStatement } from '@/api'
 
-const problems = useTest().dataProblems
-const statements = useTest().dataStatements
+const problem = ref<ProblemVerdict | null>(null)
+const statement = ref<Statement | null>(null)
+
+const loadingP = ref(false)
+const loadingS = ref(false)
+
+onMounted(() => {
+  loadingP.value = true
+  apiProblem({ problem: props.pid })
+    .then((response) => {
+      problem.value = response.problem
+      apiStatement({ statement: problem.value.i18n['en-US'].statement })
+        .then((response) => {
+          statement.value = response.statement
+        })
+        .finally(() => {
+          loadingS.value = false
+        })
+    })
+    .catch((e) => {
+      loadingS.value = false
+    })
+    .finally(() => {
+      loadingP.value = false
+    })
+})
 
 const props = defineProps<{
-  pid: number
+  pid: string
 }>()
 </script>
 

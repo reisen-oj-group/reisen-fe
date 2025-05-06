@@ -1,4 +1,6 @@
-import type { Problem, Statement } from '../interface'
+import type { Problem, ProblemVerdict, Statement } from '../interface'
+
+import { random, sample } from 'lodash-es'
 
 export const mockStatements: Statement[] = [
   {
@@ -106,3 +108,32 @@ export const mockProblems: Problem[] = [
     difficulty: 3000,
   },
 ]
+
+export const mockProblemsVerdict: ProblemVerdict[] = (() => {
+  const list: ProblemVerdict[] = []
+  for (let i = 0; i < 200; ++i) {
+    const problem = sample(mockProblems) || mockProblems[0]
+    let verdict: 'correct' | 'incorrect' | number | null = null
+
+    // verdict = i;
+    switch (random(1, 4)) {
+      case 0:
+        verdict = 'correct'
+        break
+      case 1:
+        verdict = 'incorrect'
+        break
+      case 2:
+        verdict = Math.floor(Math.random() * 100)
+        break
+      case 3:
+        verdict = null
+        break
+    }
+    list.push({
+      ...problem,
+      verdict: verdict,
+    })
+  }
+  return list
+})()

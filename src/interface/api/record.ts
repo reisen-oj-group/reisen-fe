@@ -18,17 +18,17 @@ export interface RecordListResponse {
   records: SubmissionLite[]
 }
 
+export interface RecordFilterForm {
+  user: null | string | UserId
+  problem: null | ProblemId
+  lang: LangId
+  verdict: VerdictId
+}
+
 export interface RecordDetailRequest {
   id: SubmissionId
 }
 
 export interface RecordDetailResponse {
   record: SubmissionFull
-}
-
-export interface RecordFilterForm {
-  user: null | string | UserId
-  problem: null | ProblemId
-  lang: LangId
-  verdict: VerdictId
 }

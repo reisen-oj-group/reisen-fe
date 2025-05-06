@@ -3,27 +3,32 @@
     <el-card>
       <h3>题目信息</h3>
 
-      <div class="description-list">
-        <div class="description-item">
-          <span class="item-label">编号</span>
-          <span class="item-value">114514</span>
+      <template v-if="problem">
+        <div class="description-list">
+          <div class="description-item">
+            <span class="item-label">编号</span>
+            <span class="item-value">{{ problem.id }}</span>
+          </div>
+          <div class="description-item">
+            <span class="item-label">难度</span>
+            <span class="item-value">{{ problem.difficulty }}</span>
+          </div>
+          <div class="description-item">
+            <span class="item-label">标签</span>
+            <span class="item-value">没写</span>
+          </div>
+          <div class="description-item">
+            <span class="item-label">来源</span>
+            <span class="item-value">没有</span>
+          </div>
         </div>
-        <div class="description-item">
-          <span class="item-label">难度</span>
-          <span class="item-value">困难</span>
-        </div>
-        <div class="description-item">
-          <span class="item-label">标签</span>
-          <span class="item-value">动态规划</span>
-        </div>
-        <div class="description-item">
-          <span class="item-label">来源</span>
-          <span class="item-value">CCPC</span>
-        </div>
-      </div>
+      </template>
+      <template v-else>
+        <div v-loading="loading" style="height: 128px" />
+      </template>
     </el-card>
 
-    <el-button type="primary" @click="openSubmit = true">提交</el-button>
+    <el-button type="primary" :disabled="!problem" @click="openSubmit = true">提交</el-button>
 
     <el-space fill :fill-ratio="40">
       <el-button plain>全部记录</el-button>
@@ -31,11 +36,11 @@
     </el-space>
   </div>
 
-  <problem-submit :problem="problem" v-model="openSubmit" />
+  <problem-submit v-if="problem" :problem="problem" v-model="openSubmit" />
 </template>
 
 <script setup lang="ts">
-import type { Problem } from '@/interface'
+import type { ProblemVerdict } from '@/interface'
 import ProblemSubmit from './ProblemSubmit.vue'
 
 import { ElButton, ElAffix, ElCard, ElSpace, ElRow, ElCol } from 'element-plus'
@@ -44,7 +49,8 @@ import { ref } from 'vue'
 const openSubmit = ref(false)
 
 const props = defineProps<{
-  problem: Problem
+  problem: ProblemVerdict | null
+  loading: boolean
 }>()
 </script>
 

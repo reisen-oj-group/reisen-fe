@@ -10,10 +10,10 @@ import type {
 
 export default [
   {
-    url: '/api/record-list',
+    url: '/api/record/list',
     method: 'post',
     timeout: 1000,
-    response: (request: RecordListRequest) => {
+    response: (request: { body: RecordListRequest }) => {
       const response: RecordListResponse = {
         records: mockSubmissionsLite,
         total: 1000,
@@ -22,10 +22,10 @@ export default [
     },
   },
   {
-    url: '/api/record-detail',
+    url: '/api/record',
     method: 'post',
     timeout: 1000,
-    response: (request: RecordDetailRequest) => {
+    response: (request: { body: RecordDetailRequest }) => {
       const response: RecordDetailResponse = {
         record: mockSubmissionsFull[0],
       }

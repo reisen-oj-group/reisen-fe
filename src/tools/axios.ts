@@ -12,6 +12,7 @@ export const showError = (message: string) => {
 interface ReisenAxiosConfig extends AxiosRequestConfig {
   showSuccess?: boolean
   hideError?: boolean
+  noSwal?: boolean
 }
 
 const instance = axios.create({
@@ -41,6 +42,7 @@ instance.interceptors.response.use(
     return response
   },
   (error) => {
+    console.log(error)
     const config = error.config as ReisenAxiosConfig
     const message = error?.response?.data?.message || '请求失败'
 

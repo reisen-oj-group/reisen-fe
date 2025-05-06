@@ -38,3 +38,9 @@ export function formatMemory(kb?: number) {
   }
   return `${kb}KB`
 }
+
+export function formatProblemType(type: string) {
+  if (type == 'traditional') return '传统题'
+  if (type == 'interactive') return '传统题'
+  return '未知题型'
+}

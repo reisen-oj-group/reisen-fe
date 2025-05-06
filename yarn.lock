@@ -1367,7 +1367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash-es@npm:^4.17.6":
+"@types/lodash-es@npm:^4, @types/lodash-es@npm:^4.17.6":
   version: 4.17.12
   resolution: "@types/lodash-es@npm:4.17.12"
   dependencies:
@@ -5531,6 +5531,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^6.7.2"
     "@fortawesome/vue-fontawesome": "npm:^3.0.8"
     "@tsconfig/node22": "npm:^22.0.1"
+    "@types/lodash-es": "npm:^4"
     "@types/mockjs": "npm:^1"
     "@types/node": "npm:^22.14.0"
     "@vitejs/plugin-vue": "npm:^5.2.3"
@@ -5544,6 +5545,7 @@ __metadata:
     eslint: "npm:^9.22.0"
     eslint-plugin-vue: "npm:~10.0.0"
     jiti: "npm:^2.4.2"
+    lodash-es: "npm:^4.17.21"
     mockjs: "npm:^1.1.0"
     npm-run-all2: "npm:^7.0.2"
     pinia: "npm:^3.0.1"

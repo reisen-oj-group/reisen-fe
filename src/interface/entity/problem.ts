@@ -34,6 +34,10 @@ export interface Problem {
   permission: number
 }
 
+export interface ProblemVerdict extends Problem {
+  verdict: 'correct' | 'incorrect' | number | null
+}
+
 export interface Statement {
   id: StatementId
   language: string

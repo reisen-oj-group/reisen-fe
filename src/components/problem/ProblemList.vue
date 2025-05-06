@@ -21,7 +21,7 @@
       </table>
     </el-affix>
 
-    <table class="problemset">
+    <table v-if="problems && problems.length > 0" class="problemset">
       <colgroup>
         <col class="col-status" />
         <col class="col-id" />
@@ -33,11 +33,25 @@
         <tr class="entry" v-for="problem in problems" :key="problem.id">
           <!-- 状态列 -->
           <td class="status">
-            <template v-if="true">
+            <template v-if="problem.verdict === 'correct'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
             </template>
-            <template v-else-if="true">
+            <template v-else-if="problem.verdict === 'incorrect'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
+            </template>
+            <template v-else-if="problem.verdict !== null">
+              <span
+                :style="{
+                  color:
+                    problem.verdict < 30
+                      ? 'var(--el-color-danger)'
+                      : problem.verdict < 70
+                        ? 'var(--el-color-warning)'
+                        : 'var(--el-color-success)',
+                }"
+              >
+                {{ problem.verdict }}
+              </span>
             </template>
           </td>
 
@@ -69,26 +83,81 @@
         </tr>
       </tbody>
     </table>
+    <template v-else>
+      <div v-if="loading" v-loading="true" style="height: 200px" />
+      <el-empty v-else description="暂无试题" />
+    </template>
 
     <el-affix position="bottom">
       <div class="problemset-bottom">
-        <el-pagination :page-size="50" :pager-count="10" :total="problems.length" />
+        <el-pagination
+          :page-size="50"
+          :pager-count="10"
+          :total="total"
+          @current-change="handlePageChange"
+        />
       </div>
     </el-affix>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElAffix, ElPagination } from 'element-plus'
+import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Problem } from '@/interface'
+import type { ProblemFilterForm, ProblemVerdict } from '@/interface'
+import { onMounted, ref } from 'vue'
+import { apiProblemList } from '@/api'
 
 const props = defineProps<{
-  problems: Problem[]
+  initFilter: ProblemFilterForm
 }>()
+
+const problems = ref<ProblemVerdict[] | null>(null)
+const total = ref(0)
+const current = ref(1)
+
+const filter = ref(props.initFilter)
+const loading = ref(false)
+
+onMounted(() => {
+  getList(true)
+})
+
+const emits = defineEmits(['page-change'])
+
+async function getList(resetPage: boolean) {
+  loading.value = true
+  problems.value = null
+  if (resetPage) {
+    current.value = 1
+  }
+  apiProblemList({ page: current.value, filter: filter.value })
+    .then((response) => {
+      problems.value = response.problems
+      total.value = response.total
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
+
+function handlePageChange(page: number) {
+  current.value = page
+  emits('page-change', page)
+  getList(false)
+}
+
+function setFilter(newFilter: ProblemFilterForm) {
+  filter.value = newFilter
+  getList(true)
+}
+
+defineExpose({
+  setFilter,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -132,7 +201,7 @@ table.problemset-head {
 
   .col {
     &-status {
-      width: 30px;
+      width: 35px;
     }
     &-id {
       width: 60px;
@@ -151,6 +220,7 @@ table.problemset-head {
   td {
     &.status {
       text-align: center;
+      font-weight: bold;
     }
     &.id {
       text-align: center;
