@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElBreadcrumb, ElHeader, ElAvatar, ElButton } from 'element-plus'
+import { ElHeader, ElAvatar, ElButton } from 'element-plus'
 
 import { useAuth } from '@/stores/auth'
 

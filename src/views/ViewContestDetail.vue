@@ -47,10 +47,7 @@ import { ElTabs, ElTabPane, ElCard, type TabsPaneContext } from 'element-plus'
 
 import { computed, onMounted, ref } from 'vue'
 
-import type { Contest, ContestId, Ranking } from '@/interface'
-import { apiContest, apiRanking } from '@/api/contest'
-
-import { useAuth } from '@/stores/auth'
+import type { ContestId } from '@/interface'
 
 import { useContest } from '@/stores/contest'
 import { useRouter } from 'vue-router'
@@ -59,10 +56,7 @@ const contestStore = useContest()
 const router = useRouter()
 
 const contest = computed(() => contestStore.currentContest)
-const ranking = computed(() => contestStore.currentRanking)
 const loading = computed(() => contestStore.loading)
-
-const auth = useAuth()
 
 const activeTab = ref('overview')
 const props = defineProps<{

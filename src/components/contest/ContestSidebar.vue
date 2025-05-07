@@ -8,7 +8,12 @@
           </router-link>
 
           <div class="contest-time">
-            <el-progress :percentage="left / zone" :stroke-width="15" striped :show-text="false" />
+            <el-progress
+              :percentage="(100 * (zone - left)) / zone"
+              :stroke-width="15"
+              striped
+              :show-text="false"
+            />
 
             <div>
               <span v-if="left > 0">剩余时间 {{ formatTimeLong(left) }}</span>
@@ -24,6 +29,7 @@
         <div class="problem-badges">
           <div
             v-for="(problem, label) of contest.problems"
+            :key="label"
             class="problem-badge"
             :class="getProblemStatusClass(problem)"
             @click="goToProblem(problem)"
@@ -39,12 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useContest } from '@/stores/contest'
 
-import { formatDate, formatTimeLong } from '@/tools/format'
-import type { Contest, ProblemId, Ranking } from '@/interface'
+import { formatTimeLong } from '@/tools/format'
+import type { ProblemId } from '@/interface'
 
 import { ElButton, ElProgress, ElCard } from 'element-plus'
 
@@ -68,6 +74,8 @@ function update() {
     zone.value = contest.value.endTime.getTime() - contest.value.startTime.getTime()
   }
 }
+
+watch(contest, update)
 
 function getProblemStatusClass(problem: ProblemId) {
   if (!ranking.value) return ''

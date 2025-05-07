@@ -13,7 +13,7 @@ export default [
     url: '/api/record/list',
     method: 'post',
     timeout: 1000,
-    response: (request: { body: RecordListRequest }) => {
+    response: (_request: { body: RecordListRequest }) => {
       const response: RecordListResponse = {
         records: mockSubmissionsLite,
         total: 1000,
@@ -25,7 +25,7 @@ export default [
     url: '/api/record',
     method: 'post',
     timeout: 1000,
-    response: (request: { body: RecordDetailRequest }) => {
+    response: (_request: { body: RecordDetailRequest }) => {
       const response: RecordDetailResponse = {
         record: mockSubmissionsFull[0],
       }

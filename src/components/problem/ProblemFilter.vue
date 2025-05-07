@@ -28,7 +28,7 @@
     </el-card>
 
     <el-card class="card">
-      <template #header class="card-header">
+      <template #header>
         <span>最近添加</span>
       </template>
       TODO
@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 import type { ProblemFilterForm } from '@/interface'
-import { useConfig } from '@/stores/config'
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

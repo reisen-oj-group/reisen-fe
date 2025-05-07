@@ -2,28 +2,28 @@
   <div class="contest-list-container">
     <template v-if="!searchOld">
       <template v-if="runningContests && runningContests.length > 0">
-        <el-divider>正在进行</el-divider>
+        <el-divider class="running">正在进行</el-divider>
 
         <div class="contest-section">
           <contest-card
             v-for="contest in runningContests"
             :key="contest.id"
             :contest="contest"
-            type="upcoming"
+            type="running"
             @register="handleRegister"
           />
         </div>
       </template>
 
       <template v-if="pendingContests && pendingContests.length > 0">
-        <el-divider>即将开始</el-divider>
+        <el-divider class="pending">即将开始</el-divider>
 
-        <div class="contest-section" v-if="runningContests && runningContests.length > 0">
+        <div class="contest-section">
           <contest-card
-            v-for="contest in runningContests"
+            v-for="contest in pendingContests"
             :key="contest.id"
             :contest="contest"
-            type="upcoming"
+            type="pending"
             @register="handleRegister"
           />
         </div>
@@ -33,7 +33,7 @@
     </template>
 
     <template v-if="finishedContests">
-      <el-divider>已经结束</el-divider>
+      <el-divider class="finished">已经结束</el-divider>
 
       <div class="contest-section">
         <contest-card
@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import ContestCard from './ContestCard.vue'
 
 import { ElPagination, ElDivider } from 'element-plus'
@@ -138,7 +138,7 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .contest-list-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -158,5 +158,20 @@ defineExpose({
 .el-pagination {
   margin-top: 20px;
   justify-content: center;
+}
+
+.running {
+  > ::v-deep(.el-divider__text) {
+    color: white;
+    background-color: var(--el-color-primary);
+    border-radius: 8px;
+  }
+}
+
+.pending,
+.finished {
+  > ::v-deep(.el-divider__text) {
+    background-color: #f9f9f9;
+  }
 }
 </style>

@@ -141,7 +141,11 @@ const registerForm = reactive({
 })
 
 // 验证规则
-const validatePasswordConfirm = (rule: any, value: string, callback: any) => {
+const validatePasswordConfirm = (
+  rule: unknown,
+  value: string,
+  callback: (error?: string | Error | undefined) => void,
+) => {
   if (value !== registerForm.password) {
     callback(new Error('两次输入的密码不一致'))
   } else {
@@ -189,11 +193,12 @@ const handleLogin = async () => {
     loginLoading.value = true
     await authStore.login(loginForm)
     authStore.showLogin = false
-  } catch (error: any) {
-    if (error?.response?.data?.message) {
-      loginError.value = error.response.data.message
-    } else if (error.message) {
-      loginError.value = error.message
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // 如果包含 Axios 错误信息结构
+      const maybeAxiosError = error as { response?: { data?: { message?: string } } }
+      loginError.value =
+        maybeAxiosError.response?.data?.message || error.message || '登录失败，请稍后重试'
     } else {
       loginError.value = '登录失败，请稍后重试'
     }
@@ -214,18 +219,15 @@ const handleRegister = async () => {
       password: registerForm.password,
     })
 
-    // 注册成功后自动切换到登录标签页
     activeTab.value = 'login'
-    // 自动填充用户名
     loginForm.username = registerForm.username
-    // 清空注册表单
     registerForm.password = ''
     registerForm.confirmPassword = ''
-  } catch (error: any) {
-    if (error?.response?.data?.message) {
-      registerError.value = error.response.data.message
-    } else if (error.message) {
-      registerError.value = error.message
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const maybeAxiosError = error as { response?: { data?: { message?: string } } }
+      registerError.value =
+        maybeAxiosError.response?.data?.message || error.message || '注册失败，请稍后重试'
     } else {
       registerError.value = '注册失败，请稍后重试'
     }

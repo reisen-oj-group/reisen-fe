@@ -38,8 +38,6 @@ export const useContest = defineStore('contest', () => {
       return
     }
 
-    console.log('enter...')
-
     loading.value = true
     apiContest({ contest: contest })
       .then((response) => {
@@ -71,7 +69,9 @@ export const useContest = defineStore('contest', () => {
     const saved = localStorage.getItem('current-contest')
     if (saved) {
       const { id } = JSON.parse(saved)
+      return parseInt(id)
     }
+    return 0
   }
 
   return {

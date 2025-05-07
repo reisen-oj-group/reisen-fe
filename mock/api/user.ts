@@ -7,7 +7,7 @@ export default [
   {
     url: '/api/user',
     method: 'post',
-    response: (request: { body: UserRequest }) => {
+    response: (_request: { body: UserRequest }) => {
       const response: UserResponse = {
         user: mockUsers[0],
       }

@@ -12,7 +12,7 @@ import { useConfig } from '@/stores/config'
 
 const verdicts = useConfig().config.verdicts
 
-const props = defineProps<{
+const _props = defineProps<{
   verdict: VerdictId
 }>()
 </script>

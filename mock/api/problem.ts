@@ -1,13 +1,11 @@
 import type { MockMethod } from 'vite-plugin-mock'
 
-import { mockProblems, mockProblemsCore, mockResults, mockStatements } from '../data'
+import { mockProblems, mockResults } from '../data'
 import type {
   ProblemListRequest,
   ProblemListResponse,
   ProblemRequest,
   ProblemResponse,
-  ProblemSolvedRequest,
-  ProblemSolvedResponse,
 } from '../interface'
 
 export default [
@@ -15,7 +13,7 @@ export default [
     url: '/api/problem/list',
     method: 'post',
     timeout: 1000,
-    response: (request: { body: ProblemListRequest }) => {
+    response: (_request: { body: ProblemListRequest }) => {
       const response: ProblemListResponse = {
         problems: [
           {

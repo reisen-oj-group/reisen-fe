@@ -89,8 +89,8 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElAffix, ElPagination, ElTag, ElEmpty } from 'element-plus'
-import { computed, onMounted, ref, watch } from 'vue'
+import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
+import { onMounted, ref } from 'vue'
 import type { RecordFilterForm, SubmissionLite } from '@/interface'
 
 import { useConfig } from '@/stores/config'

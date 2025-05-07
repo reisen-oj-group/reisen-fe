@@ -30,7 +30,7 @@
 import type { ContestFilterForm } from '@/interface'
 import { ref } from 'vue'
 
-import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElCard } from 'element-plus'
+import { ElForm, ElFormItem, ElSelect, ElOption, ElButton, ElCard } from 'element-plus'
 
 const props = defineProps<{
   initFilter: ContestFilterForm
@@ -43,7 +43,7 @@ const emits = defineEmits<{
 }>()
 
 const clearFilter = () => {
-  ;(form.value.difficulty = 1), (form.value.rule = 'IOI')
+  form.value = {}
 }
 </script>
 

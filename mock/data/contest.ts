@@ -13,8 +13,8 @@ export const mockContests: Contest[] = [
     description: `# 2023年春季编程大赛\n\n## 比赛规则\n\n- 采用ICPC赛制\n- 5道题目，难度递增\n- 排名按解题数，同解题数按罚时\n\n## 奖励\n\n- 第一名：奖金5000元\n- 第二名：奖金3000元\n- 第三名：奖金1000元`,
     difficulty: 4,
     status: 'public',
-    startTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3天后开始
-    endTime: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), // 持续1天
+    startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 已开始 2 小时
+    endTime: new Date(Date.now() + 3 * 60 * 60 * 1000), // 持续 5 小时
     rule: 'OI',
     problems: {
       A: 'P1001',
@@ -57,8 +57,8 @@ export const mockContests: Contest[] = [
     description: '仅限校内学生参加',
     difficulty: 5,
     status: 'private',
-    startTime: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5天后开始
-    endTime: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000), // 持续1天
+    startTime: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 天后开始
+    endTime: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000), // 持续 1 天
     rule: 'IOI',
     problems: {
       A: 'P1001',

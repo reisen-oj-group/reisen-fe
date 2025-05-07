@@ -43,7 +43,7 @@ export const useAuth = defineStore('auth', () => {
   }
 
   const register = async (credentials: RegisterRequest) => {
-    const response = await apiLogin(credentials)
+    const response = await apiRegister(credentials)
 
     currentToken.value = response.token
     currentUser.value = response.user
@@ -57,7 +57,7 @@ export const useAuth = defineStore('auth', () => {
   }
 
   const logout = async () => {
-    const response = await apiLogout({})
+    const _response = await apiLogout({})
     currentToken.value = null
     currentUser.value = null
     contestStore.refresh()

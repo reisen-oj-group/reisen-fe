@@ -16,7 +16,7 @@ import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
 import RecordMain from '@/components/record/RecordMain.vue'
 import RecordSidebar from '@/components/record/RecordSidebar.vue'
 
-import { ElCard, ElAffix } from 'element-plus'
+import { ElCard } from 'element-plus'
 
 import { apiRecordDetail } from '@/api/record'
 import { onMounted, ref } from 'vue'

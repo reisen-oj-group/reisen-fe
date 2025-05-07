@@ -96,7 +96,7 @@ function changePassword() {
   ElMessage.success('密码已修改')
 }
 
-function handleAvatarSuccess(res: any) {
+function handleAvatarSuccess(res: { url: string }) {
   avatarUrl.value = res.url
   ElMessage.success('头像上传成功')
 }

@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import {
   ElTabs,
   ElTabPane,
@@ -96,17 +96,17 @@ import {
   ElDescriptions,
   ElDescriptionsItem,
 } from 'element-plus'
-import type { SubmissionFull, Testcase, Verdict } from '@/interface'
+import type { SubmissionFull, Testcase } from '@/interface'
 
 import VerdictTag from '../common/VerdictTag.vue'
 
 import { useConfig } from '@/stores/config'
 
-import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
+import { formatMemory } from '@/tools/format'
 
 const { verdicts, codeLangs } = useConfig().config
 
-const props = defineProps<{
+const _props = defineProps<{
   record: null | SubmissionFull
   loading: boolean
 }>()

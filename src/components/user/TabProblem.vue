@@ -59,33 +59,21 @@ import { ref } from 'vue'
 import type { Problem, User } from '@/interface'
 
 import { ElRow, ElCol, ElButton, ElPagination } from 'element-plus'
-import { useTest } from '@/stores/test'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
-const props = defineProps<{
+const _props = defineProps<{
   user: User
 }>()
 
 const problemPage = ref(1)
 const problemTotal = ref(0)
-// const userProblems = useTest().dataProblems
 const userProblems = [] as Problem[]
 
-function getProblemStatusTag(status: string) {
-  const map: Record<string, string> = {
-    published: 'success',
-    draft: '',
-    hidden: 'info',
-    rejected: 'danger',
-  }
-  return map[status] || ''
-}
-
-function editProblem(id: string) {
-  // 跳转到题目编辑页
-}
+// function _editProblem(id: string) {
+//   // 跳转到题目编辑页
+// }
 </script>
 
 <style lang="scss" scoped>

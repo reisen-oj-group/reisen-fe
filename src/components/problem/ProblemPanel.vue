@@ -46,12 +46,12 @@ import ProblemSubmit from './ProblemSubmit.vue'
 import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 import type { Problem, Result } from '@/interface'
 
-import { ElButton, ElAffix, ElCard, ElSpace, ElRow, ElCol } from 'element-plus'
+import { ElButton, ElCard, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 
 const openSubmit = ref(false)
 
-const props = defineProps<{
+const _props = defineProps<{
   problem: Problem | null
   result: Result | null
   loading: boolean

@@ -6,14 +6,15 @@
         <col class="col-name" />
         <col class="col-score-solved" />
         <col class="col-score-penalty" />
-        <col v-for="_ in labels" class="col-problem" />
+        <col v-for="_ in labels" class="col-problem" :key="_" />
+        <col class="col-empty" />
       </colgroup>
       <thead>
-        <tr class="headline">
+        <tr class="headline entry">
           <th class="rank">RANK</th>
           <th class="name">TEAM</th>
           <th class="score" colspan="2">SCORE</th>
-          <th v-for="label in labels" class="problem-cell">
+          <th v-for="label in labels" class="problem-cell" :key="label">
             <router-link
               class="problem"
               :to="`/contest/${contest.id}/problem/${contest.problems[label]}`"
@@ -21,10 +22,11 @@
               {{ label }}
             </router-link>
           </th>
+          <th />
         </tr>
       </thead>
       <tbody>
-        <tr v-for="rank of ranklist" class="normal-line">
+        <tr v-for="rank of ranklist" class="normal-line entry" :key="rank.rank">
           <td class="rank">
             {{ rank.rank }}
           </td>
@@ -37,7 +39,7 @@
           <td class="score-penalty">
             {{ rank.totalPenalty }}
           </td>
-          <td v-for="label in labels" class="result-cell">
+          <td v-for="label in labels" class="result-cell" :key="label">
             <div v-if="rank.results[label]" class="result" :class="getColorClass(rank, label)">
               {{ rank.results[label].penalty }}
               <span>
@@ -45,6 +47,7 @@
               </span>
             </div>
           </td>
+          <td />
         </tr>
       </tbody>
     </table>
@@ -54,7 +57,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import type { ProblemCore, Ranking, Result } from '@/interface'
+import type { Ranking, Result } from '@/interface'
 
 import { useContest } from '@/stores/contest'
 import { ElEmpty } from 'element-plus'
@@ -164,15 +167,11 @@ table.ranklist,
 table.ranklist-head {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  // table-layout: fixed;
 
   tr.entry {
-    height: 3em;
+    height: 2.5em;
     border-bottom: 1px solid #e0e0e0;
-
-    &:hover {
-      background-color: #f5f5f5;
-    }
   }
 
   th,
@@ -191,6 +190,9 @@ table.ranklist-head {
     }
     &.normal-line {
       border-bottom: 1px solid black;
+      &:hover {
+        background-color: #f5f5f5;
+      }
     }
   }
 
@@ -200,7 +202,7 @@ table.ranklist-head {
       border-right: 1px solid #aaa;
     }
     &-name {
-      width: auto;
+      width: 10em;
       border-right: 1px solid #aaa;
     }
     &-score-solved {
@@ -212,6 +214,9 @@ table.ranklist-head {
     }
     &-problem {
       width: 65px;
+    }
+    &-empty {
+      width: auto;
     }
   }
 
@@ -235,10 +240,11 @@ table.ranklist-head {
       > .result {
         margin: 2px 1px 2px 1px;
         padding: 2px;
-        line-height: 1.1;
+        line-height: 1;
         text-align: center;
         font-size: 1.1rem;
         span {
+          margin-top: 0.05rem;
           font-size: 0.8rem;
           display: block;
         }

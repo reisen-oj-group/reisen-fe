@@ -38,19 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ProblemId, RecordFilterForm, UserId, VerdictId } from '@/interface'
+import type { RecordFilterForm } from '@/interface'
 
-import {
-  ElCard,
-  ElInput,
-  ElForm,
-  ElFormItem,
-  ElSpace,
-  ElSelect,
-  ElOption,
-  ElButton,
-} from 'element-plus'
-import { reactive, ref } from 'vue'
+import { ElCard, ElInput, ElForm, ElFormItem, ElSelect, ElOption, ElButton } from 'element-plus'
+import { ref } from 'vue'
 
 import { useConfig } from '@/stores/config'
 

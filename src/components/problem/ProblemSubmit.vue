@@ -34,25 +34,16 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
-import {
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElButton,
-  ElSelect,
-  ElOption,
-  ElRadio,
-  ElDialog,
-} from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElSelect, ElOption, ElDialog } from 'element-plus'
 import type { Problem } from '@/interface'
 
 import { useConfig } from '@/stores/config'
 
 const { codeLangs } = useConfig().config
 
-const props = defineProps<{
+const _props = defineProps<{
   problem: Problem
 }>()
 

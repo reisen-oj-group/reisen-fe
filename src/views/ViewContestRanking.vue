@@ -19,7 +19,6 @@ import { onMounted } from 'vue'
 import { ElCard, ElButton } from 'element-plus'
 
 import { useContest } from '@/stores/contest'
-import { useRoute } from 'vue-router'
 import router from '@/router'
 
 const props = defineProps<{

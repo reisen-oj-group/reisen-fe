@@ -33,7 +33,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faHouse,
   faBook,
-  faClipboardList,
   faUser,
   faChartSimple,
   faChartPie,

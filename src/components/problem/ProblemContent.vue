@@ -96,7 +96,7 @@ import { ElRow, ElCol, ElEmpty } from 'element-plus'
 import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Problem, UserLang, UserLangId } from '@/interface'
+import type { Problem, UserLangId } from '@/interface'
 import { formatMemory, formatProblemType, formatTimeShort } from '@/tools/format'
 
 import { useConfig } from '@/stores/config'
@@ -108,36 +108,22 @@ const props = defineProps<{
 
 const configStore = useConfig()
 
-const statementLang = ref<UserLangId>(configStore.userLang)
-const statement = computed(() => {
-  if (props.problem === null) {
-    return null
-  }
-  const keys = Object.keys(props.problem.statements)
-  if (keys.length === 0) {
-    return null
-  } else {
-    if (!(statementLang.value in keys)) {
-      statementLang.value = keys[0]
+function getLang() {
+  if (props.problem !== null) {
+    const keys = Object.keys(props.problem.statements)
+    if (keys.length !== 0) {
+      if (!(configStore.userLang in keys)) {
+        return keys[0]
+      }
     }
-    return props.problem.statements[statementLang.value]
   }
-})
+  return configStore.userLang
+}
 
-const title = computed(() => {
-  if (props.problem === null) {
-    return null
-  }
-  const keys = Object.keys(props.problem.title)
-  if (keys.length === 0) {
-    return null
-  } else {
-    if (!(statementLang.value in keys)) {
-      statementLang.value = keys[0]
-    }
-    return props.problem.title[statementLang.value]
-  }
-})
+const statementLang = ref<UserLangId>(getLang())
+
+const statement = computed(() => props.problem?.statements[statementLang.value])
+const title = computed(() => props.problem?.title[statementLang.value] || '暂无题面')
 
 const copied = ref(0)
 

@@ -18,7 +18,7 @@ export interface ContestFinishedResponse {
   contests: Contest[]
 }
 
-export interface ContestRecentRequest {}
+export type ContestRecentRequest = object
 
 export interface ContestRecentResponse {
   running: Contest[]

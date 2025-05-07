@@ -12,10 +12,9 @@ import LayoutMain from '@/components/layout/LayoutMain.vue'
 
 import RecordList from '@/components/record/RecordList.vue'
 import RecordFilter from '@/components/record/RecordFilter.vue'
-import type { RecordFilterForm, SubmissionLite } from '@/interface'
+import type { RecordFilterForm } from '@/interface'
 
-import { onMounted, reactive, ref } from 'vue'
-import { apiRecordList } from '@/api/record'
+import { ref } from 'vue'
 
 const records = ref<InstanceType<typeof RecordList> | null>(null)
 

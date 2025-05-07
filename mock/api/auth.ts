@@ -7,7 +7,7 @@ export default [
   {
     url: '/api/auth/login',
     method: 'post',
-    response: (request: { body: LoginRequest }) => {
+    response: (_request: { body: LoginRequest }) => {
       const response: LoginResponse = {
         token: 'CIRNO-BAKA',
         user: mockUsers[0],

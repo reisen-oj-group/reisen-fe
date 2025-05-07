@@ -11,8 +11,8 @@ export interface LoginResponse {
   user: User
 }
 
-export interface LogoutRequest {}
-export interface LogoutResponse {}
+export type LogoutRequest = object
+export type LogoutResponse = object
 
 export interface RegisterRequest {
   username: string

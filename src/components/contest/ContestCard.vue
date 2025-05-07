@@ -13,7 +13,11 @@
             {{ formatDate(contest.startTime) }} /
             {{ formatTimeContest(contest.endTime.getTime() - contest.startTime.getTime(), false) }}
           </span>
-          <el-button v-if="type === 'upcoming'" type="primary" @click="$emit('register')">
+          <el-button
+            v-if="type === 'running' || type === 'pending'"
+            type="primary"
+            @click="$emit('register')"
+          >
             {{ isRegistered ? '已报名' : '立即报名' }}
           </el-button>
           <el-button v-else type="info" plain>查看详情</el-button>
@@ -22,18 +26,17 @@
 
       <div class="section">
         <div class="contest-meta">
-          <el-rate
-            v-model="contest.difficulty"
-            disabled
-            :max="5"
-            :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-          />
+          <el-rate v-model="rating" disabled :max="5" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" />
           <span class="contest-rule">{{ getRuleName(contest.rule) }}</span>
         </div>
 
-        <div v-if="type === 'upcoming'" class="contest-countdown">
+        <div v-if="type === 'pending'" class="contest-countdown">
           <span>距离开始还有</span>
           <countdown-timer :target="contest.startTime" />
+        </div>
+        <div v-else-if="type === 'running'" class="contest-countdown">
+          <span>距离结束还有</span>
+          <countdown-timer :target="contest.endTime" />
         </div>
         <div v-else class="contest-ended">
           <span>已结束</span>
@@ -46,17 +49,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Contest } from '@/interface'
 
 import CountdownTimer from '../common/CountdownTimer.vue'
+import { ElRate } from 'element-plus'
 
 import { formatDate, formatTimeContest } from '@/tools/format'
 
 const props = defineProps<{
   contest: Contest
-  type: 'upcoming' | 'finished'
+  type: 'running' | 'pending' | 'finished'
 }>()
+
+const rating = ref(props.contest.difficulty)
 
 const isRegistered = computed(() => {
   // 检查用户是否已报名

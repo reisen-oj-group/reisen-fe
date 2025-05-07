@@ -29,9 +29,7 @@ import RHeader from './RHeader.vue'
 import RFooter from './RFooter.vue'
 import RSidebar from './RSidebar.vue'
 
-import { ElRow, ElCol, ElAffix } from 'element-plus'
-
-const props = withDefaults(
+const _props = withDefaults(
   defineProps<{
     affix?: boolean
   }>(),

@@ -14,13 +14,16 @@ import { CasketStar, zhCN, enUS, getDefaultPlugins, markdown, markdownLanguage }
 import { getRemarkPlugins, getRehypePlugins, getRemarkRehypeOptions } from '@/tools/markdown'
 import { codemirrorMath } from '@/tools/codemirror-math'
 
+import { useConfig } from '@/stores/config'
+
 import { onBeforeMount, ref } from 'vue'
 
 import '@lfe/casket-star/themes/markdown/light.css'
 import '@lfe/casket-star/themes/luogu/light.css'
 
-// TODO: i18n
-const lang = zhCN
+const config = useConfig()
+
+const lang = ref(config.userLang === 'zh-CN' ? zhCN : enUS)
 
 const props = withDefaults(
   defineProps<{
@@ -54,9 +57,6 @@ plugins.codemirror = [
   }),
 ]
 
-// Should we use a rehype plugin instead?
-const ele = ref<HTMLDivElement | null>(null)
-
 onBeforeMount(() => {
   const mobile = window.innerWidth <= 576
   if ((props.narrow === 'auto' && mobile) || props.narrow === true) {
@@ -65,6 +65,5 @@ onBeforeMount(() => {
     // Remove left toolbar for more spaces
     plugins.toolbarL = []
   }
-  plugins
 })
 </script>

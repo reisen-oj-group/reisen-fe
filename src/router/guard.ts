@@ -1,7 +1,6 @@
 import { useAuth } from '@/stores/auth'
 import { useConfig } from '@/stores/config'
 import { useContest } from '@/stores/contest'
-import { inject } from 'vue'
 import type { Router } from 'vue-router'
 
 export function setupRouterGuard(router: Router) {
@@ -22,7 +21,8 @@ export function setupRouterGuard(router: Router) {
 
     // 初始化比赛状态
     if (!contestStore.isInitialized) {
-      if (contestStore.valid) {
+      const saved = contestStore.restore()
+      if (saved !== 0) {
         to.path = `/contest/${contestStore.currentContest!.id}`
       }
       contestStore.isInitialized = true

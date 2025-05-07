@@ -43,20 +43,17 @@
 </template>
 
 <script setup lang="ts">
-import { ElEmpty, ElTooltip } from 'element-plus'
-
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { ElEmpty } from 'element-plus'
 
 import { computed, onMounted, ref } from 'vue'
 
 import { useContest } from '@/stores/contest'
-import type { ProblemCore, ProblemId, Result } from '@/interface'
+import type { ProblemCore, ProblemId } from '@/interface'
 import { apiContestProblems } from '@/api/contest'
 
 const contestStore = useContest()
 const contest = computed(() => contestStore.currentContest)
-const ranking = computed(() => contestStore.currentRanking)
+// const ranking = computed(() => contestStore.currentRanking)
 
 const problems = ref<
   {

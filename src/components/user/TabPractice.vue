@@ -42,22 +42,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { User, Problem } from '@/interface'
+// import { computed } from 'vue'
+import type { User } from '@/interface'
 
-import { ElRow, ElCol, ElDivider, ElCard } from 'element-plus'
+import { ElCard } from 'element-plus'
 
-import { useConfig } from '@/stores/config'
+// import { useConfig } from '@/stores/config'
 
-import ChartContribution from './ChartContribution.vue'
-import ChartPie from './ChartPie.vue'
-import { useTest } from '@/stores/test'
+// import ChartContribution from './ChartContribution.vue'
+// import ChartPie from './ChartPie.vue'
+// import { useTest } from '@/stores/test'
 
-const props = defineProps<{
+const _props = defineProps<{
   user: User
 }>()
 
-const { difficulties } = useConfig().config
+// const { difficulties } = useConfig().config
 
 // 模拟数据
 // const solvedTime = useTest().dataSubmissions
@@ -94,10 +94,10 @@ const { difficulties } = useConfig().config
 //   }))
 // })
 
-function getLevelName(index: number) {
-  const level = difficulties[index]
-  return `${level.name}`
-}
+// function getLevelName(index: number) {
+//   const level = difficulties[index]
+//   return `${level.name}`
+// }
 </script>
 
 <style scoped>
