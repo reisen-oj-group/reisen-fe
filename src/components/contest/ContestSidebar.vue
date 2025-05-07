@@ -66,11 +66,18 @@ function update() {
 function getProblemStatusClass(problem: ProblemId) {
   if (!ranking.value) return ''
 
-  if (problem in ranking.value.grades) {
-    const grade = ranking.value.grades[problem]
-    if (grade.judge === 'correct') return 'status-success'
-    else if (grade.judge === 'incorrect') return 'status-danger'
-    else return 'status-warning'
+  for (const result of ranking.value.results) {
+    if (result.problem == problem) {
+      const judge = result.judge
+      switch (judge) {
+        case 'correct':
+          return 'status-success'
+        case 'incorrect':
+          return 'status-danger'
+        default:
+          return 'status-warning'
+      }
+    }
   }
   return ''
 }

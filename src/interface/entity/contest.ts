@@ -1,11 +1,11 @@
-import type { ContestId, ProblemId, RankingId, SubmissionId, UserId, VerdictId } from './enum'
-import type { Judge } from './judge'
+import type { ContestId, ProblemId, ProblemLabel, RankingId, UserId } from './enum'
+import type { Result } from './judge'
 
 export type ContestDifficulty = 1 | 2 | 3 | 4 | 5
 export type ContestStatus = 'private' | 'public' | 'deleted'
 export type ContestRule = 'OI' | 'ACM' | 'IOI'
 
-// 比赛基本信息
+// 表：比赛基本信息
 export interface Contest {
   id: ContestId
   title: string
@@ -17,29 +17,22 @@ export interface Contest {
   startTime: Date
   endTime: Date
   rule: ContestRule
-  problems: Record<string, ProblemId>
+  problems: Record<ProblemLabel, ProblemId>
   createdAt: Date
   updatedAt: Date
 }
 
-// 比赛排名信息
+// 表：比赛排名信息，比赛时动态维护
 export interface Ranking {
   id: RankingId
   contest: ContestId
   user: UserId
-  grades: Record<ProblemId, Grade> // 比赛中的提交
-  totalScore: number // 总得分
-  totalTime: number // 总用时
-  solved: number // 解决题目数
+
+  rank: number
+  results: Result[]
 }
 
-export interface Grade {
-  judge: Judge
-  score: number
-  time: number
-}
-
-// 比赛报名信息
+// 表：比赛报名信息
 export interface Registration {
   contest: ContestId
   user: UserId

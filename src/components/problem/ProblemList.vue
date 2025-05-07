@@ -30,27 +30,27 @@
         <col class="col-acceptance" />
       </colgroup>
       <tbody>
-        <tr class="entry" v-for="problem in problems" :key="problem.id">
+        <tr class="entry" v-for="{ problem, result } of problems" :key="problem.id">
           <!-- 状态列 -->
           <td class="status">
-            <template v-if="problem.judge === 'correct'">
+            <template v-if="result.judge === 'correct'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
             </template>
-            <template v-else-if="problem.judge === 'incorrect'">
+            <template v-else-if="result.judge === 'incorrect'">
               <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
             </template>
-            <template v-else-if="problem.judge !== null">
+            <template v-else-if="result.judge !== null">
               <span
                 :style="{
                   color:
-                    problem.judge < 30
+                    result.judge < 30
                       ? 'var(--el-color-danger)'
-                      : problem.judge < 70
+                      : result.judge < 70
                         ? 'var(--el-color-warning)'
                         : 'var(--el-color-success)',
                 }"
               >
-                {{ problem.judge }}
+                {{ result.judge }}
               </span>
             </template>
           </td>
@@ -59,7 +59,7 @@
 
           <td class="problem">
             <router-link :to="`/problem/${problem.id}`" class="problem-title">
-              {{ problem.i18n['en-US'].title }}
+              {{ problem.title['en-US'] }}
             </router-link>
             <div class="tags">
               <span v-for="tag in problem.tags" :key="tag" class="tag">{{ tag }}</span>
@@ -108,7 +108,7 @@ import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { ProblemFilterForm, ProblemVerdict } from '@/interface'
+import type { ProblemCore, ProblemFilterForm, Result } from '@/interface'
 import { onMounted, ref } from 'vue'
 import { apiProblemList } from '@/api'
 
@@ -116,7 +116,12 @@ const props = defineProps<{
   initFilter: ProblemFilterForm
 }>()
 
-const problems = ref<ProblemVerdict[] | null>(null)
+const problems = ref<
+  {
+    problem: ProblemCore
+    result: Result
+  }[]
+>([])
 const total = ref(0)
 const current = ref(1)
 
@@ -131,7 +136,7 @@ const emits = defineEmits(['page-change'])
 
 async function getList(resetPage: boolean) {
   loading.value = true
-  problems.value = null
+  problems.value = []
   if (resetPage) {
     current.value = 1
   }

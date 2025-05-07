@@ -4,6 +4,7 @@ import type {
   SubmissionLite,
   Testcase,
   SubmissionFull,
+  Result,
 } from '../interface'
 import { mockProblems } from './problem'
 import { mockUsers } from './user'
@@ -64,6 +65,7 @@ export const mockSubmissionsLite: SubmissionLite[] = mockSubmissionsCore.map((su
 // 生成测试点数据
 const generateTestcases = (count: number, verdict: string): Testcase[] => {
   return Array.from({ length: count }, (_, i) => ({
+    id: i,
     verdict,
     time: Math.floor(Math.random() * 100) + 10,
     memory: Math.floor(Math.random() * 1024) + 128,
@@ -145,6 +147,7 @@ return 0;
     },
     detail: [
       {
+        id: 1,
         verdict: 'RE',
         time: 10,
         memory: 1024,
@@ -168,3 +171,33 @@ export const mockSubmissionsFull: SubmissionFull[] = mockSubmissions.map((sub) =
     problem,
   }
 })
+
+export const mockResults: Result[] = [
+  {
+    problem: 'P1001',
+    contest: 0,
+    user: 1,
+    judge: 'correct',
+    attempt: 10,
+    penalty: 10,
+    time: 100,
+  },
+  {
+    problem: 'P1002',
+    contest: 1,
+    user: 1,
+    judge: 'correct',
+    attempt: 10,
+    penalty: 10,
+    time: 100,
+  },
+  {
+    problem: 'P1003',
+    contest: 1,
+    user: 1,
+    judge: 'incorrect',
+    attempt: 10,
+    penalty: 10,
+    time: 100,
+  },
+]

@@ -1,5 +1,5 @@
 import type {
-  LangId,
+  CodeLangId,
   ProblemId,
   SubmissionFull,
   SubmissionId,
@@ -21,7 +21,7 @@ export interface RecordListResponse {
 export interface RecordFilterForm {
   user?: string | UserId | undefined
   problem?: ProblemId | undefined
-  lang?: LangId | undefined
+  lang?: CodeLangId | undefined
   verdict?: VerdictId | undefined
 }
 

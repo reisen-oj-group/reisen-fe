@@ -1,12 +1,4 @@
-import type {
-  Problem,
-  ProblemId,
-  ProblemVerdict,
-  Statement,
-  StatementId,
-  TagId,
-  UserId,
-} from '../entity'
+import type { Problem, ProblemCore, ProblemId, Result, TagId, UserId } from '../entity'
 
 export interface ProblemListRequest {
   page: number
@@ -15,7 +7,10 @@ export interface ProblemListRequest {
 
 export interface ProblemListResponse {
   total: number
-  problems: ProblemVerdict[]
+  problems: {
+    problem: ProblemCore
+    result: Result
+  }[]
 }
 
 export interface ProblemFilterForm {
@@ -30,15 +25,8 @@ export interface ProblemRequest {
 }
 
 export interface ProblemResponse {
-  problem: ProblemVerdict
-}
-
-export interface StatementRequest {
-  statement: StatementId
-}
-
-export interface StatementResponse {
-  statement: Statement
+  problem: Problem
+  result?: Result
 }
 
 export interface ProblemSolvedRequest {

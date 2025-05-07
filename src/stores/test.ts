@@ -1,21 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import type {
-  Contest,
-  Lang,
-  Problem,
-  Ranking,
-  Registration,
-  Statement,
-  SubmissionCore,
-  Submission,
-  SubmissionLite,
-  SubmissionId,
-  Testcase,
-  User,
-  Verdict,
-} from '@/interface'
+import type { Registration } from '@/interface'
 
 export const useTest = defineStore('testdata', () => {
   // 比赛报名数据

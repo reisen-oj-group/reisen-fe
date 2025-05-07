@@ -3,7 +3,7 @@
     <template v-if="problem && statement">
       <!-- 题目基本信息 -->
       <div class="problem-header">
-        <h1 class="problem-title">{{ problem.i18n[language]?.title || 'Unknown' }}</h1>
+        <h1 class="problem-title">{{ title || '暂无数据' }}</h1>
         <div class="problem-meta">
           <span class="time-limit">时间限制: {{ formatTimeShort(problem.limitTime) }}</span>
           <span class="memory-limit">内存限制: {{ formatMemory(problem.limitMemory) }}</span>
@@ -89,27 +89,55 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import MdRender from '../common/MdRender.vue'
 
 import { ElRow, ElCol, ElEmpty } from 'element-plus'
 import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Problem, Statement } from '@/interface'
+import type { Problem, UserLang, UserLangId } from '@/interface'
 import { formatMemory, formatProblemType, formatTimeShort } from '@/tools/format'
 
-const props = withDefaults(
-  defineProps<{
-    problem: Problem | null
-    statement: Statement | null
-    language?: string
-    loading: boolean
-  }>(),
-  {
-    language: 'en-US',
-  },
-)
+import { useConfig } from '@/stores/config'
+
+const props = defineProps<{
+  problem: Problem | null
+  loading: boolean
+}>()
+
+const configStore = useConfig()
+
+const statementLang = ref<UserLangId>(configStore.userLang)
+const statement = computed(() => {
+  if (props.problem === null) {
+    return null
+  }
+  const keys = Object.keys(props.problem.statements)
+  if (keys.length === 0) {
+    return null
+  } else {
+    if (!(statementLang.value in keys)) {
+      statementLang.value = keys[0]
+    }
+    return props.problem.statements[statementLang.value]
+  }
+})
+
+const title = computed(() => {
+  if (props.problem === null) {
+    return null
+  }
+  const keys = Object.keys(props.problem.title)
+  if (keys.length === 0) {
+    return null
+  } else {
+    if (!(statementLang.value in keys)) {
+      statementLang.value = keys[0]
+    }
+    return props.problem.title[statementLang.value]
+  }
+})
 
 const copied = ref(0)
 

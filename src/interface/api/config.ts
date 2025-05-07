@@ -1,8 +1,19 @@
-import type { TagId, Tag, LangId, Lang, VerdictId, Verdict, Difficulty } from '../entity'
+import type {
+  TagId,
+  Tag,
+  VerdictId,
+  Verdict,
+  Level,
+  UserLangId,
+  CodeLangId,
+  UserLang,
+  CodeLang,
+} from '../entity'
 
 export interface SyncConfigResponse {
   tags: Record<TagId, Tag>
-  langs: Record<LangId, Lang>
+  userLangs: Record<UserLangId, UserLang>
+  codeLangs: Record<CodeLangId, CodeLang>
   verdicts: Record<VerdictId, Verdict>
-  difficulties: Difficulty[]
+  difficulties: Level[]
 }

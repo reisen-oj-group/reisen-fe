@@ -15,7 +15,7 @@
           </div>
           <div class="description-item">
             <span class="item-label">关联试题</span>
-            <span class="item-value">{{ record.problem.i18n['en-US'].title }}</span>
+            <span class="item-value">{{ record.problem.title['en-US'] }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">提交时间</span>
@@ -39,7 +39,7 @@
           </div>
           <div class="description-item">
             <span class="item-label">评测语言</span>
-            <span class="item-value">{{ langs[record.lang].description }}</span>
+            <span class="item-value">{{ codeLangs[record.lang].description }}</span>
           </div>
         </div>
       </template>
@@ -60,7 +60,7 @@ import { ElButton, ElCard } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useConfig } from '@/stores/config'
 
-const { langs } = useConfig().config
+const { codeLangs } = useConfig().config
 
 const router = useRouter()
 const goToProblem = () => {

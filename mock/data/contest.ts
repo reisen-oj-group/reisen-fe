@@ -1,4 +1,5 @@
-import type { Contest, Grade, Ranking, Registration } from '../interface'
+import type { Contest, Ranking, Registration } from '../interface'
+import { mockResults } from './judge'
 
 // 比赛测试数据
 export const mockContests: Contest[] = [
@@ -83,44 +84,20 @@ export const mockRegistrations: Registration[] = [
   },
 ]
 
-export const mockGrades: Grade[] = [
-  {
-    judge: 'correct',
-    time: 100,
-    score: 100,
-  },
-  {
-    judge: 'incorrect',
-    time: 100,
-    score: 0,
-  },
-]
-
 // 比赛排名数据
 export const mockRankings: Ranking[] = [
   {
     id: 1,
+    rank: 1,
     contest: 2,
     user: 1,
-    grades: {
-      P1001: mockGrades[0],
-      P1002: mockGrades[0],
-      P1003: mockGrades[1],
-    },
-    totalScore: 100,
-    totalTime: 192,
-    solved: 1,
+    results: mockResults,
   },
   {
     id: 2,
+    rank: 1,
     contest: 2,
     user: 2,
-    grades: {
-      P1001: mockGrades[0],
-      P1003: mockGrades[1],
-    },
-    totalScore: 250,
-    totalTime: 300,
-    solved: 2,
+    results: mockResults,
   },
 ]

@@ -55,11 +55,11 @@
           </td>
           <td class="problem">
             <router-link :to="`/problem/${record.problem.id}`" class="problem-title">
-              {{ record.problem.i18n['en-US'].title }}
+              {{ record.problem.title['en-US'] }}
             </router-link>
           </td>
           <td class="lang">
-            {{ langs[record.lang]?.description || 'Unknown' }}
+            {{ codeLangs[record.lang]?.description || 'Unknown' }}
           </td>
           <td class="verdict">
             <verdict-tag :verdict="record.verdict" />
@@ -103,7 +103,7 @@ const props = defineProps<{
   initFilter: RecordFilterForm
 }>()
 
-const { langs } = useConfig().config
+const { codeLangs } = useConfig().config
 
 const records = ref<SubmissionLite[] | null>(null)
 const total = ref(0)

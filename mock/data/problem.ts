@@ -1,11 +1,9 @@
-import type { Judge, Problem, ProblemVerdict, Statement, VerdictId } from '../interface'
-
-import { random, sample } from 'lodash-es'
+import type { Problem, ProblemCore, Statement } from '../interface'
+import { sample } from 'lodash-es'
 
 export const mockStatements: Statement[] = [
   {
     id: 1,
-    language: 'en-US',
     examples: [
       {
         dataI: '我是输入',
@@ -21,7 +19,7 @@ export const mockStatements: Statement[] = [
   },
 ]
 
-export const mockProblems: Problem[] = [
+export const mockProblemsCore: ProblemCore[] = [
   {
     id: 'P1001',
     type: 'traditional',
@@ -29,12 +27,8 @@ export const mockProblems: Problem[] = [
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
-    permission: 0,
-    i18n: {
-      'en-US': {
-        title: 'Super Mario',
-        statement: 1,
-      },
+    title: {
+      'en-US': 'Super Mario',
     },
     countCorrect: 10,
     countTotal: 100,
@@ -47,12 +41,8 @@ export const mockProblems: Problem[] = [
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
-    permission: 0,
-    i18n: {
-      'en-US': {
-        title: 'A + B Problem',
-        statement: 1,
-      },
+    title: {
+      'en-US': 'A + B Problem',
     },
     countCorrect: 20,
     countTotal: 100,
@@ -65,12 +55,8 @@ export const mockProblems: Problem[] = [
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
-    permission: 0,
-    i18n: {
-      'en-US': {
-        title: 'A - B Problem',
-        statement: 1,
-      },
+    title: {
+      'en-US': 'A - B Problem',
     },
     countCorrect: 30,
     countTotal: 100,
@@ -83,12 +69,8 @@ export const mockProblems: Problem[] = [
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
-    permission: 0,
-    i18n: {
-      'en-US': {
-        title: 'A * B Problem',
-        statement: 1,
-      },
+    title: {
+      'en-US': 'A * B Problem',
     },
     countCorrect: 50,
     countTotal: 100,
@@ -101,12 +83,8 @@ export const mockProblems: Problem[] = [
     limitTime: 1000,
     limitMemory: 1024,
     tags: [],
-    permission: 0,
-    i18n: {
-      'en-US': {
-        title: 'A / B Problem',
-        statement: 1,
-      },
+    title: {
+      'en-US': 'A / B Problem',
     },
     countCorrect: 90,
     countTotal: 100,
@@ -114,15 +92,16 @@ export const mockProblems: Problem[] = [
   },
 ]
 
-export const mockProblemsVerdict: ProblemVerdict[] = (() => {
-  const list: ProblemVerdict[] = []
+export const mockProblems: Problem[] = (() => {
+  const list: Problem[] = []
   for (let i = 0; i < 200; ++i) {
-    const problem = sample(mockProblems) || mockProblems[0]
-    let judge: Judge = sample(['correct', 'incorrect', random(1, 100)]) || 1
+    const problem = sample(mockProblemsCore) || mockProblemsCore[0]
 
     list.push({
       ...problem,
-      judge: judge,
+      statements: {
+        'en-US': mockStatements[0],
+      },
     })
   }
   return list

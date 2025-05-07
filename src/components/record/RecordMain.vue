@@ -40,7 +40,7 @@
         <el-tab-pane label="代码" name="code">
           <div class="code-container">
             <div class="code-meta">
-              <span>语言: {{ langs[record.lang].description }}</span>
+              <span>语言: {{ codeLangs[record.lang].description }}</span>
               <span>代码长度: {{ record.length }} bytes</span>
             </div>
             <pre class="code-content"><code>{{ record.code }}</code></pre>
@@ -104,7 +104,7 @@ import { useConfig } from '@/stores/config'
 
 import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
 
-const { verdicts, langs } = useConfig().config
+const { verdicts, codeLangs } = useConfig().config
 
 const props = defineProps<{
   record: null | SubmissionFull

@@ -23,7 +23,7 @@
 
                 <td class="problem">
                   <router-link :to="`/problem/${problem.id}`" class="problem-title">
-                    {{ problem.i18n['en-US'].title }}
+                    {{ problem.title['en-US'] }}
                   </router-link>
                 </td>
 

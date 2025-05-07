@@ -5,8 +5,6 @@ import type {
   ProblemResponse,
   ProblemSolvedRequest,
   ProblemSolvedResponse,
-  StatementRequest,
-  StatementResponse,
 } from '@/interface'
 import type { ReisenAxiosConfig } from '@/tools/axios'
 import axios from '@/tools/axios'
@@ -24,13 +22,4 @@ export const apiProblemSolved = async (request: ProblemSolvedRequest) => {
 
 export const apiProblem = async (request: ProblemRequest) => {
   return (await axios.post<ProblemResponse>('/problem', request, {} as ReisenAxiosConfig)).data
-}
-
-export const apiStatement = async (request: StatementRequest) => {
-  const data = (
-    await axios.post<StatementResponse>('/problem/statement', request, {} as ReisenAxiosConfig)
-  ).data
-  console.log('i get smoke')
-  console.log(data)
-  return data
 }

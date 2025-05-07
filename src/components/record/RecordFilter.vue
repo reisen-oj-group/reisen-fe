@@ -11,7 +11,7 @@
         <el-form-item label="语言" class="filter-item">
           <el-select v-model="form.lang">
             <el-option
-              v-for="lang in langs"
+              v-for="lang in codeLangs"
               :key="lang.id"
               :value="lang.id"
               :label="lang.description"
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import type { LangId, ProblemId, RecordFilterForm, UserId, VerdictId } from '@/interface'
+import type { ProblemId, RecordFilterForm, UserId, VerdictId } from '@/interface'
 
 import {
   ElCard,
@@ -62,7 +62,7 @@ const props = defineProps<{
 
 const form = ref(props.initFilter)
 
-const { verdicts, langs } = useConfig().config
+const { verdicts, codeLangs } = useConfig().config
 
 const emits = defineEmits<{
   filter: [filter: RecordFilterForm]

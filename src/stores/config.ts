@@ -1,19 +1,36 @@
 import { syncConfig } from '@/api/config'
-import type { Difficulty, Lang, LangId, Tag, TagId, Verdict, VerdictId } from '@/interface'
+import type {
+  Level,
+  Tag,
+  TagId,
+  Verdict,
+  VerdictId,
+  CodeLangId,
+  UserLangId,
+  UserLang,
+  CodeLang,
+} from '@/interface'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useConfig = defineStore('config', () => {
   const isInitialized = ref(false)
 
+  // 用户可以更改的设置选项
+  const userLang = ref<UserLangId>('en-US')
+  const codeLang = ref<CodeLangId>('cpp')
+
+  // 每次加载时进行同步，不会更改
   const config = ref<{
     tags: Record<TagId, Tag>
-    langs: Record<LangId, Lang>
+    userLangs: Record<UserLangId, UserLang>
+    codeLangs: Record<CodeLangId, CodeLang>
     verdicts: Record<VerdictId, Verdict>
-    difficulties: Difficulty[]
+    difficulties: Level[]
   }>({
     tags: {},
-    langs: {},
+    userLangs: {},
+    codeLangs: {},
     verdicts: {},
     difficulties: [],
   })
@@ -26,6 +43,8 @@ export const useConfig = defineStore('config', () => {
 
   return {
     config,
+    userLang,
+    codeLang,
     isInitialized,
     initialize,
   }
