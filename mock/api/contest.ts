@@ -80,7 +80,7 @@ export default [
     timeout: 1000,
     response: (_request: { body: ContestRequest }) => {
       const response: ContestResponse = {
-        contest: mockContests[1],
+        contest: mockContests[0],
       }
       return response
     },

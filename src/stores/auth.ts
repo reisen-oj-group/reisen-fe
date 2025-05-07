@@ -43,17 +43,7 @@ export const useAuth = defineStore('auth', () => {
   }
 
   const register = async (credentials: RegisterRequest) => {
-    const response = await apiRegister(credentials)
-
-    currentToken.value = response.token
-    currentUser.value = response.user
-    contestStore.refresh()
-
-    sessionStorage.setItem('token', response.token)
-    if (redirectUrl.value) {
-      router.push(redirectUrl.value)
-      redirectUrl.value = null
-    }
+    await apiRegister(credentials)
   }
 
   const logout = async () => {

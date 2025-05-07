@@ -11,7 +11,10 @@ export interface LoginResponse {
   user: User
 }
 
+// 已携带 Cookie，不需要额外参数
 export type LogoutRequest = object
+
+// 登出后不进行任何操作
 export type LogoutResponse = object
 
 export interface RegisterRequest {
@@ -19,7 +22,5 @@ export interface RegisterRequest {
   password: string
 }
 
-export interface RegisterResponse {
-  token: string
-  user: User
-}
+// 注册后自动切换至登录界面，不需要返回任何东西
+export type RegisterResponse = object
