@@ -1,4 +1,4 @@
-import type { ContestId, ProblemId, ProblemLabel, RankingId, UserId } from './enum'
+import type { ContestId, ProblemId, ProblemLabel, UserId } from './enum'
 import type { Result } from './judge'
 
 export type ContestDifficulty = 1 | 2 | 3 | 4 | 5
@@ -24,7 +24,6 @@ export interface Contest {
 
 // 表：比赛排名信息，比赛时动态维护
 export interface Ranking {
-  id: RankingId
   contest: ContestId
   user: UserId
 

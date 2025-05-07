@@ -37,7 +37,7 @@ export function setupRouterGuard(router: Router) {
     }
 
     // 检查路由是否需要认证
-    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    if (to.meta.requiresAuth && !authStore.currentUser) {
       authStore.setRedirectUrl(to.fullPath)
       authStore.showLogin = true
       return false

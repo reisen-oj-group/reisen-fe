@@ -38,6 +38,8 @@ export const useContest = defineStore('contest', () => {
       return
     }
 
+    console.log('enter...')
+
     loading.value = true
     apiContest({ contest: contest })
       .then((response) => {

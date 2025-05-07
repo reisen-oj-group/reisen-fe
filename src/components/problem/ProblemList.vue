@@ -21,7 +21,7 @@
       </table>
     </el-affix>
 
-    <table v-if="problems && problems.length > 0" class="problemset">
+    <table v-if="problems.length > 0" class="problemset">
       <colgroup>
         <col class="col-status" />
         <col class="col-id" />
@@ -33,25 +33,27 @@
         <tr class="entry" v-for="{ problem, result } of problems" :key="problem.id">
           <!-- 状态列 -->
           <td class="status">
-            <template v-if="result.judge === 'correct'">
-              <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
-            </template>
-            <template v-else-if="result.judge === 'incorrect'">
-              <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
-            </template>
-            <template v-else-if="result.judge !== null">
-              <span
-                :style="{
-                  color:
-                    result.judge < 30
-                      ? 'var(--el-color-danger)'
-                      : result.judge < 70
-                        ? 'var(--el-color-warning)'
-                        : 'var(--el-color-success)',
-                }"
-              >
-                {{ result.judge }}
-              </span>
+            <template v-if="result">
+              <template v-if="result.judge === 'correct'">
+                <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
+              </template>
+              <template v-else-if="result.judge === 'incorrect'">
+                <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
+              </template>
+              <template v-else-if="result.judge !== null">
+                <span
+                  :style="{
+                    color:
+                      result.judge < 30
+                        ? 'var(--el-color-danger)'
+                        : result.judge < 70
+                          ? 'var(--el-color-warning)'
+                          : 'var(--el-color-success)',
+                  }"
+                >
+                  {{ result.judge }}
+                </span>
+              </template>
             </template>
           </td>
 
@@ -121,7 +123,7 @@ const props = defineProps<{
 const problems = ref<
   {
     problem: ProblemCore
-    result: Result
+    result: Result | null
   }[]
 >([])
 const total = ref(0)

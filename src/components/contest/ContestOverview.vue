@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <md-render :content="props.contest.description" />
-  </div>
+  <template v-if="contest">
+    <md-render :content="contest.description" />
+  </template>
+  <el-empty description="比赛不存在" v-else />
 </template>
 
 <script setup lang="ts">
-import type { Contest, Ranking } from '@/interface'
 import MdRender from '../common/MdRender.vue'
 
-const props = defineProps<{
-  contest: Contest
-  ranking: Ranking | null
-}>()
+import { ElEmpty } from 'element-plus'
+
+import { useContest } from '@/stores/contest'
+import { computed } from 'vue'
+
+const contest = computed(() => useContest().currentContest)
 </script>
 
 <style lang="scss" scoped></style>

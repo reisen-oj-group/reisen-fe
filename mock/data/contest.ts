@@ -1,5 +1,7 @@
-import type { Contest, Ranking, Registration } from '../interface'
+import { random, sample } from 'lodash-es'
+import type { Contest, Ranking, Registration, Result } from '../interface'
 import { mockResults } from './judge'
+import { mockUsers } from './user'
 
 // 比赛测试数据
 export const mockContests: Contest[] = [
@@ -19,14 +21,12 @@ export const mockContests: Contest[] = [
       B: 'P1002',
       C: 'P1003',
       D1: 'P1004',
-      D2: 'P1004',
-      E: 'P1001',
-      F: 'P1001',
-      G: 'P1001',
-      H: 'P1001',
-      I: 'P1001',
-      J: 'P1001',
-      K: 'P1001',
+      D2: 'P1005',
+      E: 'P1006',
+      F: 'P1007',
+      G: 'P1008',
+      H: 'P1009',
+      I: 'P1010',
     },
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-01-15'),
@@ -87,17 +87,45 @@ export const mockRegistrations: Registration[] = [
 // 比赛排名数据
 export const mockRankings: Ranking[] = [
   {
-    id: 1,
     rank: 1,
     contest: 2,
     user: 1,
     results: mockResults,
   },
   {
-    id: 2,
     rank: 1,
     contest: 2,
     user: 2,
     results: mockResults,
   },
 ]
+
+export function generateResult() {
+  const result: Result = {
+    problem: `P${random(1001, 1010)}`,
+    contest: 1,
+    user: random(1, mockUsers.length),
+    judge: sample(['correct', 'incorrect', random(1, 100)]) || 0,
+    attempt: random(1, 10),
+    penalty: random(1, 300),
+    time: 0,
+  }
+  return result
+}
+
+export function generateRanklist() {
+  const ranklist: Ranking[] = []
+  for (let i = 0; i < 200; ++i) {
+    const item: Ranking = {
+      contest: 1,
+      user: random(1, mockUsers.length),
+      rank: i + 1,
+      results: [],
+    }
+    for (let j = random(1, 5); j >= 0; --j) {
+      item.results.push(generateResult())
+    }
+    ranklist.push(item)
+  }
+  return ranklist
+}

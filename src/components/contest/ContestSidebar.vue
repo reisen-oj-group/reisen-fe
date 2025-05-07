@@ -10,8 +10,14 @@
           <div class="contest-time">
             <el-progress :percentage="left / zone" :stroke-width="15" striped :show-text="false" />
 
-            <span v-if="left > 0">剩余时间: {{ formatTimeLong(left) }}</span>
-            <span v-else>比赛已结束</span>
+            <div>
+              <span v-if="left > 0">剩余时间 {{ formatTimeLong(left) }}</span>
+              <span v-else>比赛已结束</span>
+
+              <router-link class="link-ranklist" :to="`/contest/${contest.id}/ranklist`">
+                排行榜
+              </router-link>
+            </div>
           </div>
         </div>
 
@@ -84,7 +90,8 @@ function getProblemStatusClass(problem: ProblemId) {
 
 // 跳转到题目
 function goToProblem(problem: ProblemId) {
-  router.push(`/contest/problem/${problem}`)
+  if (!contest.value) return
+  router.push(`/contest/${contest.value.id}/problem/${problem}`)
 }
 
 // 退出比赛模式
@@ -133,6 +140,16 @@ onUnmounted(() => {
   .contest-time {
     font-size: 0.9em;
     color: var(--el-text-color-secondary);
+  }
+
+  .link-ranklist {
+    color: var(--el-text-color-primary);
+    transition: color 0.2s;
+
+    float: right;
+    &:hover {
+      color: var(--el-color-primary);
+    }
   }
 }
 

@@ -5,9 +5,11 @@ import { apiLogin, apiLogout, apiRegister } from '@/api/auth'
 import type { LoginRequest, RegisterRequest, User } from '@/interface'
 
 import { useRouter } from 'vue-router'
+import { useContest } from './contest'
 
 export const useAuth = defineStore('auth', () => {
   const router = useRouter()
+  const contestStore = useContest()
 
   const currentUser = ref<User | null>(null)
   const currentToken = ref<string | null>(localStorage.getItem('token') || null)
@@ -27,6 +29,7 @@ export const useAuth = defineStore('auth', () => {
 
     currentToken.value = response.token
     currentUser.value = response.user
+    contestStore.refresh()
 
     if (credentials.remember) {
       localStorage.setItem('token', response.token)
@@ -44,6 +47,8 @@ export const useAuth = defineStore('auth', () => {
 
     currentToken.value = response.token
     currentUser.value = response.user
+    contestStore.refresh()
+
     sessionStorage.setItem('token', response.token)
     if (redirectUrl.value) {
       router.push(redirectUrl.value)
@@ -55,6 +60,8 @@ export const useAuth = defineStore('auth', () => {
     const response = await apiLogout({})
     currentToken.value = null
     currentUser.value = null
+    contestStore.refresh()
+
     localStorage.removeItem('token')
     sessionStorage.removeItem('token')
   }

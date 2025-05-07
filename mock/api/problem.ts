@@ -41,7 +41,6 @@ export default [
     method: 'post',
     timeout: 1000,
     response: (request: { body: ProblemRequest }) => {
-      console.log(request)
       if (request.body.problem === 'P1001') {
         const response: ProblemResponse = {
           problem: mockProblems[0],

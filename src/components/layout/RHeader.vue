@@ -21,7 +21,7 @@
         </span>
       </template>
       <template v-else>
-        <el-button class="username" link @click="auth.showLogin = true"> 登录 </el-button>
+        <el-button type="primary" @click="auth.showLogin = true"> 登录 </el-button>
       </template>
     </div>
   </el-header>
@@ -56,6 +56,6 @@ const auth = useAuth()
 }
 
 .username {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 </style>

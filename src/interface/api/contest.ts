@@ -1,4 +1,12 @@
-import type { Contest, ContestDifficulty, ContestId, ContestRule, Ranking, UserId } from '../entity'
+import type {
+  Contest,
+  ContestDifficulty,
+  ContestId,
+  ContestRule,
+  ProblemCore,
+  Ranking,
+  UserId,
+} from '../entity'
 
 export interface ContestFinishedRequest {
   page: number
@@ -37,4 +45,20 @@ export interface RankingRequest {
 
 export interface RankingResponse {
   ranking: Ranking
+}
+
+export interface RanklistRequest {
+  contest: ContestId
+}
+
+export interface RanklistResponse {
+  rankings: Ranking[]
+}
+
+export interface ContestProblemsRequest {
+  contest: ContestId
+}
+
+export interface ContestProblemsResponse {
+  problems: ProblemCore[]
 }

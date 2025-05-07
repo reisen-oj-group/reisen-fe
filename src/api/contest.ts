@@ -1,12 +1,16 @@
 import type {
   ContestFinishedRequest,
   ContestFinishedResponse,
+  ContestProblemsRequest,
+  ContestProblemsResponse,
   ContestRecentRequest,
   ContestRecentResponse,
   ContestRequest,
   ContestResponse,
   RankingRequest,
   RankingResponse,
+  RanklistRequest,
+  RanklistResponse,
 } from '@/interface'
 import type { ReisenAxiosConfig } from '@/tools/axios'
 import axios from '@/tools/axios'
@@ -58,4 +62,19 @@ export const apiContest = async (request: ContestRequest) => {
 export const apiRanking = async (request: RankingRequest) => {
   return (await axios.post<RankingResponse>('/contest/ranking', request, {} as ReisenAxiosConfig))
     .data
+}
+
+export const apiRanklist = async (request: RanklistRequest) => {
+  return (await axios.post<RanklistResponse>('/contest/ranklist', request, {} as ReisenAxiosConfig))
+    .data
+}
+
+export const apiContestProblems = async (request: ContestProblemsRequest) => {
+  return (
+    await axios.post<ContestProblemsResponse>(
+      '/contest/problemset',
+      request,
+      {} as ReisenAxiosConfig,
+    )
+  ).data
 }
