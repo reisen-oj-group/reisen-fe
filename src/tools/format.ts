@@ -39,6 +39,20 @@ export function formatMemory(kb: number | undefined) {
   return `${kb}KB`
 }
 
+export function formatTimeContest(ms: number | undefined, short: boolean = true) {
+  if (!ms) return '-'
+  const dd = Math.floor(ms / (1000 * 60 * 60 * 24))
+  const hh = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+
+  if (short) {
+    if (dd) return `${dd}d ${hh}h`
+    else return `${hh}h`
+  } else {
+    if (dd) return `${dd} 天 ${hh} 小时`
+    else return `${hh} 小时`
+  }
+}
+
 export function formatTimeLong(ms: number | undefined, short: boolean = true) {
   if (!ms) return '-'
 

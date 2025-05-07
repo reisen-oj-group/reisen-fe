@@ -5,9 +5,16 @@ import ViewRecordList from '@/views/ViewRecordList.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupRouterGuard } from './guard'
 
+import ViewTest from '@/views/ViewTest.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/test',
+      name: 'test',
+      component: ViewTest,
+    },
     {
       path: '/',
       name: 'home',

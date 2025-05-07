@@ -71,14 +71,16 @@
           </td>
 
           <td class="acceptance">
-            <div class="acceptance-bar-container">
-              <div
-                class="acceptance-bar"
-                :style="{
-                  width: `${problem.countTotal ? (100 * problem.countCorrect) / problem.countTotal : 0}%`,
-                }"
-              ></div>
-            </div>
+            <el-tooltip :content="`${problem.countCorrect} / ${problem.countTotal}`">
+              <div class="acceptance-bar-container">
+                <div
+                  class="acceptance-bar"
+                  :style="{
+                    width: `${problem.countTotal ? (100 * problem.countCorrect) / problem.countTotal : 0}%`,
+                  }"
+                ></div>
+              </div>
+            </el-tooltip>
           </td>
         </tr>
       </tbody>
@@ -103,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
+import { ElCard, ElAffix, ElPagination, ElEmpty, ElTooltip } from 'element-plus'
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -169,11 +171,11 @@ defineExpose({
 <style lang="scss" scoped>
 .problemset {
   &-head {
-    padding-top: 0.5em;
+    padding-top: 16px;
     background-color: rgba(255, 255, 255, 0.8);
   }
   &-bottom {
-    padding: 0.5em 0;
+    padding: 16px 0;
     background-color: rgba(255, 255, 255, 0.8);
   }
 }
@@ -285,16 +287,6 @@ table.problemset-head {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.9em;
-  font-weight: 500;
-}
-
-.acceptance-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #333;
-  font-size: 0.8em;
   font-weight: 500;
 }
 </style>

@@ -13,20 +13,26 @@
       </div> -->
     </div>
 
-    <!-- <div class="user">
-      <c-avatar :user="auth.currentUser" style="margin-right: 1em" />
-      <router-link to="/user" v-if="auth.getLogin()" style="text-decoration: none;">
-          <div class="username">{{ auth.currentUser.name }}</div>
-      </router-link>
-      <el-link @click="showLogin = true" :underline="false" v-else>
-          <div class="username">{{ auth.currentUser.name }}</div>
-      </el-link>
-    </div> -->
+    <div class="user">
+      <template v-if="auth.currentUser">
+        <el-avatar class="avatar" :src="auth.currentUser.avatar" />
+        <span class="username">
+          {{ auth.currentUser.name }}
+        </span>
+      </template>
+      <template v-else>
+        <el-button class="username" link @click="auth.showLogin = true"> 登录 </el-button>
+      </template>
+    </div>
   </el-header>
 </template>
 
 <script setup lang="ts">
-import { ElBreadcrumb, ElHeader } from 'element-plus'
+import { ElBreadcrumb, ElHeader, ElAvatar, ElButton } from 'element-plus'
+
+import { useAuth } from '@/stores/auth'
+
+const auth = useAuth()
 </script>
 
 <style lang="scss" scoped>
@@ -38,5 +44,18 @@ import { ElBreadcrumb, ElHeader } from 'element-plus'
   padding: 0 24px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  margin-right: 12px;
+}
+
+.username {
+  font-size: 1.2rem;
 }
 </style>

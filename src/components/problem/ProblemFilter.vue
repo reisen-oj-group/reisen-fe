@@ -75,13 +75,13 @@ const clearFilter = () => {
 <style lang="scss" scoped>
 .filter-container {
   > *:not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: 16px;
   }
 }
 
 .filter-item {
   &:not(:last-child) {
-    margin-bottom: 0.5em;
+    margin-bottom: 12px;
   }
 }
 
@@ -94,12 +94,12 @@ const clearFilter = () => {
   padding: 0;
 
   > ::v-deep(.el-card__header) {
-    padding: 0.5em 1em;
+    padding: 8px 12px;
   }
 }
 
 .button-container {
-  margin-top: 0.5em;
+  margin-top: 16px;
   width: 100%;
 }
 </style>

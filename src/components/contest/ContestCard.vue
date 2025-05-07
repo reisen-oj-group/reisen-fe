@@ -9,6 +9,10 @@
         </router-link>
 
         <div class="contest-actions">
+          <span class="time">
+            {{ formatDate(contest.startTime) }} /
+            {{ formatTimeContest(contest.endTime.getTime() - contest.startTime.getTime(), false) }}
+          </span>
           <el-button v-if="type === 'upcoming'" type="primary" @click="$emit('register')">
             {{ isRegistered ? '已报名' : '立即报名' }}
           </el-button>
@@ -31,7 +35,7 @@
           <span>距离开始还有</span>
           <countdown-timer :target="contest.startTime" />
         </div>
-        <div v-else class="contest-time">
+        <div v-else class="contest-ended">
           <span>已结束</span>
           <span>{{ formatDate(contest.endTime) }}</span>
         </div>
@@ -47,7 +51,7 @@ import type { Contest } from '@/interface'
 
 import CountdownTimer from '../common/CountdownTimer.vue'
 
-import { formatDate } from '@/tools/format'
+import { formatDate, formatTimeContest } from '@/tools/format'
 
 const props = defineProps<{
   contest: Contest
@@ -97,7 +101,7 @@ function getRuleName(rule: string) {
 }
 
 .contest-title {
-  font-size: larger;
+  font-size: 20px;
   margin: 0;
   transition: color 0.2s;
 
@@ -131,23 +135,28 @@ function getRuleName(rule: string) {
 }
 
 .contest-actions {
-  width: 180px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-end;
+  align-items: center;
   .el-button {
-    width: 150px;
+    width: 120px;
   }
 }
 
 .contest-countdown,
-.contest-time {
+.contest-ended {
   text-align: right;
-  font-size: small;
+  font-size: 12px;
   color: var(--el-text-color-secondary);
 
   span {
     display: block;
   }
+}
+
+.time {
+  font-size: 18px;
+  margin-right: 12px;
 }
 </style>

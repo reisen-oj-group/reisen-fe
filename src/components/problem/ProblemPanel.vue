@@ -65,7 +65,7 @@ const props = defineProps<{
   }
 
   > :not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: 16px;
   }
 }
 

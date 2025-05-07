@@ -153,12 +153,12 @@ defineExpose({
 <style lang="scss" scoped>
 .record-list {
   &-head {
-    padding-top: 0.5em;
+    padding-top: 16px;
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(5px);
   }
   &-bottom {
-    padding: 0.5em 0;
+    padding: 16px 0;
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(5px);
   }

@@ -1,9 +1,15 @@
-import type { Difficulty, Lang, Tag, TagId, Verdict } from '../interface'
+import type { CodeLang, Level, Tag, TagId, UserLang, Verdict } from '../interface'
 
-export const configLangs: Record<string, Lang> = {
+export const configCodeLangs: Record<string, CodeLang> = {
   cpp: { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
   java: { id: 'java', description: 'Java 11', ratio: 2 },
   python: { id: 'python', description: 'Python 3.8', ratio: 3 },
+}
+
+export const configUserLangs: Record<string, UserLang> = {
+  'en-US': { id: 'en-US', description: 'English' },
+  'zh-CN': { id: 'zh-CN', description: '简体中文' },
+  'zh-TW': { id: 'zh-TW', description: '繁体中文' },
 }
 
 export const configVerdicts: Record<string, Verdict> = {
@@ -16,7 +22,7 @@ export const configVerdicts: Record<string, Verdict> = {
   UKE: { id: 'UKE', description: 'Unknown Error', abbr: 'UKE', color: '#909399' },
 }
 
-export const configDifficulties: Difficulty[] = [
+export const configDifficulties: Level[] = [
   { min: 800, max: 1099, name: '入门' },
   { min: 1100, max: 1399, name: '简单' },
   { min: 1400, max: 1699, name: '中等' },

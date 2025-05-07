@@ -1,6 +1,12 @@
 import type { MockMethod } from 'vite-plugin-mock'
 
-import { configVerdicts, configLangs, configTags, configDifficulties } from '../data'
+import {
+  configVerdicts,
+  configTags,
+  configDifficulties,
+  configUserLangs,
+  configCodeLangs,
+} from '../data'
 import type { SyncConfigResponse } from '../interface'
 
 export default [
@@ -10,7 +16,8 @@ export default [
     response: () => {
       const response: SyncConfigResponse = {
         difficulties: configDifficulties,
-        langs: configLangs,
+        userLangs: configUserLangs,
+        codeLangs: configCodeLangs,
         tags: configTags,
         verdicts: configVerdicts,
       }

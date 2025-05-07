@@ -6,9 +6,7 @@
       </el-card>
     </template>
     <template #sidebar>
-      <el-affix :offset="16">
-        <problem-panel :loading="loading" :problem="problem" :result="result" />
-      </el-affix>
+      <problem-panel :loading="loading" :problem="problem" :result="result" />
     </template>
   </layout-sidebar>
 </template>
@@ -18,7 +16,7 @@ import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
 import ProblemContent from '@/components/problem/ProblemContent.vue'
 import ProblemPanel from '@/components/problem/ProblemPanel.vue'
 
-import { ElCard, ElAffix } from 'element-plus'
+import { ElCard } from 'element-plus'
 
 import { onMounted, ref, watch } from 'vue'
 import type { Problem, Result } from '@/interface'
