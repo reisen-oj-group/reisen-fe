@@ -22,6 +22,10 @@
         <font-awesome-icon class="nav-icon" size="lg" :icon="faUser" />
         <span class="nav-label">用户</span>
       </el-menu-item>
+      <el-menu-item class="nav-item" index="/admin">
+        <font-awesome-icon class="nav-icon" size="lg" :icon="faServer" />
+        <span class="nav-label">管理</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -36,6 +40,7 @@ import {
   faUser,
   faChartSimple,
   faChartPie,
+  faServer,
 } from '@fortawesome/free-solid-svg-icons'
 </script>
 

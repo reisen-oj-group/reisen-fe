@@ -31,6 +31,9 @@
 
       <template v-if="!runningContests && !pendingContests"> 最近没有比赛。 </template>
     </template>
+    <template v-else>
+      <el-alert title="目前正在检索历史比赛，如需返回请点击“清空”" type="info" :closable="false" />
+    </template>
 
     <template v-if="finishedContests">
       <el-divider class="finished">已经结束</el-divider>
@@ -58,7 +61,7 @@
 import { ref, onMounted } from 'vue'
 import ContestCard from './ContestCard.vue'
 
-import { ElPagination, ElDivider } from 'element-plus'
+import { ElPagination, ElDivider, ElAlert } from 'element-plus'
 
 import { apiContestFinished, apiContestRecent } from '@/api/contest'
 import type { Contest, ContestFilterForm } from '@/interface'
@@ -128,8 +131,9 @@ function handlePageChange(page: number) {
   getList(false)
 }
 
-function setFilter(newFilter: ContestFilterForm) {
+function setFilter(newFilter: ContestFilterForm, cleaned: boolean) {
   filter.value = newFilter
+  searchOld.value = !cleaned
   getList(true)
 }
 

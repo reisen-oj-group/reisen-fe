@@ -8,21 +8,22 @@ import type {
   VerdictId,
 } from '../entity'
 
-export interface RecordListRequest {
-  page: number
-  filter: RecordFilterForm
-}
+export type RecordListRequest = RecordFilterQuery
 
 export interface RecordListResponse {
   total: number
   records: SubmissionLite[]
 }
 
-export interface RecordFilterForm {
-  user?: string | UserId | undefined
-  problem?: ProblemId | undefined
-  lang?: CodeLangId | undefined
-  verdict?: VerdictId | undefined
+export interface RecordFilterParams {
+  user?: string | UserId
+  problem?: ProblemId
+  lang?: CodeLangId
+  verdict?: VerdictId
+}
+
+export type RecordFilterQuery = RecordFilterParams & {
+  page: number
 }
 
 export interface RecordDetailRequest {

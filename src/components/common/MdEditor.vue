@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { CasketStar, zhCN, enUS, getDefaultPlugins, markdown, markdownLanguage } from 'casket-star'
+import { CasketStar, getDefaultPlugins, zhCN, enUS, markdown, markdownLanguage } from 'casket-star'
 
 import { getRemarkPlugins, getRehypePlugins, getRemarkRehypeOptions } from '@/tools/markdown'
 import { codemirrorMath } from '@/tools/codemirror-math'
@@ -18,12 +18,8 @@ import { useConfig } from '@/stores/config'
 
 import { onBeforeMount, ref } from 'vue'
 
-import '@lfe/casket-star/themes/markdown/light.css'
-import '@lfe/casket-star/themes/luogu/light.css'
-
 const config = useConfig()
-
-const lang = ref(config.userLang === 'zh-CN' ? zhCN : enUS)
+const lang = ref(config.userLang === 'zh-CN' ? zhCN : zhCN)
 
 const props = withDefaults(
   defineProps<{

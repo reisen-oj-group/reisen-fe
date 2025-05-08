@@ -28,18 +28,13 @@ export function setupRouterGuard(router: Router) {
 
       if (!to.path.startsWith('/contest/')) {
         if (saved !== 0) {
-          ElMessageBox.confirm(
-            '检测到你在离开前处于比赛模式，是否继续比赛？',
-            '警告',
-            {
-              confirmButtonText: '继续',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }
-          )
-          .then(() => {
-            router.push(`/contest/${saved}`);
-            return false;
+          ElMessageBox.confirm('检测到你在离开前处于比赛模式，是否继续比赛？', '警告', {
+            confirmButtonText: '继续',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }).then(() => {
+            router.push(`/contest/${saved}`)
+            return false
           })
         }
         contestStore.exit()

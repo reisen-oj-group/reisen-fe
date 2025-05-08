@@ -22,8 +22,8 @@
       </el-form>
 
       <div class="button-container">
-        <el-button type="primary" @click="clearFilter">清空</el-button>
-        <el-button type="primary" @click="emits('filter', form)">筛选</el-button>
+        <el-button type="primary" @click="handleSubmit">筛选</el-button>
+        <el-button plain type="primary" @click="handleReset">清空</el-button>
       </div>
     </el-card>
 
@@ -44,30 +44,30 @@
 </template>
 
 <script setup lang="ts">
-import type { ProblemFilterForm } from '@/interface'
+import type { ProblemFilterParams } from '@/interface'
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { ElCard, ElInput, ElForm, ElFormItem, ElSpace, ElButton } from 'element-plus'
-
+import { cloneDeep } from 'lodash-es'
 import { ref } from 'vue'
 
-const props = defineProps<{
-  initFilter: ProblemFilterForm
-}>()
-
-const form = ref(props.initFilter)
-
 const emits = defineEmits<{
-  filter: [filter: ProblemFilterForm]
+  (e: 'filter-change', value: ProblemFilterParams): void
 }>()
 
-const clearFilter = () => {
-  form.value.keywords = ''
-  form.value.minDifficulty = 0
-  form.value.maxDifficulty = 3000
-  form.value.tags = []
+const props = defineProps<{
+  filter: ProblemFilterParams
+}>()
+
+const form = ref<ProblemFilterParams>(cloneDeep(props.filter))
+
+const handleSubmit = () => {
+  emits('filter-change', cloneDeep(form.value))
+}
+const handleReset = () => {
+  emits('filter-change', {})
 }
 </script>
 

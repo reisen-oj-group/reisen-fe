@@ -1,8 +1,8 @@
 <template>
   <layout-main>
     <div class="record-list-container">
-      <record-filter :init-filter="initFilter" @filter="handleFilterSubmit" />
-      <record-list :init-filter="initFilter" ref="records" />
+      <record-filter :filter="form" @filter-change="handleFilterChange" />
+      <record-list :filter="form" />
     </div>
   </layout-main>
 </template>
@@ -12,21 +12,28 @@ import LayoutMain from '@/components/layout/LayoutMain.vue'
 
 import RecordList from '@/components/record/RecordList.vue'
 import RecordFilter from '@/components/record/RecordFilter.vue'
-import type { RecordFilterForm } from '@/interface'
 
 import { ref } from 'vue'
+import type { RecordFilterParams } from '@/interface'
 
-const records = ref<InstanceType<typeof RecordList> | null>(null)
+import { useRoute, type LocationQuery } from 'vue-router'
+import { queryNoS, queryStr } from '@/tools/query'
 
-const initFilter: RecordFilterForm = {
-  user: undefined,
-  problem: undefined,
-  lang: '',
-  verdict: '',
+const route = useRoute()
+
+function buildForm(query: LocationQuery) {
+  return {
+    user: queryNoS(query.user),
+    problem: queryStr(query.problem),
+    lang: queryStr(query.lang),
+    verdict: queryStr(query.verdict),
+  }
 }
 
-const handleFilterSubmit = (form: RecordFilterForm) => {
-  records.value?.setFilter(form)
+const form = ref<RecordFilterParams>(buildForm(route.query))
+
+const handleFilterChange = (params: RecordFilterParams) => {
+  form.value = params
 }
 </script>
 

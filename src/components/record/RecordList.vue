@@ -27,7 +27,7 @@
       </table>
     </el-affix>
 
-    <table class="record-list" v-if="records && records.length > 0">
+    <table class="record-list" v-if="records.length > 0">
       <colgroup>
         <col class="col-id" />
         <col class="col-submit" />
@@ -77,7 +77,7 @@
     <el-affix position="bottom">
       <div class="record-list-bottom">
         <el-pagination
-          :current-page="current"
+          :current-page="currentPage"
           :page-size="100"
           :pager-count="11"
           :total="total"
@@ -90,41 +90,49 @@
 
 <script setup lang="ts">
 import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
-import { onMounted, ref } from 'vue'
-import type { RecordFilterForm, SubmissionLite } from '@/interface'
+import { onMounted, ref, watch } from 'vue'
+import type { RecordFilterParams, SubmissionLite } from '@/interface'
 
 import { useConfig } from '@/stores/config'
+import { useRoute, useRouter } from 'vue-router'
 
 import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
 import VerdictTag from '../common/VerdictTag.vue'
 import { apiRecordList } from '@/api/record'
+import { omitBy } from 'lodash-es'
 
 const props = defineProps<{
-  initFilter: RecordFilterForm
+  filter: RecordFilterParams
 }>()
 
 const { codeLangs } = useConfig().config
+const route = useRoute()
+const router = useRouter()
 
-const records = ref<SubmissionLite[] | null>(null)
 const total = ref(0)
-const current = ref(1)
+const currentPage = ref(Number(route.query.page || 1))
+const records = ref<SubmissionLite[]>([])
 
-const filter = ref(props.initFilter)
 const loading = ref(false)
 
-onMounted(() => {
-  getList(true)
-})
-
-const emits = defineEmits(['page-change'])
-
-async function getList(resetPage: boolean) {
+async function fetchData() {
   loading.value = true
-  records.value = null
-  if (resetPage) {
-    current.value = 1
-  }
-  apiRecordList({ page: current.value, filter: filter.value })
+  records.value = []
+
+  // 过滤掉 undefined 和空数组
+  const query = omitBy(
+    {
+      ...props.filter,
+      page: currentPage.value,
+    },
+    (v) => !v,
+  )
+  router.push({ query })
+
+  apiRecordList({
+    ...props.filter,
+    page: currentPage.value,
+  })
     .then((response) => {
       records.value = response.records
       total.value = response.total
@@ -134,20 +142,25 @@ async function getList(resetPage: boolean) {
     })
 }
 
-function handlePageChange(page: number) {
-  current.value = page
-  emits('page-change', page)
-  getList(false)
-}
+// 监听筛选参数变化
+watch(
+  () => props.filter,
+  () => {
+    currentPage.value = 1
+    fetchData()
+  },
+  { deep: true },
+)
 
-function setFilter(newFilter: RecordFilterForm) {
-  filter.value = newFilter
-  getList(true)
-}
+// 监听分页变化
+watch(currentPage, fetchData)
 
-defineExpose({
-  setFilter,
-})
+// 初始化加载数据
+fetchData()
+
+const handlePageChange = (val: number) => {
+  currentPage.value = val
+}
 </script>
 
 <style lang="scss" scoped>

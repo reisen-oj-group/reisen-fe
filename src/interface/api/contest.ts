@@ -26,8 +26,8 @@ export interface ContestRecentResponse {
 }
 
 export interface ContestFilterForm {
-  rule?: ContestRule | undefined
-  difficulty?: ContestDifficulty | undefined
+  rule?: ContestRule
+  difficulty?: ContestDifficulty
 }
 
 export interface ContestRequest {

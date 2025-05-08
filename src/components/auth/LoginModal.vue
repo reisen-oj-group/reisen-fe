@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="authStore.showLogin" :show-close="false" width="450px">
+  <el-dialog v-model="authStore.showLogin" :show-close="false" width="450px" @close="doClose">
     <template #header>
       <el-alert v-if="loginError" :title="loginError" type="error" :closable="false" show-icon />
     </template>
@@ -184,6 +184,10 @@ watch(activeTab, () => {
   loginError.value = ''
   registerError.value = ''
 })
+
+function doClose() {
+  authStore.setRedirectUrl(null)
+}
 
 // 登录处理
 const handleLogin = async () => {

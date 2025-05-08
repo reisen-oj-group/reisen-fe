@@ -9,7 +9,7 @@ export type ContestRule = 'OI' | 'ACM' | 'IOI'
 export interface Contest {
   id: ContestId
   title: string
-  banner: string // 头图 URL
+  banner?: string // 头图 URL
   summary: string // 简介
   description: string // 详情
   difficulty: ContestDifficulty // 难度星级

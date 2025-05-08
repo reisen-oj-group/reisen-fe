@@ -21,7 +21,7 @@
       </table>
     </el-affix>
 
-    <table v-if="problems.length > 0" class="problemset">
+    <table v-if="problemset.length > 0" class="problemset">
       <colgroup>
         <col class="col-status" />
         <col class="col-id" />
@@ -30,7 +30,7 @@
         <col class="col-acceptance" />
       </colgroup>
       <tbody>
-        <tr class="entry" v-for="{ problem, result } of problems" :key="problem.id">
+        <tr class="entry" v-for="[problem, result] of problemset" :key="problem.id">
           <!-- 状态列 -->
           <td class="status">
             <template v-if="result">
@@ -95,7 +95,7 @@
     <el-affix position="bottom">
       <div class="problemset-bottom">
         <el-pagination
-          :current-page="current"
+          :current-page="currentPage"
           :page-size="50"
           :pager-count="11"
           :total="total"
@@ -112,41 +112,64 @@ import { ElCard, ElAffix, ElPagination, ElEmpty, ElTooltip } from 'element-plus'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { ProblemCore, ProblemFilterForm, Result } from '@/interface'
-import { onMounted, ref } from 'vue'
+import type {
+  ProblemCore,
+  ProblemFilterParams,
+  ProblemFilterQuery,
+  ProblemId,
+  Result,
+} from '@/interface'
+import { onMounted, ref, watch } from 'vue'
 import { apiProblemList } from '@/api'
+import { useAuth } from '@/stores/auth'
+import { keyBy, omitBy } from 'lodash-es'
+
+import { useRoute, useRouter } from 'vue-router'
+
+const auth = useAuth()
+const route = useRoute()
+const router = useRouter()
+
+const total = ref(0)
+const currentPage = ref(Number(route.query.page || 1))
+const problemset = ref<[ProblemCore, Result?][]>([])
 
 const props = defineProps<{
-  initFilter: ProblemFilterForm
+  filter: ProblemFilterParams
 }>()
 
-const problems = ref<
-  {
-    problem: ProblemCore
-    result: Result | null
-  }[]
->([])
-const total = ref(0)
-const current = ref(1)
-
-const filter = ref(props.initFilter)
 const loading = ref(false)
 
-onMounted(() => {
-  getList(true)
-})
-
-const emits = defineEmits(['page-change'])
-
-async function getList(resetPage: boolean) {
+async function fetchData() {
   loading.value = true
-  problems.value = []
-  if (resetPage) {
-    current.value = 1
-  }
-  apiProblemList({ page: current.value, filter: filter.value })
+  problemset.value = []
+
+  // 过滤掉 undefined 和空数组
+  const query = omitBy(
+    {
+      ...props.filter,
+      page: currentPage.value,
+      user: auth.currentUser?.id,
+    },
+    (v) => !v,
+  )
+  router.push({ query })
+
+  apiProblemList({
+    ...props.filter,
+    page: currentPage.value,
+    user: auth.currentUser?.id,
+  })
     .then((response) => {
-      problems.value = response.problems
+      // 将 results 按照 problem 字段（即 Problem 的 id）建立索引
+      const resultsByProblemId = keyBy(response.results, 'problem')
+
+      // 遍历 problems，为每个 problem 找到对应的 result（如果有的话）
+      problemset.value = response.problems.map((problem) => [
+        problem,
+        resultsByProblemId[problem.id],
+      ])
+
       total.value = response.total
     })
     .finally(() => {
@@ -154,20 +177,24 @@ async function getList(resetPage: boolean) {
     })
 }
 
-function handlePageChange(page: number) {
-  current.value = page
-  emits('page-change', page)
-  getList(false)
+// 监听筛选参数变化
+watch(
+  () => props.filter,
+  () => {
+    currentPage.value = 1
+    fetchData()
+  },
+  { deep: true },
+)
+
+// 监听分页变化
+watch(currentPage, fetchData)
+
+const handlePageChange = (val: number) => {
+  currentPage.value = val
 }
 
-function setFilter(newFilter: ProblemFilterForm) {
-  filter.value = newFilter
-  getList(true)
-}
-
-defineExpose({
-  setFilter,
-})
+onMounted(fetchData)
 </script>
 
 <style lang="scss" scoped>

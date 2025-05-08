@@ -1,12 +1,10 @@
 <template>
   <layout-sidebar>
     <template #main>
-      <problem-list :init-filter="initFilter" ref="problems" />
+      <problem-list :filter="form" />
     </template>
     <template #sidebar>
-      <el-affix :offset="16">
-        <problem-filter :init-filter="initFilter" @filter="handleFilterSubmit" />
-      </el-affix>
+      <problem-filter :filter="form" @filter-change="handleFilterChange" />
     </template>
   </layout-sidebar>
 </template>
@@ -17,16 +15,30 @@ import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
 import ProblemList from '@/components/problem/ProblemList.vue'
 import ProblemFilter from '@/components/problem/ProblemFilter.vue'
 
-import { ElAffix } from 'element-plus'
-import type { ProblemFilterForm } from '@/interface'
 import { ref } from 'vue'
+import type { ProblemFilterParams } from '@/interface'
+import { useRoute, type LocationQuery } from 'vue-router'
+import { queryNum, queryStr } from '@/tools/query'
 
-const problems = ref<InstanceType<typeof ProblemList> | null>(null)
+const route = useRoute()
 
-const initFilter: ProblemFilterForm = {}
+function buildForm(query: LocationQuery) {
+  return {
+    minDifficulty: queryNum(query.minDifficulty),
+    maxDifficulty: queryNum(query.maxDifficulty),
+    tags: query.tags
+      ? Array.isArray(query.tags)
+        ? query.tags.map(Number)
+        : [Number(query.tags)]
+      : undefined,
+    keywords: queryStr(query.keywords),
+  }
+}
 
-const handleFilterSubmit = (form: ProblemFilterForm) => {
-  problems.value?.setFilter(form)
+const form = ref<ProblemFilterParams>(buildForm(route.query))
+
+const handleFilterChange = (params: ProblemFilterParams) => {
+  form.value = params
 }
 </script>
 

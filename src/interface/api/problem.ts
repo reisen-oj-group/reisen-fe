@@ -1,23 +1,23 @@
 import type { Problem, ProblemCore, ProblemId, Result, TagId, UserId } from '../entity'
 
-export interface ProblemListRequest {
-  page: number
-  filter: ProblemFilterForm
-}
+export type ProblemListRequest = ProblemFilterQuery
 
 export interface ProblemListResponse {
   total: number
-  problems: {
-    problem: ProblemCore
-    result: Result
-  }[]
+  problems: ProblemCore[] // 返回简要信息
+  results: Result[] // 返回相关的题目结果
 }
 
-export interface ProblemFilterForm {
-  minDifficulty?: number | undefined
-  maxDifficulty?: number | undefined
-  tags?: TagId[] | undefined
-  keywords?: string | undefined
+export interface ProblemFilterParams {
+  minDifficulty?: number
+  maxDifficulty?: number
+  tags?: TagId[]
+  keywords?: string
+}
+
+export type ProblemFilterQuery = ProblemFilterParams & {
+  page?: number
+  user?: UserId
 }
 
 export interface ProblemRequest {

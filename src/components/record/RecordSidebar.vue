@@ -64,7 +64,7 @@ const { codeLangs } = useConfig().config
 
 const router = useRouter()
 const goToProblem = () => {
-  if (props.record) router.push(`/problem/${props.record.problem}`)
+  if (props.record) router.push(`/problem/${props.record.problem.id}`)
 }
 
 const props = defineProps<{

@@ -1,3 +1,4 @@
+import { random, sample } from 'lodash-es'
 import type {
   SubmissionCore,
   Submission,
@@ -172,32 +173,19 @@ export const mockSubmissionsFull: SubmissionFull[] = mockSubmissions.map((sub) =
   }
 })
 
-export const mockResults: Result[] = [
-  {
-    problem: 'P1001',
-    contest: 0,
-    user: 1,
-    judge: 'correct',
-    attempt: 10,
-    penalty: 10,
-    time: 100,
-  },
-  {
-    problem: 'P1002',
-    contest: 1,
-    user: 1,
-    judge: 'correct',
-    attempt: 10,
-    penalty: 10,
-    time: 100,
-  },
-  {
-    problem: 'P1003',
-    contest: 1,
-    user: 1,
-    judge: 'incorrect',
-    attempt: 10,
-    penalty: 10,
-    time: 100,
-  },
-]
+export const mockResults: Result[] = (() => {
+  const list: Result[] = []
+  for (let i = 0; i < 100; ++i) {
+    const result: Result = {
+      problem: `P${1000 + i}`,
+      user: 1,
+      contest: random(0, 5),
+      judge: sample(['correct', 'incorrect', random(0, 100)])!,
+      attempt: random(1, 10),
+      penalty: random(0, 300),
+      time: random(1, 1000),
+    }
+    list.push(result)
+  }
+  return list
+})()

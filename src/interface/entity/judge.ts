@@ -16,7 +16,7 @@ export type Judge = 'correct' | 'incorrect' | number
 export interface CodeLang {
   id: CodeLangId
   description: string // 语言描述，例如 C++11 (GCC9)
-  ratio: number // 时限比率，用于给更慢的时间开大空间
+  ratio: number // 时限比率，用于给更慢的语言乘上倍率
 }
 
 export interface UserLang {

@@ -32,6 +32,17 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/problem/:pid/edit',
+      name: 'problem-edit',
+      component: () => import('@/views/ViewProblemEdit.vue'),
+      props: true,
+    },
+    {
+      path: '/create/problem',
+      name: 'problem-create',
+      component: () => import('@/views/ViewProblemEdit.vue'),
+    },
+    {
       path: '/contest',
       name: 'contest',
       component: ViewContestList,

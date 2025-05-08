@@ -80,10 +80,4 @@ const _props = withDefaults(
   overflow-y: auto;
   padding: 24px 8px;
 }
-
-.sidebar-content {
-  height: 100%;
-  padding: 24px 0;
-  position: relative;
-}
 </style>

@@ -19,12 +19,12 @@ import { ref } from 'vue'
 const contests = ref<InstanceType<typeof ContestList> | null>(null)
 
 const initFilter: ContestFilterForm = {
-  rule: 'OI',
-  difficulty: 1,
+  rule: undefined,
+  difficulty: undefined,
 }
 
-const handleFilterSubmit = (form: ContestFilterForm) => {
-  contests.value?.setFilter(form)
+const handleFilterSubmit = (form: ContestFilterForm, cleaned: boolean) => {
+  contests.value?.setFilter(form, cleaned)
 }
 </script>
 

@@ -1,9 +1,8 @@
 import type { Problem, ProblemCore, Statement } from '../interface'
-import { sample } from 'lodash-es'
+import { floor, random, sample } from 'lodash-es'
 
 export const mockStatements: Statement[] = [
   {
-    id: 1,
     examples: [
       {
         dataI: '我是输入',
@@ -19,78 +18,29 @@ export const mockStatements: Statement[] = [
   },
 ]
 
-export const mockProblemsCore: ProblemCore[] = [
-  {
-    id: 'P1001',
-    type: 'traditional',
-    status: 'public',
-    limitTime: 1000,
-    limitMemory: 1024,
-    tags: [],
-    title: {
-      'en-US': 'Super Mario',
-    },
-    countCorrect: 10,
-    countTotal: 100,
-    difficulty: 800,
-  },
-  {
-    id: 'P1002',
-    type: 'traditional',
-    status: 'public',
-    limitTime: 1000,
-    limitMemory: 1024,
-    tags: [],
-    title: {
-      'en-US': 'A + B Problem',
-    },
-    countCorrect: 20,
-    countTotal: 100,
-    difficulty: 1200,
-  },
-  {
-    id: 'P1003',
-    type: 'traditional',
-    status: 'public',
-    limitTime: 1000,
-    limitMemory: 1024,
-    tags: [],
-    title: {
-      'en-US': 'A - B Problem',
-    },
-    countCorrect: 30,
-    countTotal: 100,
-    difficulty: 1600,
-  },
-  {
-    id: 'P1004',
-    type: 'traditional',
-    status: 'public',
-    limitTime: 1000,
-    limitMemory: 1024,
-    tags: [],
-    title: {
-      'en-US': 'A * B Problem',
-    },
-    countCorrect: 50,
-    countTotal: 100,
-    difficulty: 2400,
-  },
-  {
-    id: 'P1005',
-    type: 'traditional',
-    status: 'public',
-    limitTime: 1000,
-    limitMemory: 1024,
-    tags: [],
-    title: {
-      'en-US': 'A / B Problem',
-    },
-    countCorrect: 90,
-    countTotal: 100,
-    difficulty: 3000,
-  },
-]
+export const mockProblemsCore: ProblemCore[] = (() => {
+  const list: ProblemCore[] = []
+  for (let i = 0; i < 100; ++i) {
+    const count = random(1, 10000)
+    const problem: ProblemCore = {
+      id: `P${1000 + i}`,
+      type: sample(['traditional', 'interactive'])!,
+      status: sample(['public', 'private', 'contest'])!,
+      limitTime: sample([1000, 2000, 3000])!,
+      limitMemory: sample([512288, 1024576, 262144])!,
+      tags: [],
+      title: {
+        'en-US': `Mock Problem #${i}`,
+        'zh-CN': `虚假之月 #${i}`,
+      },
+      countCorrect: floor(count * random(0, 1, true)),
+      countTotal: count,
+      difficulty: random(8, 35) * 100,
+    }
+    list.push(problem)
+  }
+  return list
+})()
 
 export const mockProblems: Problem[] = (() => {
   const list: Problem[] = []

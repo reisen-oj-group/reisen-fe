@@ -1,4 +1,4 @@
-import type { ProblemId, StatementId, TagClassifyId, TagId, UserLangId } from './enum'
+import type { ProblemId, TagClassifyId, TagId, UserLangId } from './enum'
 
 // 配置文件：标签分类（算法标签（有若干子类）、来源标签、技术性标签）
 export interface TagClassify {
@@ -34,16 +34,14 @@ export interface ProblemCore {
 
 // 题面，一条题目对应多个题面
 export interface Statement {
-  id: StatementId
-
   background?: string // 题目背景
   legend?: string // 题目描述
   formatI?: string // 输入格式
   formatO?: string // 输出格式
   examples: {
     // 样例
-    dataI?: string
-    dataO?: string
+    dataI: string
+    dataO: string
   }[]
   hint?: string // 提示，含样例解释
   note?: string // 管理员内部字段

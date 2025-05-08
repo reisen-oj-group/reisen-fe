@@ -20,7 +20,7 @@
 
       <div class="button-container">
         <el-button type="primary" @click="clearFilter">清空</el-button>
-        <el-button type="primary" @click="emits('filter', form)">筛选</el-button>
+        <el-button type="primary" @click="doFilter">筛选</el-button>
       </div>
     </el-card>
   </div>
@@ -39,11 +39,16 @@ const props = defineProps<{
 const form = ref(props.initFilter)
 
 const emits = defineEmits<{
-  filter: [filter: ContestFilterForm]
+  filter: [filter: ContestFilterForm, cleaned: boolean]
 }>()
+
+const doFilter = () => {
+  emits('filter', form.value, false)
+}
 
 const clearFilter = () => {
   form.value = {}
+  emits('filter', form.value, true)
 }
 </script>
 
@@ -53,13 +58,19 @@ const clearFilter = () => {
   padding: 0;
 
   > ::v-deep(.el-card__header) {
-    padding: 0.5em 1em;
+    padding: 8px 12px;
+  }
+}
+
+.filter-container {
+  > *:not(:last-child) {
+    margin-bottom: 16px;
   }
 }
 
 .filter-item {
   &:not(:last-child) {
-    margin-bottom: 0.5em;
+    margin-bottom: 12px;
   }
 }
 </style>

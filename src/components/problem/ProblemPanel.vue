@@ -3,7 +3,14 @@
     <contest-sidebar />
 
     <el-card>
-      <h3>题目信息</h3>
+      <h3 class="info-title">
+        题目信息
+        <font-awesome-icon
+          v-if="problem"
+          :icon="faPenToSquare"
+          @click="router.push(`/problem/${problem.id}/edit`)"
+        />
+      </h3>
 
       <template v-if="problem">
         <div class="description-list">
@@ -45,17 +52,29 @@
 import ProblemSubmit from './ProblemSubmit.vue'
 import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 import type { Problem, Result } from '@/interface'
+import { useRouter } from 'vue-router'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import { ElButton, ElCard, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 
+const router = useRouter()
+
 const openSubmit = ref(false)
 
-const _props = defineProps<{
-  problem: Problem | null
-  result: Result | null
-  loading: boolean
-}>()
+const _props = withDefaults(
+  defineProps<{
+    problem: Problem | null
+    result: Result | null
+    edit?: boolean
+    loading: boolean
+  }>(),
+  {
+    edit: false,
+  },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +86,12 @@ const _props = defineProps<{
   > :not(:last-child) {
     margin-bottom: 16px;
   }
+}
+
+.info-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .description {

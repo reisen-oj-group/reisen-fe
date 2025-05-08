@@ -30,7 +30,7 @@
         </el-form-item>
 
         <div class="button-container">
-          <el-button type="primary" @click="emits('filter', form)">筛选</el-button>
+          <el-button type="primary" @click="handleSubmit">筛选</el-button>
         </div>
       </el-form>
     </el-card>
@@ -38,24 +38,32 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordFilterForm } from '@/interface'
+import type { RecordFilterParams } from '@/interface'
 
 import { ElCard, ElInput, ElForm, ElFormItem, ElSelect, ElOption, ElButton } from 'element-plus'
+import { cloneDeep } from 'lodash-es'
 import { ref } from 'vue'
 
 import { useConfig } from '@/stores/config'
 
-const props = defineProps<{
-  initFilter: RecordFilterForm
-}>()
-
-const form = ref(props.initFilter)
-
-const { verdicts, codeLangs } = useConfig().config
+const { codeLangs, verdicts } = useConfig().config
 
 const emits = defineEmits<{
-  filter: [filter: RecordFilterForm]
+  (e: 'filter-change', value: RecordFilterParams): void
 }>()
+
+const props = defineProps<{
+  filter: RecordFilterParams
+}>()
+
+const form = ref<RecordFilterParams>(cloneDeep(props.filter))
+
+const handleSubmit = () => {
+  emits('filter-change', cloneDeep(form.value))
+}
+// const handleReset = () => {
+//   emits('filter-change', {})
+// }
 </script>
 
 <style lang="scss" scoped>
