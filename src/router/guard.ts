@@ -23,7 +23,7 @@ export function setupRouterGuard(router: Router) {
 
     // 初始化比赛状态
     if (!contestStore.isInitialized) {
-      const saved = contestStore.restore()
+      const saved = await contestStore.restore()
       contestStore.isInitialized = true
 
       if (!to.path.startsWith('/contest/')) {

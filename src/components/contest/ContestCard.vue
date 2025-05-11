@@ -9,10 +9,6 @@
         </router-link>
 
         <div class="contest-actions">
-          <span class="time">
-            {{ formatDate(contest.startTime) }} /
-            {{ formatTimeContest(contest.endTime.getTime() - contest.startTime.getTime(), false) }}
-          </span>
           <el-button
             v-if="type === 'running' || type === 'pending'"
             type="primary"

@@ -63,13 +63,15 @@ const _props = withDefaults(
   grid-template-columns: 3fr 1fr;
   grid-column-gap: 16px;
 
+  padding: 24px;
+
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
 }
 
 .main-content {
-  padding: 24px 0;
+  padding: 0;
 }
 
 .sidebar-affix {
@@ -78,6 +80,7 @@ const _props = withDefaults(
   align-self: flex-start;
   max-height: 100vh;
   overflow-y: auto;
-  padding: 24px 8px;
+  padding: 16px;
+  margin: -16px; // Preserve spaces for shadow
 }
 </style>

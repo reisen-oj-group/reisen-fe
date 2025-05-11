@@ -71,7 +71,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/contest/:cid_str(\\d+)/problem/:pid',
+      path: '/contest/:cid_str(\\d+)/:plabel',
       name: 'contest-problem-detail',
       component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,

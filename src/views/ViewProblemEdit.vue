@@ -4,7 +4,9 @@
       <template v-if="problem">
         <el-tabs v-model="activeTab">
           <!-- 基本信息 -->
-          <el-tab-pane label="基本信息" name="basic"> </el-tab-pane>
+          <el-tab-pane label="基本信息" name="basic">
+            <problem-edit-basic v-model="problem" />
+          </el-tab-pane>
 
           <!-- 题面编辑 -->
           <el-tab-pane label="题面编辑" name="statement">
@@ -12,7 +14,9 @@
           </el-tab-pane>
 
           <!-- 数据上传 -->
-          <el-tab-pane label="数据上传" name="testdata"> </el-tab-pane>
+          <el-tab-pane label="数据上传" name="testdata">
+            <problem-edit-testdata v-model="problem" />
+          </el-tab-pane>
         </el-tabs>
       </template>
       <template v-else>
@@ -27,6 +31,8 @@
 import LayoutMain from '@/components/layout/LayoutMain.vue'
 
 import ProblemEditContent from '@/components/problem/ProblemEditContent.vue'
+import ProblemEditBasic from '@/components/problem/ProblemEditBasic.vue'
+import ProblemEditTestdata from '@/components/problem/ProblemEditTestdata.vue'
 
 import { ElTabs, ElTabPane, ElCard, type TabsPaneContext } from 'element-plus'
 
@@ -35,7 +41,7 @@ import { computed, onMounted, ref } from 'vue'
 import type { Problem } from '@/interface'
 import { apiProblem } from '@/api'
 
-const activeTab = ref('statement')
+const activeTab = ref('basic')
 const props = defineProps<{
   pid?: string
 }>()

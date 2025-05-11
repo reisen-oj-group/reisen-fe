@@ -42,6 +42,5 @@ import RSidebar from './RSidebar.vue'
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
-  padding-right: 64px;
 }
 </style>

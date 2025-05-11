@@ -1,5 +1,5 @@
 <template>
-  <div class="problem-container">
+  <el-card class="problem-container">
     <template v-if="problem && statement">
       <!-- 题目基本信息 -->
       <div class="problem-header">
@@ -10,10 +10,6 @@
           <span class="time-limit">时间限制: {{ formatTimeShort(problem.limitTime) }}</span>
           <span class="memory-limit">内存限制: {{ formatMemory(problem.limitMemory) }}</span>
           <span class="problem-type">{{ formatProblemType(problem.type) }}</span>
-        </div>
-
-        <div class="functions">
-          <font-awesome-icon size="2xl" :icon="faLanguage" />
         </div>
       </div>
 
@@ -91,15 +87,15 @@
       <div v-if="loading" v-loading="true" style="height: 200px" />
       <el-empty v-else description="暂无题面" />
     </template>
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import MdRender from '../common/MdRender.vue'
 
-import { ElRow, ElCol, ElEmpty } from 'element-plus'
-import { faCopy, faCheck, faLanguage } from '@fortawesome/free-solid-svg-icons'
+import { ElRow, ElCol, ElEmpty, ElCard } from 'element-plus'
+import { faCopy, faCheck, faLanguage, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type { Problem, UserLangId } from '@/interface'

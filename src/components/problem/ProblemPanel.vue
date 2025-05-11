@@ -1,16 +1,7 @@
 <template>
   <div class="panel-container">
-    <contest-sidebar />
-
     <el-card>
-      <h3 class="info-title">
-        题目信息
-        <font-awesome-icon
-          v-if="problem"
-          :icon="faPenToSquare"
-          @click="router.push(`/problem/${problem.id}/edit`)"
-        />
-      </h3>
+      <h3 class="info-title">题目信息</h3>
 
       <template v-if="problem">
         <div class="description-list">
@@ -50,12 +41,8 @@
 
 <script setup lang="ts">
 import ProblemSubmit from './ProblemSubmit.vue'
-import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 import type { Problem, Result } from '@/interface'
 import { useRouter } from 'vue-router'
-
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import { ElButton, ElCard, ElSpace } from 'element-plus'
 import { ref } from 'vue'
@@ -78,6 +65,10 @@ const _props = withDefaults(
 </script>
 
 <style lang="scss" scoped>
+.info-title {
+  margin-bottom: 0.5em;
+}
+
 .panel-container {
   > * {
     width: 100%;
@@ -86,12 +77,10 @@ const _props = withDefaults(
   > :not(:last-child) {
     margin-bottom: 16px;
   }
-}
 
-.info-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
 }
 
 .description {

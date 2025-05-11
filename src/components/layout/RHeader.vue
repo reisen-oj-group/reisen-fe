@@ -22,6 +22,7 @@
       </template>
       <template v-else>
         <el-button type="primary" @click="auth.showLogin = true"> 登录 </el-button>
+        <el-button type="primary" @click="auth.showLogin = true"> 注册 </el-button>
       </template>
     </div>
   </el-header>

@@ -4,7 +4,9 @@
       <template v-if="contest">
         <div class="contest-info">
           <router-link :to="`/contest/${contest.id}`">
-            <h3>{{ contest.title }}</h3>
+            <h3>
+              {{ contest.title }}
+            </h3>
           </router-link>
 
           <div class="contest-time">
@@ -32,7 +34,7 @@
             :key="label"
             class="problem-badge"
             :class="getProblemStatusClass(problem)"
-            @click="goToProblem(problem)"
+            @click="goToProblem(problem, label)"
           >
             {{ label }}
           </div>
@@ -51,6 +53,9 @@ import { useContest } from '@/stores/contest'
 
 import { formatTimeLong } from '@/tools/format'
 import type { ProblemId } from '@/interface'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import { ElButton, ElProgress, ElCard } from 'element-plus'
 
@@ -97,9 +102,9 @@ function getProblemStatusClass(problem: ProblemId) {
 }
 
 // 跳转到题目
-function goToProblem(problem: ProblemId) {
+function goToProblem(_problem: ProblemId, label: string) {
   if (!contest.value) return
-  router.push(`/contest/${contest.value.id}/problem/${problem}`)
+  router.push(`/contest/${contest.value.id}/${label}`)
 }
 
 // 退出比赛模式
@@ -126,7 +131,11 @@ onUnmounted(() => {
   }
 
   > *:not(:last-child) {
-    margin-bottom: 1em;
+    margin-bottom: 16px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
   }
 }
 

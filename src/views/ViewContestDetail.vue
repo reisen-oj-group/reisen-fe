@@ -1,6 +1,8 @@
 <template>
   <layout-sidebar>
     <template #main>
+      <contest-toolbar />
+
       <el-card>
         <template v-if="contest">
           <el-tabs v-model="activeTab" class="contest-tabs" @tab-click="handleClick">
@@ -42,6 +44,7 @@ import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 import ContestOverview from '@/components/contest/ContestOverview.vue'
 import ContestProblems from '@/components/contest/ContestProblems.vue'
 import ContestRecords from '@/components/contest/ContestRecords.vue'
+import ContestToolbar from '@/components/contest/ContestToolbar.vue'
 
 import { ElTabs, ElTabPane, ElCard, type TabsPaneContext } from 'element-plus'
 
@@ -76,4 +79,14 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.edit-icon {
+  position: absolute;
+  top: -0.5em;
+  right: 0.5em;
+}
+
+.contest-tabs {
+  position: relative;
+}
+</style>

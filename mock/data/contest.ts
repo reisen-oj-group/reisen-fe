@@ -7,7 +7,7 @@ import { mockUsers } from './user'
 export const mockContests: Contest[] = [
   {
     id: 1,
-    title: '2023年春季编程大赛',
+    title: '2023年春季编程大赛我是一个名字很长很长很长很长很长很长很长很长很长很长很长很长很的比赛',
     banner: 'https://example.com/contest1-banner.jpg',
     summary: '年度大型编程竞赛，涵盖算法与数据结构',
     description: `# 2023年春季编程大赛\n\n## 比赛规则\n\n- 采用ICPC赛制\n- 5道题目，难度递增\n- 排名按解题数，同解题数按罚时\n\n## 奖励\n\n- 第一名：奖金5000元\n- 第二名：奖金3000元\n- 第三名：奖金1000元`,

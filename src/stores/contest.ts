@@ -18,9 +18,9 @@ export const useContest = defineStore('contest', () => {
 
   const authStore = useAuth()
 
-  function refresh() {
+  async function refresh() {
     if (currentContest.value && authStore.currentUser) {
-      apiRanking({
+      await apiRanking({
         contest: currentContest.value.id,
         user: authStore.currentUser.id,
       }).then((response) => {
@@ -30,7 +30,7 @@ export const useContest = defineStore('contest', () => {
   }
 
   // 进入比赛模式
-  function enter(contest: ContestId) {
+  async function enter(contest: ContestId) {
     if (currentContest.value && currentContest.value.id !== contest) {
       exit()
     }
@@ -39,7 +39,7 @@ export const useContest = defineStore('contest', () => {
     }
 
     loading.value = true
-    apiContest({ contest: contest })
+    await apiContest({ contest: contest })
       .then((response) => {
         currentContest.value = response.contest
         refresh()
@@ -58,14 +58,14 @@ export const useContest = defineStore('contest', () => {
   }
 
   // 退出比赛模式
-  function exit() {
+  async function exit() {
     currentContest.value = null
     currentRanking.value = null
     localStorage.removeItem('current-contest')
   }
 
   // 检查本地存储并恢复比赛模式
-  function restore() {
+  async function restore() {
     const saved = localStorage.getItem('current-contest')
     if (saved) {
       const { id } = JSON.parse(saved)

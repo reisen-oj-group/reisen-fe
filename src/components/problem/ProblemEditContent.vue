@@ -84,7 +84,7 @@ import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElDivider } 
 import { ref, watch } from 'vue'
 
 import { useConfig } from '@/stores/config'
-import { remove } from 'lodash-es'
+import { cloneDeep, remove } from 'lodash-es'
 
 const config = useConfig()
 
@@ -118,7 +118,7 @@ function deleteStatement() {
 function saveStatement() {
   if (!currentLang.value || CTitle.value === undefined || CStatement.value === undefined) return
   problem.value.title[currentLang.value] = CTitle.value
-  problem.value.statements[currentLang.value] = CStatement.value
+  problem.value.statements[currentLang.value] = cloneDeep(CStatement.value)
 }
 
 function deleteExample(id: number) {
