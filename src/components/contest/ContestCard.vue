@@ -51,7 +51,7 @@ import type { Contest } from '@/interface'
 import CountdownTimer from '../common/CountdownTimer.vue'
 import { ElRate } from 'element-plus'
 
-import { formatDate, formatTimeContest } from '@/tools/format'
+import { formatDate, formatTimeContest } from '@/utils/format'
 
 const props = defineProps<{
   contest: Contest

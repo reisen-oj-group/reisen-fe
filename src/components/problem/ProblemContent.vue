@@ -99,7 +99,7 @@ import { faCopy, faCheck, faLanguage, faPenToSquare } from '@fortawesome/free-so
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type { Problem, UserLangId } from '@/interface'
-import { formatMemory, formatProblemType, formatTimeShort } from '@/tools/format'
+import { formatMemory, formatProblemType, formatTimeShort } from '@/utils/format'
 
 import { useConfig } from '@/stores/config'
 

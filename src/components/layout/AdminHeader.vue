@@ -1,7 +1,8 @@
 <template>
-  <el-header height="100px" class="header">
+  <el-header class="header">
     <div class="content">
-      Online Judge
+      Online Judge 管理
+      <!-- TODO: breadcrumb -->
       <!-- <div>
         <el-breadcrumb separator="/" style="margin-top: 1em;">
           <el-breadcrumb-item v-for="i in prop.bread" :key="i.label" :to="{ name: i.name }" >
@@ -33,11 +34,22 @@ import { ElHeader, ElAvatar, ElButton } from 'element-plus'
 
 import { useAuth } from '@/stores/auth'
 
+const _props = withDefaults(defineProps<{
+  admin?: boolean
+}>(), {
+  admin: false
+});
+
 const auth = useAuth()
 </script>
 
 <style lang="scss" scoped>
 .header {
+  position: fixed;
+  left: 160px;
+  right: 0;
+  top: 0;
+
   display: flex;
   justify-content: space-between;
   align-items: center;

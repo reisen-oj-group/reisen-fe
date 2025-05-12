@@ -11,8 +11,8 @@
 <script setup lang="ts">
 import { CasketStar, getDefaultPlugins, zhCN, enUS, markdown, markdownLanguage } from 'casket-star'
 
-import { getRemarkPlugins, getRehypePlugins, getRemarkRehypeOptions } from '@/tools/markdown'
-import { codemirrorMath } from '@/tools/codemirror-math'
+import { getRemarkPlugins, getRehypePlugins, getRemarkRehypeOptions } from '@/utils/markdown'
+import { codemirrorMath } from '@/utils/codemirror-math'
 
 import { useConfig } from '@/stores/config'
 

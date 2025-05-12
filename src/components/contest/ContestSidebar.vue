@@ -51,7 +51,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useContest } from '@/stores/contest'
 
-import { formatTimeLong } from '@/tools/format'
+import { formatTimeLong } from '@/utils/format'
 import type { ProblemId } from '@/interface'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

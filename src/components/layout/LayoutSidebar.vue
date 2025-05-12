@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="layout-body">
-      <RHeader />
+      <main-header />
       <div class="content-wrapper">
         <div class="content">
           <main class="main-content">
@@ -11,32 +11,18 @@
           <aside class="sidebar-affix">
             <slot name="sidebar" />
           </aside>
-          <!-- <template v-else>
-            <el-col :span="6">
-              <slot name="sidebar" />
-            </el-col>
-          </template> -->
         </div>
       </div>
-      <RFooter />
+      <main-footer />
     </div>
-    <RSidebar />
+    <main-sidebar />
   </div>
 </template>
 
 <script setup lang="ts">
-import RHeader from './RHeader.vue'
-import RFooter from './RFooter.vue'
-import RSidebar from './RSidebar.vue'
-
-const _props = withDefaults(
-  defineProps<{
-    affix?: boolean
-  }>(),
-  {
-    affix: true,
-  },
-)
+import MainHeader from './MainHeader.vue'
+import MainFooter from './MainFooter.vue'
+import MainSidebar from './MainSidebar.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Rewrite the footer -->
   <el-footer height="150px" class="footer">
     <el-row :gutter="24">
       <el-col :span="8">

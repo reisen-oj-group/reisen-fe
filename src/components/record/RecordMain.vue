@@ -102,7 +102,7 @@ import VerdictTag from '../common/VerdictTag.vue'
 
 import { useConfig } from '@/stores/config'
 
-import { formatMemory } from '@/tools/format'
+import { formatMemory } from '@/utils/format'
 
 const { verdicts, codeLangs } = useConfig().config
 

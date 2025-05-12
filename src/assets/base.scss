@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  background-color: #f9f9f9;
+  background-color: var(--el-bg-color-page);
   color: #1f1f1f;
   min-height: 100vh;
   font-family: inherit;
@@ -42,14 +42,14 @@ a {
   text-decoration: none;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
+// ::-webkit-scrollbar {
+//   width: 8px;
+//   height: 8px;
+// }
+// ::-webkit-scrollbar-thumb {
+//   background: #c1c1c1;
+//   border-radius: 4px;
+// }
+// ::-webkit-scrollbar-thumb:hover {
+//   background: #a8a8a8;
+// }

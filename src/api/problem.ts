@@ -6,20 +6,26 @@ import type {
   ProblemSolvedRequest,
   ProblemSolvedResponse,
 } from '@/interface'
-import type { ReisenAxiosConfig } from '@/tools/axios'
-import axios from '@/tools/axios'
+
+import { apiFetchDefault } from '@/utils/ofetch'
 
 export const apiProblemList = async (request: ProblemListRequest) => {
-  return (await axios.post<ProblemListResponse>('/problem/list', request, {} as ReisenAxiosConfig))
-    .data
+  return apiFetchDefault<ProblemListResponse>('/problem/list', {
+    method: 'POST',
+    body: request
+  })
 }
 
 export const apiProblemSolved = async (request: ProblemSolvedRequest) => {
-  return (
-    await axios.post<ProblemSolvedResponse>('/problem/solved', request, {} as ReisenAxiosConfig)
-  ).data
+  return apiFetchDefault<ProblemSolvedResponse>('/problem/solved', {
+    method: 'POST',
+    body: request
+  })
 }
 
 export const apiProblem = async (request: ProblemRequest) => {
-  return (await axios.post<ProblemResponse>('/problem', request, {} as ReisenAxiosConfig)).data
+  return apiFetchDefault<ProblemResponse>('/problem', {
+    method: 'POST',
+    body: request
+  })
 }

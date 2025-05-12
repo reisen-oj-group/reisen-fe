@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { markdownHtml } from '@/tools/markdown'
+import { markdownHtml } from '@/utils/markdown'
 import { onBeforeMount, ref } from 'vue'
 
 const html = ref('')

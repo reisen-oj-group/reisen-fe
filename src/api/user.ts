@@ -1,6 +1,9 @@
 import type { UserRequest, UserResponse } from '@/interface'
-import axios, { type ReisenAxiosConfig } from '@/tools/axios'
+import { apiFetchDefault } from '@/utils/ofetch'
 
 export const apiUser = async (request: UserRequest) => {
-  return (await axios.post<UserResponse>('/user', request, {} as ReisenAxiosConfig)).data
+  return apiFetchDefault<UserResponse>('/user', {
+    method: 'POST',
+    body: request
+  })
 }

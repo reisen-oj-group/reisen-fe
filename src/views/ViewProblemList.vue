@@ -18,7 +18,7 @@ import ProblemFilter from '@/components/problem/ProblemFilter.vue'
 import { ref } from 'vue'
 import type { ProblemFilterParams } from '@/interface'
 import { useRoute, type LocationQuery } from 'vue-router'
-import { queryNum, queryStr } from '@/tools/query'
+import { queryNum, queryStr } from '@/utils/query'
 
 const route = useRoute()
 

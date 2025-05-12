@@ -17,7 +17,7 @@ import { ref } from 'vue'
 import type { RecordFilterParams } from '@/interface'
 
 import { useRoute, type LocationQuery } from 'vue-router'
-import { queryNoS, queryStr } from '@/tools/query'
+import { queryNoS, queryStr } from '@/utils/query'
 
 const route = useRoute()
 

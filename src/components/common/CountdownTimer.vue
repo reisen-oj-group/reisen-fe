@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatTimeLong } from '@/tools/format'
+import { formatTimeLong } from '@/utils/format'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{

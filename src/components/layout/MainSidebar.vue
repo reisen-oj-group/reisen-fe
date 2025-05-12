@@ -1,29 +1,30 @@
 <template>
   <div class="sidebar">
+    <!-- TODO: Design a logo -->
     <div class="logo">LOGO</div>
     <el-menu class="nav-bar" :router="true" default-active="1" mode="vertical">
       <el-menu-item class="nav-item" index="/">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faHouse" />
+        <font-awesome-icon class="nav-icon" :icon="faHouse" />
         <span class="nav-label">主页</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/problem">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faBook" />
+        <font-awesome-icon class="nav-icon" :icon="faBook" />
         <span class="nav-label">题库</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/contest">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faChartSimple" />
+        <font-awesome-icon class="nav-icon" :icon="faChartSimple" />
         <span class="nav-label">比赛</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/record">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faChartPie" />
+        <font-awesome-icon class="nav-icon" :icon="faChartPie" />
         <span class="nav-label">记录</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/user">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faUser" />
+        <font-awesome-icon class="nav-icon" :icon="faUser" />
         <span class="nav-label">用户</span>
       </el-menu-item>
       <el-menu-item class="nav-item" index="/admin">
-        <font-awesome-icon class="nav-icon" size="lg" :icon="faServer" />
+        <font-awesome-icon class="nav-icon" :icon="faServer" />
         <span class="nav-label">管理</span>
       </el-menu-item>
     </el-menu>
@@ -79,6 +80,8 @@ import {
   height: 65px;
 
   > .nav-icon {
+    width: 20px;
+    height: 20px;
     margin: 0;
     padding: 0;
   }

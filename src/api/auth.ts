@@ -7,25 +7,25 @@ import type {
   RegisterResponse,
 } from '@/interface'
 
-import axios, { type ReisenAxiosConfig } from '@/tools/axios'
+import { apiFetchSilent } from '@/utils/ofetch'
 
 export const apiLogin = async (payload: LoginRequest) => {
-  const res = await axios.post<LoginResponse>('/auth/login', payload, {
-    hideError: true,
-  } as ReisenAxiosConfig)
-  return res.data
+  return apiFetchSilent<LoginResponse>('/auth/login', {
+    method: 'POST',
+    body: payload
+  })
 }
 
 export const apiLogout = async (payload: LogoutRequest) => {
-  const res = await axios.post<LogoutResponse>('/auth/logout', payload, {
-    hideError: true,
-  } as ReisenAxiosConfig)
-  return res.data
+  return apiFetchSilent<LogoutResponse>('/auth/logout', {
+    method: 'POST',
+    body: payload
+  })
 }
 
 export const apiRegister = async (payload: RegisterRequest) => {
-  const res = await axios.post<RegisterResponse>('/auth/register', payload, {
-    hideError: true,
-  } as ReisenAxiosConfig)
-  return res.data
+  return apiFetchSilent<RegisterResponse>('/auth/register', {
+    method: 'POST',
+    body: payload
+  })
 }

@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useAuth } from '@/stores/auth'
-import { formatDate } from '@/tools/format'
+import { formatDate } from '@/utils/format'
 
 import { ElTabs, ElTabPane, ElAvatar } from 'element-plus'
 

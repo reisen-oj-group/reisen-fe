@@ -1,7 +1,6 @@
 import type { SyncConfigResponse } from '@/interface'
-import type { ReisenAxiosConfig } from '@/tools/axios'
-import axios from '@/tools/axios'
+import { apiFetchDefault } from '@/utils/ofetch'
 
 export const syncConfig = async () => {
-  return (await axios.get<SyncConfigResponse>('/sync-config', {} as ReisenAxiosConfig)).data
+  return apiFetchDefault<SyncConfigResponse>('/sync-config')
 }

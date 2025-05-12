@@ -96,7 +96,7 @@ import type { RecordFilterParams, SubmissionLite } from '@/interface'
 import { useConfig } from '@/stores/config'
 import { useRoute, useRouter } from 'vue-router'
 
-import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
+import { formatDate, formatMemory, formatTimeShort } from '@/utils/format'
 import VerdictTag from '../common/VerdictTag.vue'
 import { apiRecordList } from '@/api/record'
 import { omitBy } from 'lodash-es'

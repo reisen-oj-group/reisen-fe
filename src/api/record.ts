@@ -4,14 +4,19 @@ import type {
   RecordListRequest,
   RecordListResponse,
 } from '@/interface'
-import type { ReisenAxiosConfig } from '@/tools/axios'
-import axios from '@/tools/axios'
+
+import { apiFetchDefault } from '@/utils/ofetch'
 
 export const apiRecordList = async (request: RecordListRequest) => {
-  return (await axios.post<RecordListResponse>('/record/list', request, {} as ReisenAxiosConfig))
-    .data
+  return apiFetchDefault<RecordListResponse>('/record/list', {
+    method: 'POST',
+    body: request
+  })
 }
 
 export const apiRecordDetail = async (request: RecordDetailRequest) => {
-  return (await axios.post<RecordDetailResponse>('/record', request, {} as ReisenAxiosConfig)).data
+  return apiFetchDefault<RecordDetailResponse>('/record', {
+    method: 'POST',
+    body: request
+  })
 }

@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import type { SubmissionFull } from '@/interface'
-import { formatDate, formatMemory, formatTimeShort } from '@/tools/format'
+import { formatDate, formatMemory, formatTimeShort } from '@/utils/format'
 
 import { ElButton, ElCard } from 'element-plus'
 import { useRouter } from 'vue-router'

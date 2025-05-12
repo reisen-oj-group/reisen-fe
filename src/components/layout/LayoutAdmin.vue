@@ -1,20 +1,18 @@
 <template>
   <div class="layout">
     <div class="layout-body">
-      <div class="main-wrapper">
-        <div class="main-content">
-          <slot />
-        </div>
+      <div class="content-wrapper">
+        <router-view />
       </div>
-      <main-footer />
     </div>
-    <main-sidebar />
+    <admin-header />
+    <admin-sidebar />
   </div>
 </template>
 
 <script setup lang="ts">
-import MainFooter from './MainFooter.vue'
-import MainSidebar from './MainSidebar.vue'
+import AdminHeader from './AdminHeader.vue'
+import AdminSidebar from './AdminSidebar.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -28,18 +26,17 @@ import MainSidebar from './MainSidebar.vue'
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 60px;
+  margin-left: 160px;
+  margin-top: 60px;
+  padding: 24px;
   position: relative;
 }
 
-.main-wrapper {
+.content-wrapper {
   flex: 1;
 }
 
 .main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-  padding-right: 64px;
+  padding: 0;
 }
 </style>
