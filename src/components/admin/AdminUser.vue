@@ -5,7 +5,7 @@
       <el-input
         v-model="searchQuery"
         placeholder="搜索用户"
-        style="width: 300px; margin-left: 10px;"
+        style="width: 300px; margin-left: 10px"
         clearable
         @clear="handleSearch"
         @keyup.enter="handleSearch"
@@ -16,14 +16,9 @@
       </el-input>
     </div>
 
-    <el-table
-      :data="users"
-      v-loading="loading"
-      border
-      style="width: 100%; margin-top: 20px;"
-    >
+    <el-table :data="users" v-loading="loading" border style="width: 100%; margin-top: 20px">
       <el-table-column prop="id" label="ID" width="80" />
-      <el-table-column prop="name" label="用户名" />
+      <el-table-column prop="name" label="名称" />
       <el-table-column prop="role" label="角色">
         <template #default="{ row }">
           <el-tag :type="roleTagType(row.role)">
@@ -39,18 +34,16 @@
       <el-table-column label="操作" width="180">
         <template #default="{ row }">
           <el-button size="small" @click="handleEdit(row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(row)">
-            删除
-          </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(row)"> 删除 </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
+      :current-page="currentPage"
+      :page-size="50"
       :total="total"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="total, prev, pager, next, jumper"
       @size-change="fetchUsers"
       @current-change="fetchUsers"
     />
@@ -69,11 +62,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="头像">
-          <el-upload
-            action="/api/upload"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-          >
+          <el-upload action="/api/upload" :show-file-list="false" :on-success="handleAvatarSuccess">
             <el-avatar :src="form.avatar" />
           </el-upload>
         </el-form-item>
@@ -88,14 +77,28 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {
+  ElMessage,
+  ElMessageBox,
+  ElForm,
+  ElFormItem,
+  ElButton,
+  ElDialog,
+  ElAvatar,
+  ElUpload,
+  ElSelect,
+  ElOption,
+  ElTable,
+  ElTableColumn,
+  ElInput,
+} from 'element-plus'
 import { type User } from '@/interface'
 import { formatDate } from '@/utils/format'
 
 const users = ref<User[]>([])
 const loading = ref(false)
+
 const currentPage = ref(1)
-const pageSize = ref(20)
 const total = ref(0)
 const searchQuery = ref('')
 const dialogVisible = ref(false)
@@ -104,7 +107,7 @@ const form = ref({
   id: 0,
   name: '',
   role: 2,
-  avatar: ''
+  avatar: '',
 })
 
 const roleText = (role: number) => {
@@ -146,7 +149,7 @@ const handleCreate = () => {
     id: 0,
     name: '',
     role: 2,
-    avatar: ''
+    avatar: '',
   }
   dialogVisible.value = true
 }
@@ -159,7 +162,7 @@ const handleEdit = (user: User) => {
 
 const handleDelete = (user: User) => {
   ElMessageBox.confirm(`确定删除用户 "${user.name}"?`, '提示', {
-    type: 'warning'
+    type: 'warning',
   }).then(async () => {
     // try {
     //   // await deleteUser(user.id)
@@ -197,7 +200,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
 .toolbar {
   display: flex;
   justify-content: space-between;

@@ -55,13 +55,12 @@ import {
   background-color: #fff;
   border-right: 1px solid #eee;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 16px;
 }
 
 .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
 }
 

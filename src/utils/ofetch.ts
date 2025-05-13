@@ -42,6 +42,6 @@ const createFetchInstance = (success: boolean, error: boolean) => {
   })
 }
 
-export const apiFetchSilent = createFetchInstance(false, false)  // 静默，成功和失败时均静默（可以通过 try catch 自行处理）
-export const apiFetchRemind = createFetchInstance(true, true)   // 提醒，成功和失败时均提示，用于给予用户反馈（例如创建文章）
-export const apiFetchDefault = createFetchInstance(false, true)  // 默认，成功时静默、失败时提示，适用于大多数自动完成的请求（例如拉取列表）
+export const apiFetchSilent = createFetchInstance(false, false) // 静默，成功和失败时均静默（可以通过 try catch 自行处理）
+export const apiFetchRemind = createFetchInstance(true, true) // 提醒，成功和失败时均提示，用于给予用户反馈（例如创建文章）
+export const apiFetchDefault = createFetchInstance(false, true) // 默认，成功时静默、失败时提示，适用于大多数自动完成的请求（例如拉取列表）

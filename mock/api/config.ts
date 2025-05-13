@@ -1,4 +1,4 @@
-import type { MockMethod } from 'vite-plugin-mock'
+import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 
 import {
   configVerdicts,
@@ -9,7 +9,7 @@ import {
 } from '../data'
 import type { SyncConfigResponse } from '../interface'
 
-export default [
+export default defineFakeRoute([
   {
     url: '/api/sync-config',
     method: 'get',
@@ -24,4 +24,4 @@ export default [
       return response
     },
   },
-] as MockMethod[]
+])

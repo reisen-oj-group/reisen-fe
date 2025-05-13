@@ -1,17 +1,14 @@
 <template>
   <div class="sidebar">
     <div class="logo">LOGO</div>
-    <el-menu
-      :default-active="activeMenu" class="nav-bar" :router="true" mode="vertical"
-    >
-    
+    <el-menu :default-active="activeMenu" class="nav-bar" :router="true" mode="vertical">
       <el-menu-item class="nav-item" index="/">
         <font-awesome-icon class="nav-icon" :icon="faHouse" />
         <span class="nav-label">后台主页</span>
       </el-menu-item>
       <el-sub-menu class="nav-item" index="1">
         <template #title>
-        <font-awesome-icon class="nav-icon" :icon="faUser" />
+          <font-awesome-icon class="nav-icon" :icon="faUser" />
           <span class="nav-label">用户管理</span>
         </template>
         <el-menu-item class="nav-label" index="/admin/users">用户列表</el-menu-item>
@@ -73,13 +70,9 @@ import {
   faSliders,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import {
-  ElMenu,
-  ElMenuItem,
-  ElSubMenu
-} from 'element-plus';
+import { ElMenu, ElMenuItem, ElSubMenu } from 'element-plus'
 
 const route = useRoute()
 
@@ -95,16 +88,17 @@ const activeMenu = computed(() => {
   left: 0;
   bottom: 0;
   width: 160px;
+  z-index: 100;
   background-color: #fff;
   border-right: 1px solid #eee;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 16px;
+  overflow-y: auto;
 }
 
 .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
 }
 

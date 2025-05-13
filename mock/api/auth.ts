@@ -1,13 +1,13 @@
-import type { MockMethod } from 'vite-plugin-mock'
+import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 
 import { mockUsers } from '../data'
 import type { LoginRequest, LoginResponse } from '../interface'
 
-export default [
+export default defineFakeRoute([
   {
     url: '/api/auth/login',
     method: 'post',
-    response: (_request: { body: LoginRequest }) => {
+    response: (request: { body: Partial<LoginRequest> }) => {
       const response: LoginResponse = {
         token: 'CIRNO-BAKA',
         user: mockUsers[0],
@@ -15,4 +15,4 @@ export default [
       return response
     },
   },
-] as MockMethod[]
+])

@@ -4,6 +4,6 @@ import { apiFetchDefault } from '@/utils/ofetch'
 export const apiUser = async (request: UserRequest) => {
   return apiFetchDefault<UserResponse>('/user', {
     method: 'POST',
-    body: request
+    body: request,
   })
 }

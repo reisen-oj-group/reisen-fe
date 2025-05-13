@@ -34,11 +34,14 @@ import { ElHeader, ElAvatar, ElButton } from 'element-plus'
 
 import { useAuth } from '@/stores/auth'
 
-const _props = withDefaults(defineProps<{
-  admin?: boolean
-}>(), {
-  admin: false
-});
+const _props = withDefaults(
+  defineProps<{
+    admin?: boolean
+  }>(),
+  {
+    admin: false,
+  },
+)
 
 const auth = useAuth()
 </script>
@@ -49,6 +52,7 @@ const auth = useAuth()
   left: 160px;
   right: 0;
   top: 0;
+  z-index: 100;
 
   display: flex;
   justify-content: space-between;

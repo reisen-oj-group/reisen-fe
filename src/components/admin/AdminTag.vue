@@ -6,7 +6,7 @@
       <el-button @click="handleExport">导出</el-button>
     </div>
 
-    <el-table :data="tags" border style="width: 100%; margin-top: 20px;">
+    <el-table :data="tags" border style="width: 100%; margin-top: 20px">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="标签名" />
       <el-table-column prop="classify" label="分类">
@@ -17,9 +17,7 @@
       <el-table-column label="操作" width="180">
         <template #default="{ row }">
           <el-button size="small" @click="handleEdit(row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(row)">
-            删除
-          </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(row)"> 删除 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,11 +72,11 @@ const dialogTitle = ref('')
 const form = ref({
   id: 0,
   name: '',
-  classify: 0
+  classify: 0,
 })
 
 const getClassifyName = (id: number) => {
-  const classify = tagClassifies.value.find(c => c.id === id)
+  const classify = tagClassifies.value.find((c) => c.id === id)
   return classify?.name || '未知'
 }
 
@@ -105,7 +103,7 @@ const handleCreate = () => {
   form.value = {
     id: 0,
     name: '',
-    classify: tagClassifies.value[0]?.id || 0
+    classify: tagClassifies.value[0]?.id || 0,
   }
   dialogVisible.value = true
 }
@@ -118,7 +116,7 @@ const handleEdit = (tag: Tag) => {
 
 const handleDelete = (tag: Tag) => {
   ElMessageBox.confirm(`确定删除标签 "${tag.name}"?`, '提示', {
-    type: 'warning'
+    type: 'warning',
   }).then(async () => {
     try {
       // await deleteTag(tag.id)

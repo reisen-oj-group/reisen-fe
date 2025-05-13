@@ -1,4 +1,4 @@
-import type { MockMethod } from 'vite-plugin-mock'
+import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 
 import { mockSubmissionsFull, mockSubmissionsLite } from '../data'
 import type {
@@ -8,12 +8,12 @@ import type {
   RecordListResponse,
 } from '../interface'
 
-export default [
+export default defineFakeRoute([
   {
     url: '/api/record/list',
     method: 'post',
     timeout: 1000,
-    response: (_request: { body: RecordListRequest }) => {
+    response: (_request: { body: Partial<RecordListRequest> }) => {
       const response: RecordListResponse = {
         records: mockSubmissionsLite,
         total: 1000,
@@ -25,11 +25,11 @@ export default [
     url: '/api/record',
     method: 'post',
     timeout: 1000,
-    response: (_request: { body: RecordDetailRequest }) => {
+    response: (_request: { body: Partial<RecordDetailRequest> }) => {
       const response: RecordDetailResponse = {
         record: mockSubmissionsFull[0],
       }
       return response
     },
   },
-] as MockMethod[]
+])
