@@ -23,8 +23,13 @@ const router = createRouter({
     },
     {
       path: '/problem',
-      name: 'problem',
+      name: 'problem-list',
       component: ViewProblemList,
+    },
+    {
+      path: '/problem/create',
+      name: 'problem-create',
+      component: () => import('@/views/ViewProblemEdit.vue'),
     },
     {
       path: '/problem/:pid',
@@ -37,16 +42,6 @@ const router = createRouter({
       name: 'problem-edit',
       component: () => import('@/views/ViewProblemEdit.vue'),
       props: true,
-    },
-    {
-      path: '/create/problem',
-      name: 'problem-create',
-      component: () => import('@/views/ViewProblemEdit.vue'),
-    },
-    {
-      path: '/contest',
-      name: 'contest',
-      component: ViewContestList,
     },
     {
       path: '/record',
@@ -73,9 +68,25 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/contest/:cid_str(\\d+)/:plabel',
-      name: 'contest-problem-detail',
-      component: () => import('@/views/ViewProblemDetail.vue'),
+      path: '/contest',
+      name: 'contest-list',
+      component: ViewContestList,
+    },
+    {
+      path: '/contest/create',
+      name: 'contest-create',
+      component: ViewContestList,
+    },
+    {
+      path: '/contest/:cid_str(\\d+)',
+      name: 'contest-detail',
+      component: () => import('@/views/ViewContestDetail.vue'),
+      props: true,
+    },
+    {
+      path: '/contest/:cid_str(\\d+)/edit',
+      name: 'contest-edit',
+      component: import('@/views/ViewContestEdit.vue'),
       props: true,
     },
     {
@@ -85,9 +96,9 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/contest/:cid_str(\\d+)',
-      name: 'contest-detail',
-      component: () => import('@/views/ViewContestDetail.vue'),
+      path: '/contest/:cid_str(\\d+)/:plabel',
+      name: 'contest-problem-detail',
+      component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,
     },
     {

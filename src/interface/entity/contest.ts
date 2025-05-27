@@ -18,8 +18,6 @@ export interface Contest {
   endTime: Date
   rule: ContestRule
   problems: Record<ProblemLabel, ProblemId>
-  createdAt: Date
-  updatedAt: Date
 }
 
 // 表：比赛排名信息，比赛时动态维护

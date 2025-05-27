@@ -15,7 +15,6 @@ export const useAuth = defineStore('auth', () => {
   const currentToken = ref<string | null>(localStorage.getItem('token') || null)
 
   const redirectUrl = ref<string | null>(null)
-  const showLogin = ref(false)
 
   const isInitialized = ref(false)
   const isAuthenticated = computed(() => !!currentToken.value)
@@ -23,6 +22,9 @@ export const useAuth = defineStore('auth', () => {
   const setRedirectUrl = (url: string | null) => {
     redirectUrl.value = url
   }
+
+  const show = ref((tab: 'login' | 'register' = 'login') => {})
+  const hide = ref(() => {})
 
   const login = async (credentials: LoginRequest) => {
     const response = await apiLogin(credentials)
@@ -66,8 +68,9 @@ export const useAuth = defineStore('auth', () => {
     currentToken,
     isInitialized,
     isAuthenticated,
-    showLogin,
     setRedirectUrl,
+    show,
+    hide,
     login,
     logout,
     register,

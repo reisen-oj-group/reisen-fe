@@ -17,7 +17,12 @@
 
     <template v-if="currentLang">
       <template v-if="CStatement">
-        <el-form :model="CStatement" :label-width="100" label-position="left">
+        <el-form :label-width="100" label-position="left" >
+          
+          <el-form-item label="标题">
+            <el-input v-model="CTitle" />
+          </el-form-item>
+
           <problem-edit-part label="题目背景" v-model="CStatement.background" />
           <problem-edit-part label="输入格式" v-model="CStatement.formatI" />
           <problem-edit-part label="输出格式" v-model="CStatement.formatO" />
@@ -61,9 +66,9 @@
         <el-button type="primary" @click="saveStatement"> 保存 </el-button>
       </template>
       <template v-else>
-        <el-form :model="createForm">
+        <el-form>
           <el-form-item label="标题">
-            <el-input v-model="createForm.title" />
+            <el-input v-model="CTitle" />
           </el-form-item>
         </el-form>
 
@@ -96,14 +101,8 @@ const currentLang = ref<string | undefined>(undefined)
 const CStatement = ref<Statement | undefined>(undefined)
 const CTitle = ref<string | undefined>(undefined)
 
-const createForm = ref({
-  title: '',
-})
-
 function createStatement() {
   if (!currentLang.value) return
-
-  CTitle.value = createForm.value.title
   CStatement.value = { examples: [] }
 }
 

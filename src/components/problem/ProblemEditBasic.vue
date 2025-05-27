@@ -17,7 +17,7 @@
       <el-form-item label="题目类型">
         <el-select v-model="problem.type">
           <el-option value="traditional" label="传统" />
-          <el-option value="interaction" label="交互" />
+          <el-option value="interactive" label="交互" />
         </el-select>
       </el-form-item>
       <el-form-item label="题目难度">

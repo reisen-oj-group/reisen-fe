@@ -62,7 +62,7 @@ async function getProblem() {
         loading.value = false
       })
   } else {
-    ;(problem.value as unknown as Problem) = {
+    problem.value = {
       id: '',
       type: 'traditional',
       statements: {},

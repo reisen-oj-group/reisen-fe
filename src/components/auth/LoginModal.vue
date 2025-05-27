@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="authStore.showLogin" :show-close="false" width="450px" @close="doClose">
+  <el-dialog v-model="showLogin" :show-close="false" width="450px" @close="doClose">
     <template #header>
       <el-alert v-if="loginError" :title="loginError" type="error" :closable="false" show-icon />
     </template>
@@ -109,13 +109,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { useAuth } from '@/stores/auth'
 import type { FormInstance, FormRules } from 'element-plus'
 
 import { ElForm, ElFormItem, ElInput, ElDialog, ElTabs, ElTabPane } from 'element-plus'
 
-const authStore = useAuth()
+const authStore  = useAuth()
+const showLogin = ref(false)
 
 // 模态框状态
 const activeTab = ref<'login' | 'register'>('login')
@@ -196,7 +197,7 @@ const handleLogin = async () => {
     await loginFormRef.value?.validate()
     loginLoading.value = true
     await authStore.login(loginForm)
-    authStore.showLogin = false
+    showLogin.value = false
   } catch (error: unknown) {
     if (error instanceof Error) {
       // 如果包含 Axios 错误信息结构
@@ -240,15 +241,14 @@ const handleRegister = async () => {
   }
 }
 
-// 暴露方法供外部调用
-defineExpose({
-  show: (tab: 'login' | 'register' = 'login') => {
+onMounted(() => {
+  authStore.show = (tab: 'login' | 'register' = 'login') => {
     activeTab.value = tab
-    authStore.showLogin = true
-  },
-  hide: () => {
-    authStore.showLogin = false
-  },
+    showLogin.value = true
+  };
+  authStore.hide = () => {
+    showLogin.value= false
+  };
 })
 </script>
 

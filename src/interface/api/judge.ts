@@ -1,5 +1,6 @@
 import type {
   CodeLangId,
+  ContestId,
   ProblemId,
   SubmissionFull,
   SubmissionId,
@@ -31,5 +32,16 @@ export interface RecordDetailRequest {
 }
 
 export interface RecordDetailResponse {
+  record: SubmissionFull
+}
+
+export interface JudgeRequest {
+  problem: ProblemId
+  lang: CodeLangId
+  code: string
+  contest?: ContestId
+}
+
+export interface JudgeResponse {
   record: SubmissionFull
 }

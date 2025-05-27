@@ -22,11 +22,22 @@ export type ProblemFilterQuery = ProblemFilterParams & {
 
 export interface ProblemRequest {
   problem: ProblemId
+  user?: UserId
 }
 
 export interface ProblemResponse {
   problem: Problem
   result?: Result
+}
+
+// 如果 problem.id 为 0，则为创建题面
+export interface ProblemEditRequest {
+  problem: Problem
+}
+
+// 应答创建后的题面（补全缺失信息）
+export interface ProblemEditResponse {
+  problem: Problem
 }
 
 export interface ProblemSolvedRequest {

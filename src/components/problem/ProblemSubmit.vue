@@ -21,7 +21,15 @@
         />
       </el-form-item>
       <el-form-item label="或者">
-        <el-button type="primary">上传代码</el-button>
+        <el-upload
+          class="upload-demo"
+          action="#"
+          :auto-upload="false"
+          :on-change="handleCodeUpload"
+          :show-file-list="false"
+        >
+          <el-button type="primary">上传代码</el-button>
+        </el-upload>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -56,4 +64,22 @@ const form = reactive({
   code: '',
   id: 0,
 })
+
+function getExtension(fileName: string): string {
+  // 处理没有扩展名的情况
+  if (!fileName.includes('.')) return ''
+  
+  // 分割文件名获取扩展名
+  const parts = fileName.split('.')
+  return '.' + parts[parts.length - 1].toLowerCase()
+}
+
+function handleCodeUpload(file: File){
+  const extension = getExtension(file.name)
+  
+  // TODO: Auto detect extension
+
+  // 将代码内容填入表单
+  file.text().then(value => form.code = value);
+}
 </script>

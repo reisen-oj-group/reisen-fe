@@ -1,7 +1,8 @@
 import './assets/main.scss'
 
 import 'casket-star/themes/casket/light.css'
-import 'casket-star/themes/markdown/light.css'
+// import 'casket-star/themes/markdown/light.css'
+import './assets/casket-star/light.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

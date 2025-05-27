@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar">
-    <div class="logo">LOGO</div>
+    <div class="logo">LOGO 后台</div>
     <el-menu :default-active="activeMenu" class="nav-bar" :router="true" mode="vertical">
       <el-menu-item class="nav-item" index="/">
         <font-awesome-icon class="nav-icon" :icon="faHouse" />
-        <span class="nav-label">后台主页</span>
+        <span class="nav-label">返回前台</span>
       </el-menu-item>
       <el-sub-menu class="nav-item" index="1">
         <template #title>
