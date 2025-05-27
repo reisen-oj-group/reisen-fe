@@ -1,4 +1,4 @@
-name: Reison Front-end Deploy
+name: Reisen Front-end Deploy
  
 on:
   push:
