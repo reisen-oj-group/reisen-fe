@@ -43,7 +43,7 @@ import { apiProblem } from '@/api'
 
 const activeTab = ref('basic')
 const props = defineProps<{
-  pid?: string
+  pid_str?: string
 }>()
 
 const problem = ref<Problem | null>(null)
@@ -52,9 +52,9 @@ const loading = ref(false)
 async function getProblem() {
   problem.value = null
 
-  if (props.pid) {
+  if (props.pid_str) {
     loading.value = true
-    await apiProblem({ problem: props.pid })
+    await apiProblem({ problem: parseInt(props.pid_str) })
       .then((response) => {
         problem.value = response.problem
       })
@@ -63,7 +63,7 @@ async function getProblem() {
       })
   } else {
     problem.value = {
-      id: '',
+      id: 0,
       type: 'traditional',
       statements: {},
       status: 'private',
@@ -74,6 +74,10 @@ async function getProblem() {
       difficulty: 0,
       tags: [],
       title: {},
+      hasTestdata: false,
+      hasConfig: false,
+      updatedAt: new Date(0),
+      createdAt: new Date(0),
     }
   }
 }

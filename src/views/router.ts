@@ -32,13 +32,13 @@ const router = createRouter({
       component: () => import('@/views/ViewProblemEdit.vue'),
     },
     {
-      path: '/problem/:pid',
+      path: '/problem/:pid_str(\\d+)',
       name: 'problem-detail',
       component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,
     },
     {
-      path: '/problem/:pid/edit',
+      path: '/problem/:pid_str(\\d+)/edit',
       name: 'problem-edit',
       component: () => import('@/views/ViewProblemEdit.vue'),
       props: true,

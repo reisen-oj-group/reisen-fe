@@ -23,7 +23,7 @@ export const mockProblemsCore: ProblemCore[] = (() => {
   for (let i = 0; i < 100; ++i) {
     const count = random(1, 10000)
     const problem: ProblemCore = {
-      id: `P${1000 + i}`,
+      id: 1000 + i,
       type: sample(['traditional', 'interactive'])!,
       status: sample(['public', 'private', 'contest'])!,
       limitTime: sample([1000, 2000, 3000])!,
@@ -52,6 +52,9 @@ export const mockProblems: Problem[] = (() => {
       statements: {
         'en-US': mockStatements[0],
       },
+      hasTestdata: false,
+      hasConfig: false,
+      dataUpdated: new Date(0),
     })
   }
   return list

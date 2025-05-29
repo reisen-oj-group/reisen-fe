@@ -115,7 +115,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 import { ElForm, ElFormItem, ElInput, ElDialog, ElTabs, ElTabPane } from 'element-plus'
 
-const authStore  = useAuth()
+const authStore = useAuth()
 const showLogin = ref(false)
 
 // 模态框状态
@@ -245,10 +245,10 @@ onMounted(() => {
   authStore.show = (tab: 'login' | 'register' = 'login') => {
     activeTab.value = tab
     showLogin.value = true
-  };
+  }
   authStore.hide = () => {
-    showLogin.value= false
-  };
+    showLogin.value = false
+  }
 })
 </script>
 

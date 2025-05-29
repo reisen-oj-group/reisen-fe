@@ -56,12 +56,11 @@ const contest = defineModel<Contest>({
   required: true,
 })
 
-const dateRange = ref<[Date, Date] | undefined>();
+const dateRange = ref<[Date, Date] | undefined>()
 
 watch(dateRange, () => {
-  if(!dateRange.value)
-    return;
-  [ contest.value.startTime, contest.value.endTime ] = dateRange.value;
+  if (!dateRange.value) return
+  ;[contest.value.startTime, contest.value.endTime] = dateRange.value
 })
 
 function saveProblem() {}

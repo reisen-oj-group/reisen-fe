@@ -30,6 +30,9 @@ export interface ProblemCore {
   tags: TagId[]
 
   title: Record<UserLangId, string> // 多语言对应不同题目名称，缺省使用第一个
+
+  updatedAt: Date
+  createdAt: Date
 }
 
 // 题面，一条题目对应多个题面
@@ -50,6 +53,9 @@ export interface Statement {
 // 表：题目
 export interface Problem extends ProblemCore {
   statements: Record<string, Statement>
+
+  hasTestdata: boolean
+  hasConfig: boolean
 }
 
 // 配置文件：难度等级

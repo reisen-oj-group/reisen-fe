@@ -21,8 +21,8 @@ export function formatDate(date: Date) {
   }
 }
 
-export function formatTimeShort(ms?: number) {
-  if (!ms) return '-'
+export function formatTimeShort(ms: number | undefined) {
+  if (ms === undefined) return '-'
   if (ms >= 10000) {
     return `${(ms / 1000).toFixed(1)}s`
   }
@@ -30,7 +30,7 @@ export function formatTimeShort(ms?: number) {
 }
 
 export function formatMemory(kb: number | undefined) {
-  if (!kb) return '-'
+  if (kb === undefined) return '-'
   if (kb >= 1024 * 1024) {
     return `${(kb / (1024 * 1024)).toFixed(1)}GB`
   } else if (kb >= 1024) {
@@ -40,7 +40,7 @@ export function formatMemory(kb: number | undefined) {
 }
 
 export function formatTimeContest(ms: number | undefined, short: boolean = true) {
-  if (!ms) return '-'
+  if (ms === undefined) return '-'
   const dd = Math.floor(ms / (1000 * 60 * 60 * 24))
   const hh = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
 
@@ -54,7 +54,7 @@ export function formatTimeContest(ms: number | undefined, short: boolean = true)
 }
 
 export function formatTimeLong(ms: number | undefined, short: boolean = true) {
-  if (!ms) return '-'
+  if (ms === undefined) return '-'
 
   const dd = Math.floor(ms / (1000 * 60 * 60 * 24))
   const hh = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))

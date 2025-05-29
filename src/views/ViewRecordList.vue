@@ -17,14 +17,14 @@ import { ref } from 'vue'
 import type { RecordFilterParams } from '@/interface'
 
 import { useRoute, type LocationQuery } from 'vue-router'
-import { queryNoS, queryStr } from '@/utils/query'
+import { queryNoS, queryStr, queryNum } from '@/utils/query'
 
 const route = useRoute()
 
 function buildForm(query: LocationQuery) {
   return {
     user: queryNoS(query.user),
-    problem: queryStr(query.problem),
+    problem: queryNum(query.problem),
     lang: queryStr(query.lang),
     verdict: queryStr(query.verdict),
   }

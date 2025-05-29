@@ -16,7 +16,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     submission: new Date('2023-07-20T10:30:00'),
     evaluation: new Date('2023-07-20T10:30:05'),
     user: 1,
-    problem: 'P1001',
+    problem: 1001,
     time: 42,
     memory: 1024,
     length: 120,
@@ -29,7 +29,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     submission: new Date('2023-07-20T11:15:00'),
     evaluation: new Date('2023-07-20T11:15:10'),
     user: 2,
-    problem: 'P1002',
+    problem: 1002,
     time: 1500,
     memory: 256000,
     length: 250,
@@ -42,7 +42,7 @@ export const mockSubmissionsCore: SubmissionCore[] = [
     submission: new Date('2023-07-20T12:45:00'),
     evaluation: new Date('2023-07-20T12:45:03'),
     user: 3,
-    problem: 'P1003',
+    problem: 1003,
     time: 85,
     memory: 5120,
     length: 180,
@@ -177,7 +177,7 @@ export const mockResults: Result[] = (() => {
   const list: Result[] = []
   for (let i = 0; i < 100; ++i) {
     const result: Result = {
-      problem: `P${1000 + i}`,
+      problem: 1000 + i,
       user: 1,
       contest: random(0, 5),
       judge: sample(['correct', 'incorrect', random(0, 100)])!,

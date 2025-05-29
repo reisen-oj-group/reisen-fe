@@ -17,7 +17,7 @@ export default defineConfig(({ command }) => {
         include: 'mock',
         infixName: false,
         enableDev: true,
-        enableProd: true
+        enableProd: false
       }),
     ],
     resolve: {

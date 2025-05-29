@@ -31,8 +31,8 @@
     <el-button type="primary" :disabled="!problem" @click="openSubmit = true">提交</el-button>
 
     <el-space fill :fill-ratio="40">
-      <el-button plain>全部记录</el-button>
-      <el-button plain>我的记录</el-button>
+      <el-button plain @click="gotoAllRecords">全部记录</el-button>
+      <el-button plain @click="gotoMyRecords">我的记录</el-button>
     </el-space>
   </div>
 
@@ -43,15 +43,17 @@
 import ProblemSubmit from './ProblemSubmit.vue'
 import type { Problem, Result } from '@/interface'
 import { useRouter } from 'vue-router'
+import { useAuth } from '@/stores/auth'
 
 import { ElButton, ElCard, ElSpace } from 'element-plus'
 import { ref } from 'vue'
 
 const router = useRouter()
+const auth = useAuth()
 
 const openSubmit = ref(false)
 
-const _props = withDefaults(
+const props = withDefaults(
   defineProps<{
     problem: Problem | null
     result: Result | null
@@ -62,6 +64,20 @@ const _props = withDefaults(
     edit: false,
   },
 )
+
+const gotoAllRecords = () => {
+  if (!props.problem) return
+  router.push(`/record?problem=${props.problem.id}`)
+}
+
+const gotoMyRecords = () => {
+  if (!props.problem) return
+  if (!auth.currentUser) {
+    auth.show('login')
+    return
+  }
+  router.push(`/record?problem=${props.problem.id}&user=${auth.currentUser.id}`)
+}
 </script>
 
 <style lang="scss" scoped>

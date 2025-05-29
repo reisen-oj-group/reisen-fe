@@ -17,8 +17,7 @@
 
     <template v-if="currentLang">
       <template v-if="CStatement">
-        <el-form :label-width="100" label-position="left" >
-          
+        <el-form :label-width="100" label-position="left">
           <el-form-item label="标题">
             <el-input v-model="CTitle" />
           </el-form-item>

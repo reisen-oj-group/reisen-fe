@@ -66,8 +66,8 @@ async function getProblem() {
       startTime: new Date(),
       endTime: new Date(),
       rule: 'IOI',
-      problems: {}
-    };
+      problems: {},
+    }
   }
 }
 

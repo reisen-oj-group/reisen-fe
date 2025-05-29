@@ -1,3 +1,4 @@
+import { has } from 'lodash-es'
 import { ofetch } from 'ofetch'
 import Swal from 'sweetalert2'
 
@@ -13,20 +14,31 @@ const createFetchInstance = (success: boolean, error: boolean) => {
   return ofetch.create({
     baseURL: '/api',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     async onRequest({ options }) {
       // 请求拦截器 - 添加 token
-      const token = localStorage.getItem('token')
-      if (token) {
-        options.headers.set('Authorization', `Bearer ${token}`)
+      const tokenL = localStorage.getItem('token')
+      const tokenS = sessionStorage.getItem('token')
+      if (tokenS) {
+        options.headers.set('Authorization', `Bearer ${tokenS}`)
+      } else if (tokenL) {
+        options.headers.set('Authorization', `Bearer ${tokenL}`)
       }
     },
     async onResponse({ response, options }) {
       // 响应拦截器 - 成功处理
       if (success) {
         showSuccess('操作成功')
+      }
+
+      if (has(response, 'data') && has(response, 'code') && has(response, 'message')) {
+        if (response._data.code !== 200) {
+          const message = response?._data?.message || '请求失败'
+          if (error) {
+            showError(message)
+          }
+          throw response._data.data
+        }
+        return response._data.data
       }
       return response._data
     },

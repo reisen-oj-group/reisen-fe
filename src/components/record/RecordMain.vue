@@ -7,8 +7,8 @@
         <el-tab-pane label="编译信息" name="compile">
           <div v-if="record.compile" class="compile-info">
             <el-alert
-              :type="record.verdict === 'CE' ? 'error' : 'success'"
-              :title="record.verdict === 'CE' ? '编译错误' : '编译成功'"
+              :type="record.compile.success ? 'success' : 'error'"
+              :title="record.compile.success ? '编译成功' : '编译错误'"
               :closable="false"
             />
             <pre class="compile-message">{{ record.compile.message }}</pre>
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import {
   ElTabs,
   ElTabPane,
@@ -106,7 +106,7 @@ import { formatMemory } from '@/utils/format'
 
 const { verdicts, codeLangs } = useConfig().config
 
-const _props = defineProps<{
+const props = defineProps<{
   record: null | SubmissionFull
   loading: boolean
 }>()
@@ -121,6 +121,17 @@ function showTestcase(testcase: Testcase, index: number) {
   selectedTestcaseIndex.value = index
   testcaseDialogVisible.value = true
 }
+
+watch(
+  () => props.loading,
+  () => {
+    if (props.record && props.record.compile?.success) {
+      activeTab.value = 'testcases'
+    } else {
+      activeTab.value = 'compile'
+    }
+  },
+)
 </script>
 
 <style scoped lang="scss">

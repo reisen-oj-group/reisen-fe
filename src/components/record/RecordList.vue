@@ -134,6 +134,7 @@ async function fetchData() {
     page: currentPage.value,
   })
     .then((response) => {
+      console.log(response)
       records.value = response.records
       total.value = response.total
     })

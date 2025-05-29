@@ -1,5 +1,5 @@
 export type ContestId = number
-export type ProblemId = string
+export type ProblemId = number
 export type SubmissionId = number
 export type TagId = number
 export type TagClassifyId = number

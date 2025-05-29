@@ -38,14 +38,14 @@ async function getProblem() {
   problem.value = null
   loading.value = true
 
-  let query: string = ''
+  let query: number = 0
 
   if (props.cid_str && props.plabel) {
     await contestStore.enter(parseInt(props.cid_str)).then(() => {
       query = contestStore.currentContest!.problems[props.plabel!]
     })
-  } else if (props.pid) {
-    query = props.pid
+  } else if (props.pid_str) {
+    query = parseInt(props.pid_str)
   }
 
   if (query) {
@@ -63,8 +63,8 @@ async function getProblem() {
 }
 
 const props = defineProps<{
-  pid?: string
   plabel?: string
+  pid_str?: string
   cid_str?: string
 }>()
 

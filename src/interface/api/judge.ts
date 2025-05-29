@@ -37,11 +37,11 @@ export interface RecordDetailResponse {
 
 export interface JudgeRequest {
   problem: ProblemId
+  contest?: ContestId
   lang: CodeLangId
   code: string
-  contest?: ContestId
 }
 
 export interface JudgeResponse {
-  record: SubmissionFull
+  record: SubmissionId
 }

@@ -15,6 +15,7 @@ export type Judge = 'correct' | 'incorrect' | number
 // 配置文件：提交语言
 export interface CodeLang {
   id: CodeLangId
+  ext: string[] // 用于识别文件的文件后缀
   description: string // 语言描述，例如 C++11 (GCC9)
   ratio: number // 时限比率，用于给更慢的语言乘上倍率
 }

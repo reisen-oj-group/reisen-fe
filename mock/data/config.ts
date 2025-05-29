@@ -1,9 +1,9 @@
 import type { CodeLang, Level, Tag, TagId, UserLang, Verdict } from '../interface'
 
 export const configCodeLangs: Record<string, CodeLang> = {
-  cpp: { id: 'cpp', description: 'C++17 (GCC 9)', ratio: 1 },
-  java: { id: 'java', description: 'Java 11', ratio: 2 },
-  python: { id: 'python', description: 'Python 3.8', ratio: 3 },
+  cpp: { id: 'cpp', ext: ['.cpp'], description: 'C++17 (GCC 9)', ratio: 1 },
+  java: { id: 'java', ext: ['.java'], description: 'Java 11', ratio: 2 },
+  python: { id: 'python', ext: ['.py'], description: 'Python 3.8', ratio: 3 },
 }
 
 export const configUserLangs: Record<string, UserLang> = {
