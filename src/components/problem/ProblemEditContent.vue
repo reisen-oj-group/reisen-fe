@@ -23,6 +23,7 @@
           </el-form-item>
 
           <problem-edit-part label="题目背景" v-model="CStatement.background" />
+          <problem-edit-part label="题目描述" v-model="CStatement.legend" />
           <problem-edit-part label="输入格式" v-model="CStatement.formatI" />
           <problem-edit-part label="输出格式" v-model="CStatement.formatO" />
 

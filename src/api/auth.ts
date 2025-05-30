@@ -3,6 +3,8 @@ import type {
   LoginResponse,
   LogoutRequest,
   LogoutResponse,
+  MeRequest,
+  MeResponse,
   RegisterRequest,
   RegisterResponse,
 } from '@/interface'
@@ -25,6 +27,13 @@ export const apiLogout = async (payload: LogoutRequest) => {
 
 export const apiRegister = async (payload: RegisterRequest) => {
   return apiFetchSilent<RegisterResponse>('/auth/register', {
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export const apiMe = async (payload: MeRequest) => {
+  return apiFetchSilent<MeResponse>('/auth/me', {
     method: 'POST',
     body: payload,
   })
