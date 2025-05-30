@@ -10,7 +10,7 @@ import type {
   TestdataConfigRequest,
   TestdataConfigResponse,
 } from '@/interface'
-import { apiFetchDefault } from '@/utils/ofetch'
+import { apiFetchDefault, apiFetchRemind } from '@/utils/ofetch'
 
 export const apiTestdataDownload = async (request: TestdataDownloadRequest) => {
   return apiFetchDefault<TestdataDownloadResponse>('/testdata', {
@@ -24,14 +24,14 @@ export const apiTestdataUpload = async (request: TestdataUploadRequest) => {
   formData.append('problem', request.problem.toString())
   formData.append('file', request.file)
 
-  return apiFetchDefault<TestdataUploadResponse>('/testdata/upload', {
+  return apiFetchRemind<TestdataUploadResponse>('/testdata/upload', {
     method: 'POST',
     body: formData,
   })
 }
 
 export const apiTestdataDelete = async (request: TestdataDeleteRequest) => {
-  return apiFetchDefault<TestdataDeleteResponse>('/testdata/delete', {
+  return apiFetchRemind<TestdataDeleteResponse>('/testdata/delete', {
     method: 'POST',
     body: request,
   })

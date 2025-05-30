@@ -42,6 +42,7 @@ const router = createRouter({
       name: 'problem-edit',
       component: () => import('@/views/ViewProblemEdit.vue'),
       props: true,
+      meta: { requiresAuth: true },
     },
     {
       path: '/record',

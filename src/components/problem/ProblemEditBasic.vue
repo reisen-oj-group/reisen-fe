@@ -26,7 +26,7 @@
       <el-form-item label="标签设置"> </el-form-item>
     </el-form>
 
-    <el-button type="primary" @click="saveProblem"> 保存 </el-button>
+    <el-button :loading="saving" type="primary" @click="saveProblem"> 保存 </el-button>
   </div>
 </template>
 
@@ -35,13 +35,26 @@ import type { Problem } from '@/interface'
 import { ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
 
 import { useConfig } from '@/stores/config'
+import { ref } from 'vue'
+import { apiProblemEdit } from '@/api'
 const { difficulties } = useConfig().config
+
+const saving = ref(false)
 
 const problem = defineModel<Problem>({
   required: true,
 })
 
-function saveProblem() {}
+async function saveProblem() {
+  saving.value = true
+  try {
+    await apiProblemEdit({
+      problem: problem.value
+    })
+  } finally {
+    saving.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -32,7 +32,7 @@ const createFetchInstance = (success: boolean, error: boolean) => {
 
       if (has(response, 'data') && has(response, 'code') && has(response, 'message')) {
         if (response._data.code !== 200) {
-          const message = response?._data?.message || '请求失败'
+          const message = response?._data?.error || '请求失败'
           if (error) {
             showError(message)
           }
@@ -44,7 +44,7 @@ const createFetchInstance = (success: boolean, error: boolean) => {
     },
     async onResponseError({ response, options }) {
       // 响应拦截器 - 错误处理
-      const message = response?._data?.message || '请求失败'
+      const message = response?._data?.error || '请求失败'
 
       if (error) {
         showError(message)

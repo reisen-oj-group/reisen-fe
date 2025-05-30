@@ -10,7 +10,7 @@
         />
       </el-select>
 
-      <el-button type="danger" v-if="currentLang" @click="deleteStatement"> 删除 </el-button>
+      <el-button :loading="saving" type="danger" v-if="currentLang" @click="deleteStatement"> 删除 </el-button>
     </div>
 
     <el-divider />
@@ -62,7 +62,7 @@
           <problem-edit-part label="提示" v-model="CStatement.hint" />
         </el-form>
 
-        <el-button type="primary" @click="saveStatement"> 保存 </el-button>
+        <el-button :loading="saving" type="primary" @click="saveStatement"> 保存 </el-button>
       </template>
       <template v-else>
         <el-form>
@@ -89,6 +89,9 @@ import { ref, watch } from 'vue'
 
 import { useConfig } from '@/stores/config'
 import { cloneDeep, remove } from 'lodash-es'
+import { apiProblemEdit } from '@/api'
+
+import Swal from 'sweetalert2'
 
 const config = useConfig()
 
@@ -100,6 +103,8 @@ const currentLang = ref<string | undefined>(undefined)
 const CStatement = ref<Statement | undefined>(undefined)
 const CTitle = ref<string | undefined>(undefined)
 
+const saving = ref(false)
+
 function createStatement() {
   if (!currentLang.value) return
   CStatement.value = { examples: [] }
@@ -107,16 +112,43 @@ function createStatement() {
 
 function deleteStatement() {
   if (!currentLang.value) return
-  delete problem.value.title[currentLang.value]
-  delete problem.value.statements[currentLang.value]
 
-  CStatement.value = problem.value.statements[currentLang.value]
+  Swal.fire({
+    title: '确认删除吗？',
+    text: "删除后将无法恢复！",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+  }).then((result) => {
+    if (!currentLang.value) return
+    if (result.isConfirmed) {
+      delete problem.value.title[currentLang.value]
+      delete problem.value.statements[currentLang.value]
+      CStatement.value = problem.value.statements[currentLang.value]
+      saveProblem()
+    }
+  });
+
 }
 
 function saveStatement() {
   if (!currentLang.value || CTitle.value === undefined || CStatement.value === undefined) return
   problem.value.title[currentLang.value] = CTitle.value
   problem.value.statements[currentLang.value] = cloneDeep(CStatement.value)
+
+  saveProblem()
+}
+
+async function saveProblem() {
+  saving.value = true
+  try {
+    await apiProblemEdit({
+      problem: problem.value
+    })
+  } finally {
+    saving.value = false
+  }
 }
 
 function deleteExample(id: number) {
@@ -128,6 +160,7 @@ watch(currentLang, () => {
   if (!currentLang.value) return
 
   CStatement.value = problem.value.statements[currentLang.value]
+  CTitle.value = problem.value.title[currentLang.value]
 })
 
 const keyList: ['background' | 'formatI' | 'formatO', string][] = [

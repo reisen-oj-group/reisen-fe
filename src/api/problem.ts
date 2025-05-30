@@ -11,7 +11,7 @@ import type {
   ProblemSolvedResponse,
 } from '@/interface'
 
-import { apiFetchDefault } from '@/utils/ofetch'
+import { apiFetchDefault, apiFetchRemind } from '@/utils/ofetch'
 
 export const apiProblemList = async (request: ProblemListRequest) => {
   return apiFetchDefault<ProblemListResponse>('/problem/list', {
@@ -35,14 +35,14 @@ export const apiProblem = async (request: ProblemRequest) => {
 }
 
 export const apiProblemEdit = async (request: ProblemEditRequest) => {
-  return apiFetchDefault<ProblemEditResponse>('/problem/edit', {
+  return apiFetchRemind<ProblemEditResponse>('/problem/edit', {
     method: 'POST',
     body: request,
   })
 }
 
 export const apiProblemDelete = async (request: ProblemEditRequest) => {
-  return apiFetchDefault<ProblemEditResponse>('/problem/delete', {
+  return apiFetchRemind<ProblemEditResponse>('/problem/delete', {
     method: 'POST',
     body: request,
   })

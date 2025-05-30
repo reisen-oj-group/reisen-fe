@@ -7,3 +7,11 @@ export interface UserRequest {
 export interface UserResponse {
   user: User
 }
+
+export interface AvatarUploadRequest {
+  file: File
+}
+
+export interface AvatarUploadResponse {
+  avatar: string
+}
