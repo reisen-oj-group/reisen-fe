@@ -23,7 +23,7 @@ const route = useRoute()
 
 function buildForm(query: LocationQuery) {
   return {
-    user: queryNoS(query.user),
+    user: queryStr(query.user),
     problem: queryNum(query.problem),
     lang: queryStr(query.lang),
     verdict: queryStr(query.verdict),

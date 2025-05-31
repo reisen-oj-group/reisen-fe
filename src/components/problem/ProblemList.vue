@@ -61,7 +61,7 @@
 
           <td class="problem">
             <router-link :to="`/problem/${problem.id}`" class="problem-title">
-              {{ problem.title['en-US'] }}
+              {{ problem.title['zh-CN'] || Object.values(problem.title)[0] || '暂无标题' }}
             </router-link>
             <div class="tags">
               <span v-for="tag in problem.tags" :key="tag" class="tag">{{ tag }}</span>
@@ -155,11 +155,7 @@ async function fetchData() {
   )
   router.push({ query })
 
-  apiProblemList({
-    ...props.filter,
-    page: currentPage.value,
-    user: auth.currentUser?.id,
-  })
+  apiProblemList(query)
     .then((response) => {
       // 将 results 按照 problem 字段（即 Problem 的 id）建立索引
       const resultsByProblemId = keyBy(response.results, 'problem')

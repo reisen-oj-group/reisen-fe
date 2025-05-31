@@ -1,4 +1,4 @@
-import type { ProblemId, TagClassifyId, TagId, UserLangId } from './enum'
+import type { ProblemId, TagClassifyId, TagId, UserId, UserLangId } from './enum'
 
 // 配置文件：标签分类（算法标签（有若干子类）、来源标签、技术性标签）
 export interface TagClassify {
@@ -28,6 +28,7 @@ export interface ProblemCore {
 
   difficulty: number
   tags: TagId[]
+  provider: UserId
 
   title: Record<UserLangId, string> // 多语言对应不同题目名称，缺省使用第一个
 

@@ -1,6 +1,8 @@
 import type {
   JudgeRequest,
   JudgeResponse,
+  ProblemDeleteRequest,
+  ProblemDeleteResponse,
   ProblemEditRequest,
   ProblemEditResponse,
   ProblemListRequest,
@@ -15,6 +17,20 @@ import { apiFetchDefault, apiFetchRemind } from '@/utils/ofetch'
 
 export const apiProblemList = async (request: ProblemListRequest) => {
   return apiFetchDefault<ProblemListResponse>('/problem/list', {
+    method: 'POST',
+    body: request,
+  })
+}
+
+export const apiProblemMine = async (request: ProblemListRequest) => {
+  return apiFetchDefault<ProblemListResponse>('/problem/mine', {
+    method: 'POST',
+    body: request,
+  })
+}
+
+export const apiProblemAll = async (request: ProblemListRequest) => {
+  return apiFetchDefault<ProblemListResponse>('/problem/all', {
     method: 'POST',
     body: request,
   })
@@ -41,8 +57,8 @@ export const apiProblemEdit = async (request: ProblemEditRequest) => {
   })
 }
 
-export const apiProblemDelete = async (request: ProblemEditRequest) => {
-  return apiFetchRemind<ProblemEditResponse>('/problem/delete', {
+export const apiProblemDelete = async (request: ProblemDeleteRequest) => {
+  return apiFetchRemind<ProblemDeleteResponse>('/problem/delete', {
     method: 'POST',
     body: request,
   })

@@ -6,7 +6,7 @@
           <el-input v-model="form.user" placeholder="用户名或 ID" clearable />
         </el-form-item>
         <el-form-item label="试题" class="filter-item">
-          <el-input v-model="form.problem" placeholder="题目 ID" clearable />
+          <el-input v-model.number="form.problem" placeholder="题目 ID" clearable />
         </el-form-item>
         <el-form-item label="语言" class="filter-item">
           <el-select v-model="form.lang" clearable>

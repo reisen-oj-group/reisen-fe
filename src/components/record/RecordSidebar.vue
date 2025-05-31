@@ -15,7 +15,7 @@
           </div>
           <div class="description-item">
             <span class="item-label">关联试题</span>
-            <span class="item-value">{{ record.problem.title['en-US'] }}</span>
+            <span class="item-value">{{ record.problem.title['zh-CN'] }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">提交时间</span>

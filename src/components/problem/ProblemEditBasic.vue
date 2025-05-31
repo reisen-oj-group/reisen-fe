@@ -2,10 +2,10 @@
   <div class="basic-container">
     <el-form v-model="problem" style="max-width: 200px">
       <el-form-item label="时间限制">
-        <el-input v-model="problem.limitTime" />
+        <el-input v-model.number="problem.limitTime" />
       </el-form-item>
       <el-form-item label="空间限制">
-        <el-input v-model="problem.limitTime" />
+        <el-input v-model.number="problem.limitMemory" />
       </el-form-item>
       <el-form-item label="可见状态">
         <el-select v-model="problem.status">
@@ -21,7 +21,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="题目难度">
-        <el-input v-model="problem.difficulty" />
+        <el-input v-model.number="problem.difficulty" />
       </el-form-item>
       <el-form-item label="标签设置"> </el-form-item>
     </el-form>
@@ -49,7 +49,7 @@ async function saveProblem() {
   saving.value = true
   try {
     await apiProblemEdit({
-      problem: problem.value
+      problem: problem.value,
     })
   } finally {
     saving.value = false

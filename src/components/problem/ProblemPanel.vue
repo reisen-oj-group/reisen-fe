@@ -13,13 +13,13 @@
             <span class="item-label">难度</span>
             <span class="item-value">{{ problem.difficulty }}</span>
           </div>
-          <div class="description-item">
+          <!-- <div class="description-item">
             <span class="item-label">标签</span>
             <span class="item-value">没写</span>
-          </div>
+          </div> -->
           <div class="description-item">
             <span class="item-label">来源</span>
-            <span class="item-value">没有</span>
+            <span class="item-value">{{ problem.provider }}</span>
           </div>
         </div>
       </template>
@@ -28,7 +28,7 @@
       </template>
     </el-card>
 
-    <el-button type="primary" :disabled="!problem" @click="openSubmit = true">提交</el-button>
+    <el-button type="primary" :disabled="!problem" @click="handleSubmit">提交</el-button>
 
     <el-space fill :fill-ratio="40">
       <el-button plain @click="gotoAllRecords">全部记录</el-button>
@@ -52,6 +52,14 @@ const router = useRouter()
 const auth = useAuth()
 
 const openSubmit = ref(false)
+
+function handleSubmit() {
+  if(!auth.isAuthenticated){
+    auth.show('login')
+  } else {
+    openSubmit.value = true
+  }
+}
 
 const props = withDefaults(
   defineProps<{

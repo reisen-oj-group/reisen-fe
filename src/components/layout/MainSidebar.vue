@@ -23,7 +23,7 @@
         <font-awesome-icon class="nav-icon" :icon="faUser" />
         <span class="nav-label">用户</span>
       </el-menu-item>
-      <el-menu-item class="nav-item" index="/admin">
+      <el-menu-item v-if="auth.currentUser && auth.currentUser.role >= Role.Admin" class="nav-item" index="/admin">
         <font-awesome-icon class="nav-icon" :icon="faServer" />
         <span class="nav-label">管理</span>
       </el-menu-item>
@@ -43,6 +43,13 @@ import {
   faChartPie,
   faServer,
 } from '@fortawesome/free-solid-svg-icons'
+
+import { Role } from '@/interface';
+
+import { useAuth } from '@/stores/auth'
+
+const auth = useAuth();
+
 </script>
 
 <style lang="scss" scoped>

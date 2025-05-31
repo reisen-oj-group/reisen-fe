@@ -19,6 +19,8 @@ export const apiRecordList = async (request: RecordListRequest) => {
   return response
 }
 
+export const apiRecordAll = apiRecordList;
+
 export const apiRecordDetail = async (request: RecordDetailRequest) => {
   const response = await apiFetchDefault<RecordDetailResponse>('/record', {
     method: 'POST',

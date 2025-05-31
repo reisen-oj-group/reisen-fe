@@ -15,14 +15,14 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" @click="saveSettings">保存更改</el-button>
+              <el-button type="primary" @click="doUpdateProfile">保存更改</el-button>
             </el-form-item>
           </el-form>
 
           <h3>密码安全</h3>
           <el-form label-width="80px">
             <el-form-item label="当前密码">
-              <el-input v-model="password.current" type="password" />
+              <el-input v-model="password.old" type="password" />
             </el-form-item>
 
             <el-form-item label="新密码">
@@ -34,7 +34,15 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" @click="changePassword">修改密码</el-button>
+              <el-button type="primary" @click="doUpdatePassword">修改密码</el-button>
+            </el-form-item>
+          </el-form>
+          
+          <h3>账号安全</h3>
+          <el-form label-width="80px">
+            <el-form-item>
+              <el-button type="danger" @click="doLogout">退出登录</el-button>
+              <el-button type="danger" @click="doLogout">注销账号</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -70,6 +78,13 @@ import {
   ElCard,
 } from 'element-plus'
 import type { User } from '@/interface'
+import { apiLogout, apiUserEdit } from '@/api';
+
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/stores/auth';
+
+const auth = useAuth();
+const router = useRouter();
 
 const props = defineProps<{
   user: User
@@ -81,18 +96,24 @@ const form = ref({
 })
 
 const password = ref({
-  current: '',
+  old: '',
   new: '',
   confirm: '',
 })
 
 const avatarUrl = ref(props.user.avatar)
 
-function saveSettings() {
-  ElMessage.success('设置已保存')
+function doLogout() {
+  auth.logout().then(() => {
+    router.push(`/`)
+  })
 }
 
-function changePassword() {
+function doUpdateProfile() {
+  // apiUserEdit({})
+}
+
+function doUpdatePassword() {
   ElMessage.success('密码已修改')
 }
 

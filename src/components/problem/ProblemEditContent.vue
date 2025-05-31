@@ -10,7 +10,9 @@
         />
       </el-select>
 
-      <el-button :loading="saving" type="danger" v-if="currentLang" @click="deleteStatement"> 删除 </el-button>
+      <el-button :loading="saving" type="danger" v-if="currentLang" @click="deleteStatement">
+        删除
+      </el-button>
     </div>
 
     <el-divider />
@@ -116,7 +118,7 @@ function deleteStatement() {
 
   Swal.fire({
     title: '确认删除吗？',
-    text: "删除后将无法恢复！",
+    text: '删除后将无法恢复！',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: '确认',
@@ -129,8 +131,7 @@ function deleteStatement() {
       CStatement.value = problem.value.statements[currentLang.value]
       saveProblem()
     }
-  });
-
+  })
 }
 
 function saveStatement() {
@@ -145,7 +146,7 @@ async function saveProblem() {
   saving.value = true
   try {
     await apiProblemEdit({
-      problem: problem.value
+      problem: problem.value,
     })
   } finally {
     saving.value = false

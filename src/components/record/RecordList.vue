@@ -55,7 +55,7 @@
           </td>
           <td class="problem">
             <router-link :to="`/problem/${record.problem.id}`" class="problem-title">
-              {{ record.problem.title['en-US'] }}
+              {{ record.problem.title['zh-CN'] || Object.values(record.problem.title)[0] || '暂无标题' }}
             </router-link>
           </td>
           <td class="lang">
@@ -129,10 +129,7 @@ async function fetchData() {
   )
   router.push({ query })
 
-  apiRecordList({
-    ...props.filter,
-    page: currentPage.value,
-  })
+  apiRecordList(query)
     .then((response) => {
       console.log(response)
       records.value = response.records

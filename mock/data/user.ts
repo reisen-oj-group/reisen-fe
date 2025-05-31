@@ -4,7 +4,7 @@ export const mockUsers: User[] = [
   {
     id: 1,
     name: '琪露诺',
-    role: 0,
+    role: 4,
     avatar: 'https://example.com/avatar1.jpg',
     register: new Date('2023-07-20T10:30:00'),
   },
@@ -12,7 +12,7 @@ export const mockUsers: User[] = [
   {
     id: 3,
     name: '大妖精',
-    role: 0,
+    role: 4,
     avatar: 'https://example.com/avatar3.jpg',
     register: new Date('2023-07-20T10:30:00'),
   },

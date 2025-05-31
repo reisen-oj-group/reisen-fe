@@ -17,14 +17,14 @@ export interface RecordListResponse {
 }
 
 export interface RecordFilterParams {
-  user?: string | UserId
+  user?: string
   problem?: ProblemId
   lang?: CodeLangId
   verdict?: VerdictId
 }
 
 export type RecordFilterQuery = RecordFilterParams & {
-  page: number
+  page?: number
 }
 
 export interface RecordDetailRequest {

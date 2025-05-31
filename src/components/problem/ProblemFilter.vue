@@ -6,8 +6,8 @@
       <el-form :model="form">
         <el-form-item label="难度" class="filter-item">
           <el-space spacer="-" :fill-ratio="40">
-            <el-input v-model="form.minDifficulty" />
-            <el-input v-model="form.maxDifficulty" />
+            <el-input v-model.number="form.minDifficulty" />
+            <el-input v-model.number="form.maxDifficulty" />
           </el-space>
         </el-form-item>
         <el-form-item label="标签" class="filter-item">

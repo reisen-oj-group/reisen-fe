@@ -6,37 +6,51 @@
         <el-card class="panel">
           <div class="panel-header">
             <h3>我创建的题目</h3>
-            <el-button type="primary" size="small">新建题目</el-button>
+            <el-button type="primary" size="small" @click="handleCreateProblem">新建题目</el-button>
           </div>
 
-          <table class="problemset">
-            <colgroup>
-              <col class="col-id" />
-              <col class="col-title" />
-              <col class="col-submit" />
-              <col class="col-status" />
-              <col class="col-edit" />
-            </colgroup>
-            <tbody>
-              <tr class="entry" v-for="problem in userProblems" :key="problem.id">
-                <td class="id">{{ problem.id }}</td>
+          <template v-if="problems.length > 0">
+              
+            <table class="problemset">
+              <colgroup>
+                <col class="col-id" />
+                <col class="col-title" />
+                <col class="col-submit" />
+                <col class="col-status" />
+                <col class="col-edit" />
+              </colgroup>
+              <tbody>
+                <tr class="entry" v-for="problem in problems" :key="problem.id">
+                  <td class="id">{{ problem.id }}</td>
 
-                <td class="problem">
-                  <router-link :to="`/problem/${problem.id}`" class="problem-title">
-                    {{ problem.title['en-US'] }}
-                  </router-link>
-                </td>
+                  <td class="problem">
+                    <router-link :to="`/problem/${problem.id}`" class="problem-title">
+                      {{ problem.title['zh-CN'] || Object.values(problem.title)[0] || '暂无标题' }}
+                    </router-link>
+                  </td>
 
-                <td class="submit">10.1k 提交</td>
-                <td class="status">公开</td>
-                <td class="edit">
-                  <font-awesome-icon :icon="faPenToSquare" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <td class="submit">{{ problem.countTotal }} 提交</td>
+                  <td class="status">{{ getStatusText(problem.status) }}</td>
+                  <td class="edit">
+                    <font-awesome-icon :icon="faPenToSquare" @click="handleEditProblem(problem.id)" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-          <el-pagination v-model:current-page="problemPage" :page-size="20" :total="problemTotal" />
+            <el-pagination
+              v-model:current-page="pagination.current"
+              v-model:page-size="pagination.size"
+              :total="pagination.total"
+              layout="total, prev, pager, next, jumper"
+              @size-change="fetchProblems"
+              @current-change="fetchProblems"
+            />
+          </template>
+          <template v-else>
+            <el-empty description="暂无题目数据" />
+          </template>
+
         </el-card>
       </el-col>
 
@@ -55,25 +69,68 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Problem, User } from '@/interface'
+import { onMounted, ref } from 'vue'
+import type { ProblemCore, ProblemId, User } from '@/interface'
 
 import { ElRow, ElCol, ElButton, ElPagination } from 'element-plus'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
-const _props = defineProps<{
+import { useRouter } from 'vue-router'
+import { apiProblemMine } from '@/api'
+
+const router = useRouter();
+
+const props = defineProps<{
   user: User
 }>()
 
-const problemPage = ref(1)
-const problemTotal = ref(0)
-const userProblems = [] as Problem[]
+const pagination = ref({
+  current: 1,
+  size: 20,
+  total: 0,
+})
 
-// function _editProblem(id: string) {
-//   // 跳转到题目编辑页
-// }
+const problems = ref<ProblemCore[]>([])
+const loading = ref(false)
+
+const fetchProblems = async () => {
+  loading.value = true
+  try {
+    const res = await apiProblemMine({
+      provider: props.user.id,
+      page: pagination.value.current,
+      // size: pagination.value.size,
+    })
+    problems.value = res.problems
+    pagination.value.total = res.total
+  } finally {
+    loading.value = false
+  }
+}
+
+const getStatusText = (status: string) => {
+  const map: Record<string, string> = {
+    public: '公开',
+    private: '私有',
+    contest: '比赛',
+  }
+  return map[status] || '未知'
+}
+
+function handleCreateProblem(){
+  router.push(`/problem/create`)
+}
+
+function handleEditProblem(problem: ProblemId){
+  router.push(`/problem/${problem}/edit`)
+
+}
+
+onMounted(() => {
+  fetchProblems()
+})
 </script>
 
 <style lang="scss" scoped>

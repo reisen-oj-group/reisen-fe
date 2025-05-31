@@ -13,6 +13,8 @@ export interface ProblemFilterParams {
   maxDifficulty?: number
   tags?: TagId[]
   keywords?: string
+  status?: string
+  provider?: UserId
 }
 
 export type ProblemFilterQuery = ProblemFilterParams & {
@@ -38,6 +40,13 @@ export interface ProblemEditRequest {
 // 应答创建后的题面（补全缺失信息）
 export interface ProblemEditResponse {
   problem: Problem
+}
+
+export interface ProblemDeleteRequest {
+  problem: ProblemId
+}
+
+export interface ProblemDeleteResponse {
 }
 
 export interface ProblemSolvedRequest {

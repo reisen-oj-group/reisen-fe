@@ -2,41 +2,45 @@
   <div class="problem-list">
     <div class="toolbar">
       <el-button type="primary" @click="handleCreate">创建题目</el-button>
-      <el-select
-        v-model="filter.status"
-        placeholder="题目状态"
-        clearable
-        style="width: 120px; margin-left: 10px"
-        @change="fetchProblems"
-      >
-        <el-option label="全部" value="" />
-        <el-option label="公开" value="public" />
-        <el-option label="私有" value="private" />
-        <el-option label="比赛" value="contest" />
-      </el-select>
-      <el-select
-        v-model="filter.type"
-        placeholder="题目类型"
-        clearable
-        style="width: 120px; margin-left: 10px"
-        @change="fetchProblems"
-      >
-        <el-option label="全部" value="" />
-        <el-option label="传统题" value="traditional" />
-        <el-option label="交互题" value="interactive" />
-      </el-select>
-      <el-input
-        v-model="filter.keyword"
-        placeholder="搜索题目"
-        style="width: 300px; margin-left: 10px"
-        clearable
-        @clear="fetchProblems"
-        @keyup.enter="fetchProblems"
-      >
-        <template #append>
-          <el-button icon="search" @click="fetchProblems" />
-        </template>
-      </el-input>
+
+      <div class="filter-list">
+        <el-select
+          v-model="filter.status"
+          placeholder="题目状态"
+          style="width: 120px; margin-left: 10px"
+          clearable
+          @change="handleSearch"
+          @clear="handleSearch"
+          @keyup.enter="handleSearch"
+        >
+          <el-option label="公开" value="public" />
+          <el-option label="私有" value="private" />
+          <el-option label="比赛" value="contest" />
+        </el-select>
+        <!-- <el-select
+          v-model="filter.type"
+          placeholder="题目类型"
+          clearable
+          style="width: 120px; margin-left: 10px"
+          @change="fetchProblems"
+        >
+          <el-option label="全部" value="" />
+          <el-option label="传统题" value="traditional" />
+          <el-option label="交互题" value="interactive" />
+        </el-select> -->
+        <el-input
+          v-model="filter.keywords"
+          placeholder="题目名称"
+          style="width: 300px; margin-left: 10px"
+          clearable
+          @clear="handleSearch"
+          @keyup.enter="handleSearch"
+        >
+          <template #append>
+            <font-awesome-icon :icon="faMagnifyingGlass" @click="handleSearch" />
+          </template>
+        </el-input>
+      </div>
     </div>
 
     <el-table :data="problems" v-loading="loading" border style="width: 100%; margin-top: 20px">
@@ -44,7 +48,7 @@
       <el-table-column label="标题" min-width="200">
         <template #default="{ row }">
           <router-link :to="`/admin/problems/${row.id}`" class="title-link">
-            {{ row.title['zh-CN'] || Object.values(row.title)[0] }}
+            {{ row.title['zh-CN'] || Object.values(row.title)[0] || '暂无标题' }}
           </router-link>
         </template>
       </el-table-column>
@@ -98,22 +102,22 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { ProblemCore } from '@/interface'
-import { apiProblemList } from '@/api'
+import type { ProblemCore, ProblemFilterParams } from '@/interface'
+import { apiProblemAll, apiProblemDelete } from '@/api'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 import { formatTimeShort, formatMemory } from '@/utils/format'
+import Swal from 'sweetalert2'
 
 const router = useRouter()
 
 const problems = ref<ProblemCore[]>([])
 const loading = ref(false)
 
-const filter = ref({
-  status: '',
-  type: '',
-  keyword: '',
-})
+const filter = ref<ProblemFilterParams>({})
 
 const pagination = ref({
   current: 1,
@@ -150,43 +154,43 @@ const getTypeText = (type: string) => {
 const fetchProblems = async () => {
   loading.value = true
   try {
-    const res = await apiProblemList({
+    const res = await apiProblemAll({
       page: pagination.value.current,
       // size: pagination.value.size,
-      // status: filter.value.status,
-      // type: filter.value.type,
-      // keyword: filter.value.keyword
+      ...filter.value,
     })
     problems.value = res.problems
     pagination.value.total = res.total
-  } catch (error) {
-    ElMessage.error('获取题目列表失败')
   } finally {
     loading.value = false
   }
 }
 
-const handleCreate = () => {}
+const handleCreate = () => {
+  router.push(`/problem/create`)
+}
 
 const handleEdit = (problem: ProblemCore) => {
   router.push(`/problem/${problem.id}/edit`)
 }
 
+const handleSearch = () => {
+  pagination.value.current = 1
+  fetchProblems()
+}
+
 const handleDelete = (problem: ProblemCore) => {
-  ElMessageBox.confirm(
-    `确定删除题目 "${problem.title['zh-CN'] || Object.values(problem.title)[0]}"?`,
-    '提示',
-    {
-      type: 'warning',
-    },
-  ).then(async () => {
-    try {
-      // await deleteProblem(problem.id)
-      ElMessage.success('删除成功')
-      fetchProblems()
-    } catch (error) {
-      ElMessage.error('删除失败')
-    }
+  Swal.fire({
+    title: '确认删除吗？',
+    text: '删除后将无法恢复！',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+  }).then((result) => {
+    apiProblemDelete({
+      problem: problem.id
+    }).then(fetchProblems)
   })
 }
 
@@ -202,6 +206,7 @@ onMounted(() => {
 
 .toolbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 

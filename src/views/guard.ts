@@ -4,6 +4,7 @@ import { useContest } from '@/stores/contest'
 import type { Router } from 'vue-router'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
+import Swal from 'sweetalert2'
 
 export function setupRouterGuard(router: Router) {
   router.beforeEach(async (to, from) => {
@@ -49,10 +50,21 @@ export function setupRouterGuard(router: Router) {
       }
     }
     // 检查路由是否需要认证
-    if (to.meta.requiresAuth && !authStore.currentUser) {
-      authStore.setRedirectUrl(to.fullPath)
-      authStore.show('login')
-      return false
+    if (to.meta.minRole){
+      if (!authStore.currentUser){
+        authStore.setRedirectUrl(to.fullPath)
+        authStore.show('login')
+        return false
+      }
+      if((to.meta.minRole as number) > authStore.currentUser.role){
+        Swal.fire({
+          title: '暂无权限',
+          icon: 'error',
+          text: '你没有权限访问该页面',
+          timer: 1000
+        })
+        return false
+      }
     }
     return true
   })

@@ -6,16 +6,11 @@ import LayoutAdmin from '@/components/layout/LayoutAdmin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupRouterGuard } from './guard.ts'
 
-import ViewTest from '@/views/ViewTest.vue'
+import { Role } from '@/interface/index.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/test',
-      name: 'test',
-      component: ViewTest,
-    },
     {
       path: '/',
       name: 'home',
@@ -30,6 +25,7 @@ const router = createRouter({
       path: '/problem/create',
       name: 'problem-create',
       component: () => import('@/views/ViewProblemEdit.vue'),
+      meta: { minRole: Role.Jury },
     },
     {
       path: '/problem/:pid_str(\\d+)',
@@ -42,7 +38,7 @@ const router = createRouter({
       name: 'problem-edit',
       component: () => import('@/views/ViewProblemEdit.vue'),
       props: true,
-      meta: { requiresAuth: true },
+      meta: { minRole: Role.Jury },
     },
     {
       path: '/record',
@@ -59,14 +55,14 @@ const router = createRouter({
       path: '/user',
       name: 'user-default',
       component: () => import('@/views/ViewUser.vue'),
-      meta: { requiresAuth: true },
+      meta: { minRole: Role.User },
     },
     {
       path: '/user/:uid_str(\\d+)',
       name: 'user',
       component: () => import('@/views/ViewUser.vue'),
       props: true,
-      meta: { requiresAuth: true },
+      meta: { minRole: Role.User },
     },
     {
       path: '/contest',
@@ -77,18 +73,21 @@ const router = createRouter({
       path: '/contest/create',
       name: 'contest-create',
       component: ViewContestList,
+      meta: { minRole: Role.Jury },
     },
     {
       path: '/contest/:cid_str(\\d+)',
       name: 'contest-detail',
       component: () => import('@/views/ViewContestDetail.vue'),
       props: true,
+      meta: { minRole: Role.User },
     },
     {
       path: '/contest/:cid_str(\\d+)/edit',
       name: 'contest-edit',
       component: import('@/views/ViewContestEdit.vue'),
       props: true,
+      meta: { minRole: Role.Jury },
     },
     {
       path: '/contest/:cid_str(\\d+)/ranklist',
@@ -101,11 +100,12 @@ const router = createRouter({
       name: 'contest-problem-detail',
       component: () => import('@/views/ViewProblemDetail.vue'),
       props: true,
+      meta: { minRole: Role.User },
     },
     {
       path: '/admin',
       component: LayoutAdmin,
-      meta: { requiresAuth: true, isAdmin: true },
+      meta: { minRole: Role.Admin },
       children: [
         // 用户管理
         {

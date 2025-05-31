@@ -1,4 +1,6 @@
 import type {
+  CreateRequest,
+  CreateResponse,
   LoginRequest,
   LoginResponse,
   LogoutRequest,
@@ -7,6 +9,8 @@ import type {
   MeResponse,
   RegisterRequest,
   RegisterResponse,
+  ResetRequest,
+  ResetResponse,
 } from '@/interface'
 
 import { apiFetchSilent } from '@/utils/ofetch'
@@ -34,6 +38,20 @@ export const apiRegister = async (payload: RegisterRequest) => {
 
 export const apiMe = async (payload: MeRequest) => {
   return apiFetchSilent<MeResponse>('/auth/me', {
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export const apiCreate = async (payload: CreateRequest) => {
+  return apiFetchSilent<CreateResponse>('/auth/create', {
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export const apiReset = async (payload: ResetRequest) => {
+  return apiFetchSilent<ResetResponse>('/auth/reset', {
     method: 'POST',
     body: payload,
   })

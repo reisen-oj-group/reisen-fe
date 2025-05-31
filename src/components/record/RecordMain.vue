@@ -29,7 +29,9 @@
                 <span class="testcase-verdict">{{ verdicts[testcase.verdict].abbr }}</span>
                 <span class="testcase-meta">
                   <span v-if="testcase.time !== undefined">{{ testcase.time }}ms</span>
-                  <span v-if="testcase.memory !== undefined">{{ formatMemory(testcase.memory) }}</span>
+                  <span v-if="testcase.memory !== undefined">{{
+                    formatMemory(testcase.memory)
+                  }}</span>
                 </span>
               </div>
             </div>

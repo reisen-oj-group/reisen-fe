@@ -17,7 +17,7 @@ export const useConfig = defineStore('config', () => {
   const isInitialized = ref(false)
 
   // 用户可以更改的设置选项
-  const userLang = ref<UserLangId>('en-US')
+  const userLang = ref<UserLangId>('zh-CN')
   const codeLang = ref<CodeLangId>('cpp')
 
   // 每次加载时进行同步，不会更改
