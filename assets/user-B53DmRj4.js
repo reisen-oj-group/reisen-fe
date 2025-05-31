@@ -1,0 +1,1 @@
+import{d as s}from"./index-DrYKQVxV.js";const r=async e=>s("/user",{method:"POST",body:e}),a=async e=>s("/user/edit",{method:"POST",body:e}),o=async e=>s("/user/delete",{method:"POST",body:e}),d=async e=>s("/user/all",{method:"POST",body:e});export{r as a,d as b,o as c,a as d};
