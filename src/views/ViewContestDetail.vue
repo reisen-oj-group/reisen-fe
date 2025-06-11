@@ -18,7 +18,7 @@
 
             <!-- 我的提交 -->
             <el-tab-pane label="我的提交" name="submissions">
-              <contest-records />
+              <contest-submissions />
             </el-tab-pane>
 
             <!-- 排行榜 -->
@@ -43,7 +43,7 @@ import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 
 import ContestOverview from '@/components/contest/ContestOverview.vue'
 import ContestProblems from '@/components/contest/ContestProblems.vue'
-import ContestRecords from '@/components/contest/ContestRecords.vue'
+import ContestSubmissions from '@/components/contest/ContestSubmissions.vue'
 import ContestToolbar from '@/components/contest/ContestToolbar.vue'
 
 import { ElTabs, ElTabPane, ElCard, type TabsPaneContext } from 'element-plus'

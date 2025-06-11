@@ -27,7 +27,7 @@
       </div>
     </el-card>
 
-    <el-card class="card">
+    <!-- <el-card class="card">
       <template #header>
         <span>最近添加</span>
       </template>
@@ -39,7 +39,7 @@
         <span>最近做过</span>
       </template>
       TODO
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 

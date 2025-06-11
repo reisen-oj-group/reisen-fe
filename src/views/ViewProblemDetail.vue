@@ -20,7 +20,7 @@ import ProblemToolbar from '@/components/problem/ProblemToolbar.vue'
 import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 
 import { onMounted, ref, watch } from 'vue'
-import type { Problem, Result } from '@/interface'
+import type { Problem, Judgement } from '@/interface'
 import { apiProblem } from '@/api'
 
 import { useContest } from '@/stores/contest'
@@ -30,7 +30,7 @@ const router = useRouter()
 const contestStore = useContest()
 
 const problem = ref<Problem | null>(null)
-const result = ref<Result | null>(null)
+const result = ref<Judgement | null>(null)
 
 const loading = ref(false)
 

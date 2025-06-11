@@ -1,7 +1,7 @@
 <template>
   <el-card body-style="padding-top: 0.5em; padding-bottom: 0.5em">
     <el-affix>
-      <table class="record-list-head">
+      <table class="submission-list-head">
         <colgroup>
           <col class="col-id" />
           <col class="col-submit" />
@@ -27,7 +27,7 @@
       </table>
     </el-affix>
 
-    <table class="record-list" v-if="records.length > 0">
+    <table class="submission-list" v-if="submissions.length > 0">
       <colgroup>
         <col class="col-id" />
         <col class="col-submit" />
@@ -39,33 +39,33 @@
         <col class="col-memory" />
       </colgroup>
       <tbody>
-        <tr v-for="record in records" :key="record.id" class="entry">
+        <tr v-for="submission in submissions" :key="submission.id" class="entry">
           <td class="id">
-            <router-link :to="`/record/${record.id}`" class="record-link">
-              <span>{{ record.id }}</span>
+            <router-link :to="`/submission/${submission.id}`" class="submission-link">
+              <span>{{ submission.id }}</span>
             </router-link>
           </td>
           <td class="time">
-            {{ formatDate(record.submission) }}
+            {{ formatDate(submission.submission) }}
           </td>
           <td class="user">
-            <router-link :to="`/user/${record.user.id}`" class="user-link">
-              <span>{{ record.user.name }}</span>
+            <router-link :to="`/user/${submission.user.id}`" class="user-link">
+              <span>{{ submission.user.name }}</span>
             </router-link>
           </td>
           <td class="problem">
-            <router-link :to="`/problem/${record.problem.id}`" class="problem-title">
-              {{ record.problem.title['zh-CN'] || Object.values(record.problem.title)[0] || '暂无标题' }}
+            <router-link :to="`/problem/${submission.problem.id}`" class="problem-title">
+              {{ submission.problem.title['zh-CN'] || Object.values(submission.problem.title)[0] || '暂无标题' }}
             </router-link>
           </td>
           <td class="lang">
-            {{ codeLangs[record.lang]?.description || 'Unknown' }}
+            {{ codeLangs[submission.lang]?.description || 'Unknown' }}
           </td>
           <td class="verdict">
-            <verdict-tag :verdict="record.verdict" />
+            <verdict-tag :verdict="submission.verdict" />
           </td>
-          <td class="time">{{ formatTimeShort(record.time) }}</td>
-          <td class="memory">{{ formatMemory(record.memory) }}</td>
+          <td class="time">{{ formatTimeShort(submission.time) }}</td>
+          <td class="memory">{{ formatMemory(submission.memory) }}</td>
         </tr>
       </tbody>
     </table>
@@ -75,7 +75,7 @@
     </template>
 
     <el-affix position="bottom">
-      <div class="record-list-bottom">
+      <div class="submission-list-bottom">
         <el-pagination
           :current-page="currentPage"
           :page-size="100"
@@ -91,18 +91,18 @@
 <script setup lang="ts">
 import { ElCard, ElAffix, ElPagination, ElEmpty } from 'element-plus'
 import { onMounted, ref, watch } from 'vue'
-import type { RecordFilterParams, SubmissionLite } from '@/interface'
+import type { SubmissionFilterParams, SubmissionLite } from '@/interface'
 
 import { useConfig } from '@/stores/config'
 import { useRoute, useRouter } from 'vue-router'
 
 import { formatDate, formatMemory, formatTimeShort } from '@/utils/format'
 import VerdictTag from '../common/VerdictTag.vue'
-import { apiRecordList } from '@/api/record'
+import { apiSubmissionList } from '@/api/submission'
 import { omitBy } from 'lodash-es'
 
 const props = defineProps<{
-  filter: RecordFilterParams
+  filter: SubmissionFilterParams
 }>()
 
 const { codeLangs } = useConfig().config
@@ -111,13 +111,13 @@ const router = useRouter()
 
 const total = ref(0)
 const currentPage = ref(Number(route.query.page || 1))
-const records = ref<SubmissionLite[]>([])
+const submissions = ref<SubmissionLite[]>([])
 
 const loading = ref(false)
 
 async function fetchData() {
   loading.value = true
-  records.value = []
+  submissions.value = []
 
   // 过滤掉 undefined 和空数组
   const query = omitBy(
@@ -129,10 +129,10 @@ async function fetchData() {
   )
   router.push({ query })
 
-  apiRecordList(query)
+  apiSubmissionList(query)
     .then((response) => {
       console.log(response)
-      records.value = response.records
+      submissions.value = response.submissions
       total.value = response.total
     })
     .finally(() => {
@@ -162,7 +162,7 @@ const handlePageChange = (val: number) => {
 </script>
 
 <style lang="scss" scoped>
-.record-list {
+.submission-list {
   &-head {
     padding-top: 16px;
     background-color: rgba(255, 255, 255, 0.8);
@@ -175,7 +175,7 @@ const handlePageChange = (val: number) => {
   }
 }
 
-table.record-list {
+table.submission-list {
   tr.entry {
     &:hover {
       background-color: #f5f5f5;
@@ -183,8 +183,8 @@ table.record-list {
   }
 }
 
-table.record-list,
-table.record-list-head {
+table.submission-list,
+table.submission-list-head {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
@@ -248,7 +248,7 @@ table.record-list-head {
 }
 
 .user-link,
-.record-link {
+.submission-link {
   align-items: center;
   gap: 8px;
   color: inherit;

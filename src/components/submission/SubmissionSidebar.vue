@@ -3,43 +3,43 @@
     <el-card>
       <h3>评测详情</h3>
 
-      <template v-if="record">
+      <template v-if="submission">
         <div class="description-list">
           <div class="description-item">
             <span class="item-label">编号</span>
-            <span class="item-value">{{ record.id }}</span>
+            <span class="item-value">{{ submission.id }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">提交用户</span>
-            <span class="item-value">{{ record.user.name }}</span>
+            <span class="item-value">{{ submission.user.name }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">关联试题</span>
-            <span class="item-value">{{ record.problem.title['zh-CN'] }}</span>
+            <span class="item-value">{{ submission.problem.title['zh-CN'] }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">提交时间</span>
-            <span class="item-value">{{ formatDate(record.submission) }}</span>
+            <span class="item-value">{{ formatDate(submission.submission) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">评测时间</span>
-            <span class="item-value">{{ formatDate(record.evaluation) }}</span>
+            <span class="item-value">{{ formatDate(submission.evaluation) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">最终用时</span>
-            <span class="item-value">{{ formatTimeShort(record.time) }}</span>
+            <span class="item-value">{{ formatTimeShort(submission.time) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">评测空间</span>
-            <span class="item-value">{{ formatMemory(record.memory) }}</span>
+            <span class="item-value">{{ formatMemory(submission.memory) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">代码长度</span>
-            <span class="item-value">{{ record.length }}</span>
+            <span class="item-value">{{ submission.length }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">评测语言</span>
-            <span class="item-value">{{ codeLangs[record.lang].description }}</span>
+            <span class="item-value">{{ codeLangs[submission.lang].description }}</span>
           </div>
         </div>
       </template>
@@ -48,7 +48,7 @@
       </template>
     </el-card>
 
-    <el-button type="primary" @click="goToProblem" :disabled="!record"> 查看试题 </el-button>
+    <el-button type="primary" @click="goToProblem" :disabled="!submission"> 查看试题 </el-button>
   </div>
 </template>
 
@@ -64,11 +64,11 @@ const { codeLangs } = useConfig().config
 
 const router = useRouter()
 const goToProblem = () => {
-  if (props.record) router.push(`/problem/${props.record.problem.id}`)
+  if (props.submission) router.push(`/problem/${props.submission.problem.id}`)
 }
 
 const props = defineProps<{
-  record: SubmissionFull | null
+  submission: SubmissionFull | null
   loading: boolean
 }>()
 </script>

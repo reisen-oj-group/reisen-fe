@@ -2,16 +2,16 @@
   <div class="submission-detail-main">
     <!-- 主内容标签页 -->
     <el-tabs v-model="activeTab" class="detail-tabs">
-      <template v-if="record">
+      <template v-if="submission">
         <!-- 编译信息标签页 -->
         <el-tab-pane label="编译信息" name="compile">
-          <div v-if="record.compile" class="compile-info">
+          <div v-if="submission.compile" class="compile-info">
             <el-alert
-              :type="record.compile.success ? 'success' : 'error'"
-              :title="record.compile.success ? '编译成功' : '编译错误'"
+              :type="submission.compile.success ? 'success' : 'error'"
+              :title="submission.compile.success ? '编译成功' : '编译错误'"
               :closable="false"
             />
-            <pre class="compile-message">{{ record.compile.message }}</pre>
+            <pre class="compile-message">{{ submission.compile.message }}</pre>
           </div>
           <el-empty v-else description="暂无编译信息" />
         </el-tab-pane>
@@ -19,7 +19,7 @@
         <!-- 测试点信息标签页 -->
         <el-tab-pane label="测试点" name="testcases">
           <div class="testcase-container">
-            <div v-for="(testcase, index) in record.detail" :key="index" class="testcase-item">
+            <div v-for="(testcase, index) in submission.detail" :key="index" class="testcase-item">
               <div
                 class="testcase-badge"
                 :style="{ backgroundColor: `${verdicts[testcase.verdict].color}` }"
@@ -42,10 +42,10 @@
         <el-tab-pane label="代码" name="code">
           <div class="code-container">
             <div class="code-meta">
-              <span>语言: {{ codeLangs[record.lang].description }}</span>
-              <span>代码长度: {{ record.length }} bytes</span>
+              <span>语言: {{ codeLangs[submission.lang].description }}</span>
+              <span>代码长度: {{ submission.length }} bytes</span>
             </div>
-            <pre class="code-content"><code>{{ record.code }}</code></pre>
+            <pre class="code-content"><code>{{ submission.code }}</code></pre>
           </div>
         </el-tab-pane>
       </template>
@@ -109,7 +109,7 @@ import { formatMemory } from '@/utils/format'
 const { verdicts, codeLangs } = useConfig().config
 
 const props = defineProps<{
-  record: null | SubmissionFull
+  submission: null | SubmissionFull
   loading: boolean
 }>()
 
@@ -127,7 +127,7 @@ function showTestcase(testcase: Testcase, index: number) {
 watch(
   () => props.loading,
   () => {
-    if (props.record && props.record.compile?.success) {
+    if (props.submission && props.submission.compile?.success) {
       activeTab.value = 'testcases'
     } else {
       activeTab.value = 'compile'

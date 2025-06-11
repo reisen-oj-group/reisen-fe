@@ -66,7 +66,7 @@ export interface SubmissionCore {
 }
 
 // 表：题目结果
-export interface Result {
+export interface Judgement {
   problem: ProblemId // 关联试题
   contest: ContestId // 关联比赛
   user: UserId // 关联用户

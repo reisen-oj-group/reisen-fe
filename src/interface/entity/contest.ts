@@ -1,5 +1,5 @@
 import type { ContestId, ProblemId, ProblemLabel, UserId } from './enum'
-import type { Result } from './judge'
+import type { Judgement } from './judge'
 
 export type ContestDifficulty = 1 | 2 | 3 | 4 | 5
 export type ContestStatus = 'private' | 'public' | 'deleted'
@@ -26,7 +26,7 @@ export interface Ranking {
   user: UserId
 
   rank: number
-  results: Result[]
+  results: Judgement[]
 }
 
 // 表：比赛报名信息

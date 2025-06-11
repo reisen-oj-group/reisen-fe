@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import type { Ranking, Result } from '@/interface'
+import type { Ranking, Judgement } from '@/interface'
 
 import { useContest } from '@/stores/contest'
 import { ElEmpty } from 'element-plus'
@@ -101,7 +101,7 @@ interface RankItem {
   user: number
   totalPenalty: number
   totalSolved: number
-  results: Record<string, Result>
+  results: Record<string, Judgement>
 }
 const ranklist = ref<RankItem[]>([])
 

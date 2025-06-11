@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import ProblemSubmit from './ProblemSubmit.vue'
-import type { Problem, Result } from '@/interface'
+import type { Problem, Judgement } from '@/interface'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/stores/auth'
 
@@ -64,7 +64,7 @@ function handleSubmit() {
 const props = withDefaults(
   defineProps<{
     problem: Problem | null
-    result: Result | null
+    result: Judgement | null
     edit?: boolean
     loading: boolean
   }>(),
@@ -75,7 +75,7 @@ const props = withDefaults(
 
 const gotoAllRecords = () => {
   if (!props.problem) return
-  router.push(`/record?problem=${props.problem.id}`)
+  router.push(`/submission?problem=${props.problem.id}`)
 }
 
 const gotoMyRecords = () => {
@@ -84,7 +84,7 @@ const gotoMyRecords = () => {
     auth.show('login')
     return
   }
-  router.push(`/record?problem=${props.problem.id}&user=${auth.currentUser.id}`)
+  router.push(`/submission?problem=${props.problem.id}&user=${auth.currentUser.id}`)
 }
 </script>
 

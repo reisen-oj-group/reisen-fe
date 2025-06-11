@@ -15,7 +15,7 @@
         <font-awesome-icon class="nav-icon" :icon="faChartSimple" />
         <span class="nav-label">比赛</span>
       </el-menu-item>
-      <el-menu-item class="nav-item" index="/record">
+      <el-menu-item class="nav-item" index="/submission">
         <font-awesome-icon class="nav-icon" :icon="faChartPie" />
         <span class="nav-label">记录</span>
       </el-menu-item>

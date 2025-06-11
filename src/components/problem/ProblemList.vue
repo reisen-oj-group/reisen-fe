@@ -117,7 +117,7 @@ import type {
   ProblemFilterParams,
   ProblemFilterQuery,
   ProblemId,
-  Result,
+  Judgement,
 } from '@/interface'
 import { onMounted, ref, watch } from 'vue'
 import { apiProblemList } from '@/api'
@@ -132,7 +132,7 @@ const router = useRouter()
 
 const total = ref(0)
 const currentPage = ref(Number(route.query.page || 1))
-const problemset = ref<[ProblemCore, Result?][]>([])
+const problemset = ref<[ProblemCore, Judgement?][]>([])
 
 const props = defineProps<{
   filter: ProblemFilterParams

@@ -1,8 +1,8 @@
 <template>
   <layout-main>
-    <div class="record-list-container">
-      <record-filter :filter="form" @filter-change="handleFilterChange" />
-      <record-list :filter="form" />
+    <div class="submission-list-container">
+      <submission-filter :filter="form" @filter-change="handleFilterChange" />
+      <submission-list :filter="form" />
     </div>
   </layout-main>
 </template>
@@ -10,11 +10,11 @@
 <script setup lang="ts">
 import LayoutMain from '@/components/layout/LayoutMain.vue'
 
-import RecordList from '@/components/record/RecordList.vue'
-import RecordFilter from '@/components/record/RecordFilter.vue'
+import SubmissionList from '@/components/submission/SubmissionList.vue'
+import SubmissionFilter from '@/components/submission/SubmissionFilter.vue'
 
 import { ref } from 'vue'
-import type { RecordFilterParams } from '@/interface'
+import type { SubmissionFilterParams } from '@/interface'
 
 import { useRoute, type LocationQuery } from 'vue-router'
 import { queryNoS, queryStr, queryNum } from '@/utils/query'
@@ -30,15 +30,15 @@ function buildForm(query: LocationQuery) {
   }
 }
 
-const form = ref<RecordFilterParams>(buildForm(route.query))
+const form = ref<SubmissionFilterParams>(buildForm(route.query))
 
-const handleFilterChange = (params: RecordFilterParams) => {
+const handleFilterChange = (params: SubmissionFilterParams) => {
   form.value = params
 }
 </script>
 
 <style lang="scss" scoped>
-.record-list-container {
+.submission-list-container {
   > *:not(:last-child) {
     margin-bottom: 1em;
   }

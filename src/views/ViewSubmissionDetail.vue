@@ -2,23 +2,23 @@
   <layout-sidebar>
     <template #main>
       <el-card>
-        <record-main :record="record" :loading="loading" />
+        <submission-main :submission="submission" :loading="loading" />
       </el-card>
     </template>
     <template #sidebar>
-      <record-sidebar :record="record" :loading="loading" />
+      <submission-sidebar :submission="submission" :loading="loading" />
     </template>
   </layout-sidebar>
 </template>
 
 <script setup lang="ts">
 import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
-import RecordMain from '@/components/record/RecordMain.vue'
-import RecordSidebar from '@/components/record/RecordSidebar.vue'
+import SubmissionMain from '@/components/submission/SubmissionMain.vue'
+import SubmissionSidebar from '@/components/submission/SubmissionSidebar.vue'
 
 import { ElCard } from 'element-plus'
 
-import { apiRecordDetail } from '@/api/record'
+import { apiSubmissionDetail } from '@/api/submission'
 import { onMounted, ref } from 'vue'
 import type { SubmissionFull, SubmissionId } from '@/interface'
 
@@ -27,15 +27,15 @@ const props = defineProps<{
 }>()
 const rid: SubmissionId = parseInt(props.rid_str)
 
-const record = ref<SubmissionFull | null>(null)
+const submission = ref<SubmissionFull | null>(null)
 const loading = ref(true)
 
 onMounted(() => {
-  apiRecordDetail({
+  apiSubmissionDetail({
     id: rid,
   })
     .then((response) => {
-      record.value = response.record
+      submission.value = response.submission
     })
     .finally(() => {
       loading.value = false

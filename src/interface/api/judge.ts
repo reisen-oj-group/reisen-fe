@@ -9,30 +9,30 @@ import type {
   VerdictId,
 } from '../entity'
 
-export type RecordListRequest = RecordFilterQuery
+export type SubmissionListRequest = SubmissionFilterQuery
 
-export interface RecordListResponse {
+export interface SubmissionListResponse {
   total: number
-  records: SubmissionLite[]
+  submissions: SubmissionLite[]
 }
 
-export interface RecordFilterParams {
+export interface SubmissionFilterParams {
   user?: string
   problem?: ProblemId
   lang?: CodeLangId
   verdict?: VerdictId
 }
 
-export type RecordFilterQuery = RecordFilterParams & {
+export type SubmissionFilterQuery = SubmissionFilterParams & {
   page?: number
 }
 
-export interface RecordDetailRequest {
+export interface SubmissionDetailRequest {
   id: SubmissionId
 }
 
-export interface RecordDetailResponse {
-  record: SubmissionFull
+export interface SubmissionDetailResponse {
+  submission: SubmissionFull
 }
 
 export interface JudgeRequest {
@@ -43,5 +43,5 @@ export interface JudgeRequest {
 }
 
 export interface JudgeResponse {
-  record: SubmissionId
+  submission: SubmissionId
 }

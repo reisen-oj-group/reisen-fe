@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RecordFilterParams } from '@/interface'
+import type { SubmissionFilterParams } from '@/interface'
 
 import { ElCard, ElInput, ElForm, ElFormItem, ElSelect, ElOption, ElButton } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
@@ -49,14 +49,14 @@ import { useConfig } from '@/stores/config'
 const { codeLangs, verdicts } = useConfig().config
 
 const emits = defineEmits<{
-  (e: 'filter-change', value: RecordFilterParams): void
+  (e: 'filter-change', value: SubmissionFilterParams): void
 }>()
 
 const props = defineProps<{
-  filter: RecordFilterParams
+  filter: SubmissionFilterParams
 }>()
 
-const form = ref<RecordFilterParams>(cloneDeep(props.filter))
+const form = ref<SubmissionFilterParams>(cloneDeep(props.filter))
 
 const handleSubmit = () => {
   emits('filter-change', cloneDeep(form.value))

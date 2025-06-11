@@ -1,7 +1,7 @@
 import ViewContestList from '@/views/ViewContestList.vue'
 import ViewHome from '@/views/ViewHome.vue'
 import ViewProblemList from '@/views/ViewProblemList.vue'
-import ViewRecordList from '@/views/ViewRecordList.vue'
+import ViewSubmissionList from '@/views/ViewSubmissionList.vue'
 import LayoutAdmin from '@/components/layout/LayoutAdmin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupRouterGuard } from './guard.ts'
@@ -41,14 +41,14 @@ const router = createRouter({
       meta: { minRole: Role.Jury },
     },
     {
-      path: '/record',
-      name: 'record',
-      component: ViewRecordList,
+      path: '/submission',
+      name: 'submission',
+      component: ViewSubmissionList,
     },
     {
-      path: '/record/:rid_str(\\d+)',
-      name: 'record-detail',
-      component: () => import('@/views/ViewRecordDetail.vue'),
+      path: '/submission/:rid_str(\\d+)',
+      name: 'submission-detail',
+      component: () => import('@/views/ViewSubmissionDetail.vue'),
       props: true,
     },
     {

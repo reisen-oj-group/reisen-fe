@@ -159,7 +159,7 @@ const handleSubmit = async () => {
       lang: form.lang,
       code: form.code,
     })
-    router.push(`/record/${response.record}`)
+    router.push(`/submission/${response.submission}`)
 
     visible.value = false
   } catch (error) {
