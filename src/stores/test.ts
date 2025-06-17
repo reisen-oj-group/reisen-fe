@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 
-import type { Registration } from '@/interface'
+import type { Signup } from '@/interface'
 
 export const useTest = defineStore('testdata', () => {
   // 比赛报名数据
-  const dataRegistrations: Registration[] = [
+  const dataRegistrations: Signup[] = [
     {
       contest: 1,
       user: 1,

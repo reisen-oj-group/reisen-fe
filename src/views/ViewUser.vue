@@ -9,7 +9,7 @@
             <el-avatar :size="120" :src="visitingUser.avatar" />
             <h1>{{ visitingUser.name }}</h1>
             <div class="user-meta">
-              <span>注册于 {{ formatDate(visitingUser.register) }}</span>
+              <span>注册于 {{ formatDate(visitingUser.createdAt) }}</span>
               <!-- <span>解决 100 道题目</span> -->
             </div>
           </div>

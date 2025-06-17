@@ -77,8 +77,9 @@ async function getProblem() {
       title: {},
       hasTestdata: false,
       hasConfig: false,
-      updatedAt: new Date(0),
-      createdAt: new Date(0),
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      deletedAt: new Date(),
     }
   }
 }

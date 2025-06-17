@@ -1,6 +1,9 @@
 import type {
   AvatarUploadRequest,
   AvatarUploadResponse,
+  Judgement,
+  PracticeRequest,
+  PracticeResponse,
   UserDeleteRequest,
   UserDeleteResponse,
   UserEditRequest,
@@ -48,4 +51,18 @@ export const apiAvatarUpload = async (request: AvatarUploadRequest) => {
     method: 'POST',
     body: formData,
   })
+}
+
+const processJudgementDates = (judgement: Judgement) => {
+  judgement.stamp = new Date(judgement.stamp as unknown as number)
+  return judgement
+}
+
+export const apiPractice = async (request: PracticeRequest) => {
+  const data = await apiFetchDefault<PracticeResponse>('/user/practice', {
+    method: 'POST',
+    body: request,
+  })
+  data.judgements = data.judgements.map(processJudgementDates)
+  return data
 }

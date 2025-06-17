@@ -21,7 +21,7 @@
       </table>
     </el-affix>
 
-    <table v-if="problemset.length > 0" class="problemset">
+    <table v-if="problems.length > 0" class="problemset">
       <colgroup>
         <col class="col-status" />
         <col class="col-id" />
@@ -30,55 +30,55 @@
         <col class="col-acceptance" />
       </colgroup>
       <tbody>
-        <tr class="entry" v-for="[problem, result] of problemset" :key="problem.id">
+        <tr class="entry" v-for="entry of entries" :key="entry.problem.id">
           <!-- 状态列 -->
           <td class="status">
-            <template v-if="result">
-              <template v-if="result.judge === 'correct'">
+            <template v-if="entry.best !== undefined">
+              <template v-if="entry.best === 'correct'">
                 <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
               </template>
-              <template v-else-if="result.judge === 'incorrect'">
-                <font-awesome-icon style="color: var(--el-color-success)" :icon="faCheck" />
+              <template v-else-if="entry.best === 'incorrect'">
+                <font-awesome-icon style="color: var(--el-color-danger)" :icon="faTimes" />
               </template>
-              <template v-else-if="result.judge !== null">
+              <template v-else>
                 <span
                   :style="{
                     color:
-                      result.judge < 30
+                      entry.best < 30
                         ? 'var(--el-color-danger)'
-                        : result.judge < 70
+                        : entry.best < 70
                           ? 'var(--el-color-warning)'
                           : 'var(--el-color-success)',
                   }"
                 >
-                  {{ result.judge }}
+                  {{ entry.best }}
                 </span>
               </template>
             </template>
           </td>
 
-          <td class="id">{{ problem.id }}</td>
+          <td class="id">{{ entry.problem.id }}</td>
 
           <td class="problem">
-            <router-link :to="`/problem/${problem.id}`" class="problem-title">
-              {{ problem.title['zh-CN'] || Object.values(problem.title)[0] || '暂无标题' }}
+            <router-link :to="`/problem/${entry.problem.id}`" class="problem-title">
+              {{ entry.problem.title['zh-CN'] || Object.values(entry.problem.title)[0] || '暂无标题' }}
             </router-link>
             <div class="tags">
-              <span v-for="tag in problem.tags" :key="tag" class="tag">{{ tag }}</span>
+              <span v-for="tag in entry.problem.tags" :key="tag" class="tag">{{ tag }}</span>
             </div>
           </td>
 
           <td class="difficulty">
-            {{ problem.difficulty }}
+            {{ entry.problem.difficulty }}
           </td>
 
           <td class="acceptance">
-            <el-tooltip :content="`${problem.countCorrect} / ${problem.countTotal}`">
+            <el-tooltip :content="`${entry.problem.countCorrect} / ${entry.problem.countTotal}`">
               <div class="acceptance-bar-container">
                 <div
                   class="acceptance-bar"
                   :style="{
-                    width: `${problem.countTotal ? (100 * problem.countCorrect) / problem.countTotal : 0}%`,
+                    width: `${entry.problem.countTotal ? (100 * entry.problem.countCorrect) / entry.problem.countTotal : 0}%`,
                   }"
                 ></div>
               </div>
@@ -109,17 +109,15 @@
 <script setup lang="ts">
 import { ElCard, ElAffix, ElPagination, ElEmpty, ElTooltip } from 'element-plus'
 
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type {
-  ProblemCore,
   ProblemFilterParams,
-  ProblemFilterQuery,
-  ProblemId,
-  Judgement,
+  ProblemCoreWithJudgements,
+  Judge,
 } from '@/interface'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { apiProblemList } from '@/api'
 import { useAuth } from '@/stores/auth'
 import { keyBy, omitBy } from 'lodash-es'
@@ -131,8 +129,51 @@ const route = useRoute()
 const router = useRouter()
 
 const total = ref(0)
+const problems = ref<ProblemCoreWithJudgements[]>([])
 const currentPage = ref(Number(route.query.page || 1))
-const problemset = ref<[ProblemCore, Judgement?][]>([])
+
+const entries = computed(() => {
+  const entries: {
+    problem: ProblemCoreWithJudgements,
+    best:    Judge | undefined
+  }[] = []
+  for(const problem of problems.value){
+    let best: Judge | undefined = undefined;
+    for(const judgement of problem.judgements){
+      let score1 = 0, score2 = 0;
+      if(best === undefined){
+        score1 = -Infinity;
+      } else 
+      if(best === 'incorrect'){
+        score1 = 0;
+      } else 
+      if(best === 'correct'){
+        score1 = +Infinity;
+      } else {
+        score1 = Math.max(0, best)
+      }
+      
+      const judge = judgement.judge;
+      if(judge === 'incorrect'){
+        score2 = 0;
+      } else 
+      if(judge === 'correct'){
+        score2 = +Infinity;
+      } else {
+        score2 = Math.max(0, judge)
+      }
+
+      if(score2 > score1){
+        best = judge
+      }
+    }
+    entries.push({
+      problem: problem,
+      best: best
+    })
+  }
+  return entries
+})
 
 const props = defineProps<{
   filter: ProblemFilterParams
@@ -142,14 +183,13 @@ const loading = ref(false)
 
 async function fetchData() {
   loading.value = true
-  problemset.value = []
+  problems.value = []
 
   // 过滤掉 undefined 和空数组
   const query = omitBy(
     {
       ...props.filter,
       page: currentPage.value,
-      user: auth.currentUser?.id,
     },
     (v) => !v,
   )
@@ -157,15 +197,7 @@ async function fetchData() {
 
   apiProblemList(query)
     .then((response) => {
-      // 将 results 按照 problem 字段（即 Problem 的 id）建立索引
-      const resultsByProblemId = keyBy(response.results, 'problem')
-
-      // 遍历 problems，为每个 problem 找到对应的 result（如果有的话）
-      problemset.value = response.problems.map((problem) => [
-        problem,
-        resultsByProblemId[problem.id],
-      ])
-
+      problems.value = response.problems
       total.value = response.total
     })
     .finally(() => {

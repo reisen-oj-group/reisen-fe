@@ -46,7 +46,7 @@
             </router-link>
           </td>
           <td class="time">
-            {{ formatDate(submission.submission) }}
+            {{ formatDate(submission.submittedAt) }}
           </td>
           <td class="user">
             <router-link :to="`/user/${submission.user.id}`" class="user-link">
@@ -55,11 +55,11 @@
           </td>
           <td class="problem">
             <router-link :to="`/problem/${submission.problem.id}`" class="problem-title">
-              {{ submission.problem.title['zh-CN'] || Object.values(submission.problem.title)[0] || '暂无标题' }}
+              {{ submission.problem.title['zh-CN'] ?? Object.values(submission.problem.title)[0] ?? '暂无标题' }}
             </router-link>
           </td>
           <td class="lang">
-            {{ codeLangs[submission.lang]?.description || 'Unknown' }}
+            {{ codeLangs[submission.lang]?.description ?? '未知语言' }}
           </td>
           <td class="verdict">
             <verdict-tag :verdict="submission.verdict" />
@@ -131,7 +131,6 @@ async function fetchData() {
 
   apiSubmissionList(query)
     .then((response) => {
-      console.log(response)
       submissions.value = response.submissions
       total.value = response.total
     })

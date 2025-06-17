@@ -6,7 +6,7 @@
           v-for="(userLang, id) of config.config.userLangs"
           :key="id"
           :value="id"
-          :label="userLang.description"
+          :label="userLang!.description"
         />
       </el-select>
 

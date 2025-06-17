@@ -87,7 +87,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox, ElTable, ElTableColumn, ElPagination, ElRate } from 'element-plus'
 import type { Contest } from '@/interface'
 import { formatDate } from '@/utils/format'
-import { apiContestFinished } from '@/api'
+import { apiContestAll } from '@/api'
 
 const router = useRouter()
 
@@ -123,7 +123,7 @@ const getStatusTagType = (contest: Contest) => {
 const fetchContests = async () => {
   loading.value = true
   try {
-    const res = await apiContestFinished({
+    const res = await apiContestAll({
       page: pagination.current,
       filter: {},
     })

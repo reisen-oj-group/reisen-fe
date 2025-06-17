@@ -46,7 +46,7 @@ import MainSidebar from './MainSidebar.vue'
 
 .content {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
   grid-column-gap: 16px;
 
   padding: 24px;

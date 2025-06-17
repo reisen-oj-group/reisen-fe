@@ -1,4 +1,5 @@
-import type { ProblemId, TagClassifyId, TagId, UserId, UserLangId } from './enum'
+import type { ProblemId, BaseModel, TagClassifyId, TagId, UserId, UserLangId } from './enum'
+import type { Judgement } from './judge'
 
 // 配置文件：标签分类（算法标签（有若干子类）、来源标签、技术性标签）
 export interface TagClassify {
@@ -14,9 +15,8 @@ export interface Tag {
 }
 
 // 题面的子集（辅助类型，在查询题目列表时使用）
-export interface ProblemCore {
+export interface ProblemCore extends BaseModel {
   id: ProblemId
-
   type: 'traditional' | 'interactive' // 传统题、交互题
   status: 'public' | 'private' | 'contest'
 
@@ -31,9 +31,11 @@ export interface ProblemCore {
   provider: UserId
 
   title: Record<UserLangId, string> // 多语言对应不同题目名称，缺省使用第一个
+}
 
-  updatedAt: Date
-  createdAt: Date
+// 用于题目列表
+export interface ProblemCoreWithJudgements extends ProblemCore {
+  judgements: Judgement[]
 }
 
 // 题面，一条题目对应多个题面

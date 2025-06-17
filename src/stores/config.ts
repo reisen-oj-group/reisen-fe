@@ -22,10 +22,10 @@ export const useConfig = defineStore('config', () => {
 
   // 每次加载时进行同步，不会更改
   const config = ref<{
-    tags: Record<TagId, Tag>
-    userLangs: Record<UserLangId, UserLang>
-    codeLangs: Record<CodeLangId, CodeLang>
-    verdicts: Record<VerdictId, Verdict>
+    tags: Record<TagId, Tag | undefined>
+    userLangs: Record<UserLangId, UserLang | undefined>
+    codeLangs: Record<CodeLangId, CodeLang | undefined>
+    verdicts: Record<VerdictId, Verdict | undefined>
     difficulties: Level[]
   }>({
     tags: {},

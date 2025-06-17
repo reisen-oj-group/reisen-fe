@@ -64,7 +64,7 @@ function handleSubmit() {
 const props = withDefaults(
   defineProps<{
     problem: Problem | null
-    result: Judgement | null
+    judgement: Judgement | null
     edit?: boolean
     loading: boolean
   }>(),

@@ -19,11 +19,11 @@
           </div>
           <div class="description-item">
             <span class="item-label">提交时间</span>
-            <span class="item-value">{{ formatDate(submission.submission) }}</span>
+            <span class="item-value">{{ formatDate(submission.submittedAt) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">评测时间</span>
-            <span class="item-value">{{ formatDate(submission.evaluation) }}</span>
+            <span class="item-value">{{ formatDate(submission.processedAt) }}</span>
           </div>
           <div class="description-item">
             <span class="item-label">最终用时</span>
@@ -39,7 +39,7 @@
           </div>
           <div class="description-item">
             <span class="item-label">评测语言</span>
-            <span class="item-value">{{ codeLangs[submission.lang].description }}</span>
+            <span class="item-value">{{ codeLangs[submission.lang]?.description ?? '未知语言' }}</span>
           </div>
         </div>
       </template>

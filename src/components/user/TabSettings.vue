@@ -9,10 +9,10 @@
               <el-input v-model="form.username" />
             </el-form-item>
 
-            <el-form-item label="电子邮箱">
+            <!-- <el-form-item label="电子邮箱">
               <el-input v-model="form.email" />
               <el-button size="small" type="text">验证邮箱</el-button>
-            </el-form-item>
+            </el-form-item> -->
 
             <el-form-item>
               <el-button type="primary" @click="doUpdateProfile">保存更改</el-button>
@@ -42,7 +42,7 @@
           <el-form label-width="80px">
             <el-form-item>
               <el-button type="danger" @click="doLogout">退出登录</el-button>
-              <el-button type="danger" @click="doLogout">注销账号</el-button>
+              <!-- <el-button type="danger" @click="doLogout">注销账号</el-button> -->
             </el-form-item>
           </el-form>
         </el-col>

@@ -25,6 +25,8 @@ export const useContest = defineStore('contest', () => {
         user: authStore.currentUser.id,
       }).then((response) => {
         currentRanking.value = response.ranking
+      }).catch(() => {
+        currentRanking.value = null
       })
     }
   }

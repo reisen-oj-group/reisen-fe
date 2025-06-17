@@ -29,12 +29,12 @@
         </div>
 
         <div class="problem-badges">
-          <div
-            v-for="(problem, label) of contest.problems"
-            :key="label"
-            class="problem-badge"
-            :class="getProblemStatusClass(problem)"
-            @click="goToProblem(problem, label)"
+          
+          <div v-for="[label, cell] of Object.entries(getACMLine(contest, ranking))" class="problem-badge" :class="{
+            'status-success': cell && cell.isSolved,
+            'status-danger': cell && !cell.isSolved,
+          }" :key="label"
+            @click="goToProblem(label)"
           >
             {{ label }}
           </div>
@@ -52,7 +52,7 @@ import { useRouter } from 'vue-router'
 import { useContest } from '@/stores/contest'
 
 import { formatTimeLong } from '@/utils/format'
-import type { ProblemId } from '@/interface'
+import type { ACMCell, Contest, ProblemId, Ranking } from '@/interface'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
@@ -82,27 +82,19 @@ function update() {
 
 watch(contest, update)
 
-function getProblemStatusClass(problem: ProblemId) {
-  if (!ranking.value) return ''
-
-  for (const result of ranking.value.results) {
-    if (result.problem == problem) {
-      const judge = result.judge
-      switch (judge) {
-        case 'correct':
-          return 'status-success'
-        case 'incorrect':
-          return 'status-danger'
-        default:
-          return 'status-warning'
-      }
-    }
+function getACMLine(contest: Contest, ranking: Ranking | null) {
+  if(ranking === null || ranking.detail.type !== 'ACM'){
+    return [];
   }
-  return ''
+  const cells: Record<string, ACMCell | null> = {};
+  for(const label in contest.problems){
+    cells[label] = (ranking.detail.problems[contest.problems[label]] ?? null)
+  }
+  return cells;
 }
 
 // 跳转到题目
-function goToProblem(_problem: ProblemId, label: string) {
+function goToProblem(label: string) {
   if (!contest.value) return
   router.push(`/contest/${contest.value.id}/${label}`)
 }

@@ -3,26 +3,30 @@ import type {
   ContestDifficulty,
   ContestId,
   ContestRule,
+  ContestWithSignup,
   ProblemCore,
   Ranking,
   UserId,
 } from '../entity'
 
-export interface ContestFinishedRequest {
+export interface ContestListRequest {
   page: number
   filter: ContestFilterForm
 }
 
-export interface ContestFinishedResponse {
+export interface ContestListResponse {
   total: number
-  contests: Contest[]
+  contests: ContestWithSignup[]
 }
 
-export type ContestRecentRequest = object
+export interface ContestAllRequest {
+  page: number
+  filter: ContestFilterForm
+}
 
-export interface ContestRecentResponse {
-  running: Contest[]
-  pending: Contest[]
+export interface ContestAllResponse {
+  total: number
+  contests: Contest[]
 }
 
 export interface ContestFilterForm {
@@ -36,6 +40,22 @@ export interface ContestRequest {
 
 export interface ContestResponse {
   contest: Contest
+}
+
+export interface SignupRequest {
+  contest: ContestId
+}
+
+export interface SignupResponse {
+  
+}
+
+export interface SignoutRequest {
+  contest: ContestId
+}
+
+export interface SignoutResponse {
+  
 }
 
 export interface RankingRequest {

@@ -22,11 +22,11 @@
             <div v-for="(testcase, index) in submission.detail" :key="index" class="testcase-item">
               <div
                 class="testcase-badge"
-                :style="{ backgroundColor: `${verdicts[testcase.verdict].color}` }"
+                :style="{ backgroundColor: `${verdicts[testcase.verdict]?.color ?? '#0E1D69'}` }"
                 @click="showTestcase(testcase, index)"
               >
                 <span class="testcase-id">#{{ index + 1 }}</span>
-                <span class="testcase-verdict">{{ verdicts[testcase.verdict].abbr }}</span>
+                <span class="testcase-verdict">{{ verdicts[testcase.verdict]?.abbr ?? 'UKE' }}</span>
                 <span class="testcase-meta">
                   <span v-if="testcase.time !== undefined">{{ testcase.time }}ms</span>
                   <span v-if="testcase.memory !== undefined">{{
@@ -42,7 +42,7 @@
         <el-tab-pane label="代码" name="code">
           <div class="code-container">
             <div class="code-meta">
-              <span>语言: {{ codeLangs[submission.lang].description }}</span>
+              <span>语言: {{ codeLangs[submission.lang]?.description || '未知语言' }}</span>
               <span>代码长度: {{ submission.length }} bytes</span>
             </div>
             <pre class="code-content"><code>{{ submission.code }}</code></pre>

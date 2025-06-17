@@ -156,7 +156,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-import { type User, type UserFilterParams, type UserId } from '@/interface'
+import { type User, type UserFilterParams } from '@/interface'
 import { formatDate } from '@/utils/format'
 import { apiCreate, apiReset, apiUserDelete, apiUserEdit, apiUserAll } from '@/api'
 import Swal from 'sweetalert2'
@@ -216,7 +216,6 @@ const handleCreate = () => {
     name: '',
     role: 1,
     avatar: '',
-    register: new Date(Date.now()),
   }
   create.value = true
   dialog.value = true

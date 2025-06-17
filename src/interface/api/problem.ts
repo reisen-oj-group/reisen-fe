@@ -1,11 +1,21 @@
-import type { Problem, ProblemCore, ProblemId, Judgement, TagId, UserId } from '../entity'
+import type { Problem, ProblemCore, ProblemId, Judgement, TagId, UserId, ProblemCoreWithJudgements } from '../entity'
 
-export type ProblemListRequest = ProblemFilterQuery
+export interface ProblemListRequest extends ProblemFilterParams {
+  page?: number
+}
 
 export interface ProblemListResponse {
   total: number
-  problems: ProblemCore[] // 返回简要信息
-  results: Judgement[] // 返回相关的题目结果
+  problems: ProblemCoreWithJudgements[]
+}
+
+export interface ProblemAllRequest extends ProblemFilterParams {
+  page?: number
+}
+
+export interface ProblemAllResponse {
+  total: number
+  problems: ProblemCore[]
 }
 
 export interface ProblemFilterParams {
@@ -17,11 +27,6 @@ export interface ProblemFilterParams {
   provider?: UserId
 }
 
-export type ProblemFilterQuery = ProblemFilterParams & {
-  page?: number
-  user?: UserId
-}
-
 export interface ProblemRequest {
   problem: ProblemId
   user?: UserId
@@ -29,7 +34,7 @@ export interface ProblemRequest {
 
 export interface ProblemResponse {
   problem: Problem
-  result?: Judgement
+  judgement?: Judgement
 }
 
 // 如果 problem.id 为 0，则为创建题面

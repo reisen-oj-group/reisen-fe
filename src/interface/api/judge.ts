@@ -1,7 +1,9 @@
 import type {
   CodeLangId,
   ContestId,
+  Judgement,
   ProblemId,
+  Ranking,
   SubmissionFull,
   SubmissionId,
   SubmissionLite,
@@ -44,4 +46,13 @@ export interface JudgeRequest {
 
 export interface JudgeResponse {
   submission: SubmissionId
+}
+
+export interface PracticeRequest {
+  user: UserId
+}
+
+export interface PracticeResponse {
+  judgements: Judgement[]
+  rankings: Ranking[]
 }

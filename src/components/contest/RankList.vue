@@ -26,28 +26,37 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="rank of ranklist" class="normal-line entry" :key="rank.rank">
-          <td class="rank">
-            {{ rank.rank }}
-          </td>
-          <td class="name">
-            {{ rank.user }}
-          </td>
-          <td class="score-solved">
-            {{ rank.totalSolved }}
-          </td>
-          <td class="score-penalty">
-            {{ rank.totalPenalty }}
-          </td>
-          <td v-for="label in labels" class="result-cell" :key="label">
-            <div v-if="rank.results[label]" class="result" :class="getColorClass(rank, label)">
-              {{ rank.results[label].penalty }}
-              <span>
-                {{ getTries(rank.results[label].attempt) }}
-              </span>
-            </div>
-          </td>
-          <td />
+        <tr v-for="rank of ranklist" class="normal-line entry" :key="rank.ranking">
+          <template v-if="rank.detail.type === 'ACM'">
+            <td class="rank">
+              {{ rank.ranking }}
+            </td>
+            <td class="name">
+              {{ rank.user }}
+            </td>
+            <td class="score-solved">
+              {{ rank.detail.totalSolved }}
+            </td>
+            <td class="score-penalty">
+              {{ rank.detail.totalPenalty }}
+            </td>
+            <td v-for="(cell, label) in getACMLine(contest, rank)" class="result-cell" :key="label">
+              <div v-if="cell !== null" class="result" :class="{
+                solved: cell.isSolved && !cell.isFirst,
+                first: cell.isFirst,
+                attempted: !cell.isSolved
+              }">
+                {{ cell.penalty }}
+                <span>
+                  {{ cell.attemptBF }}
+                </span>
+              </div>
+            </td>
+            <td />
+          </template>
+          <template v-else>
+            
+          </template>
         </tr>
       </tbody>
     </table>
@@ -57,7 +66,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import type { Ranking, Judgement } from '@/interface'
+import type { ACMCell, Contest, Ranking } from '@/interface'
 
 import { useContest } from '@/stores/contest'
 import { ElEmpty } from 'element-plus'
@@ -71,8 +80,19 @@ const labels = computed(() => {
   return []
 })
 
-const ranks = ref<Ranking[]>([])
+const ranklist = ref<Ranking[]>([])
 const loading = ref(false)
+
+function getACMLine(contest: Contest, ranking: Ranking) {
+  if(ranking.detail.type !== 'ACM'){
+    return [];
+  }
+  const cells: (ACMCell | null)[] = [];
+  for(const label in contest.problems){
+    cells.push(ranking.detail.problems[contest.problems[label]] ?? null)
+  }
+  return cells;
+}
 
 function updateRanks() {
   if (!contest.value) return
@@ -82,8 +102,7 @@ function updateRanks() {
     contest: contest.value.id,
   })
     .then((response) => {
-      ranks.value = response.rankings
-      calcRanklist()
+      ranklist.value = response.rankings
     })
     .finally(() => {
       loading.value = false
@@ -96,53 +115,9 @@ onMounted(() => {
 
 watch(contest, updateRanks)
 
-interface RankItem {
-  rank: number
-  user: number
-  totalPenalty: number
-  totalSolved: number
-  results: Record<string, Judgement>
-}
-const ranklist = ref<RankItem[]>([])
-
-function getColorClass(rank: RankItem, label: string) {
-  const result = rank.results[label]
-  if (!result) return ''
-  if (result.judge === 'correct') return 'solved'
-  else return 'attempted'
-}
-
 function getTries(attempt: number) {
   if (attempt <= 1) return `${attempt} try`
   return `${attempt} tries`
-}
-
-function calcRanklist() {
-  if (!contest.value) return
-
-  ranklist.value = []
-  for (const rank of ranks.value) {
-    const item: RankItem = {
-      rank: rank.rank,
-      user: rank.user,
-      totalPenalty: 0,
-      totalSolved: 0,
-      results: {},
-    }
-    for (const result of rank.results) {
-      for (const label of labels.value) {
-        if (contest.value.problems[label] === result.problem) {
-          item.results[label] = result
-          if (result.judge === 'correct') {
-            item.totalPenalty += result.penalty
-            item.totalSolved++
-          }
-          break
-        }
-      }
-    }
-    ranklist.value.push(item)
-  }
 }
 </script>
 
@@ -157,6 +132,10 @@ function calcRanklist() {
 
 .solved {
   background-color: #60e760;
+}
+
+.first {
+  background-color: #1daa1d;
 }
 
 .attempted {

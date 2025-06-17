@@ -9,16 +9,35 @@
 import { ref, onMounted, watch } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
+import type { Judgement } from '@/interface'
+
+import { useConfig } from '@/stores/config'
+import { groupBy } from 'lodash-es'
+
+const { difficulties } = useConfig().config
 
 const props = defineProps<{
-  data: Array<{
-    name: string
-    value: number
-  }>
+  judgements: Judgement[]
 }>()
 
 const chartEl = ref<HTMLElement>()
 let chart: echarts.ECharts | null = null
+
+function parsePieData(judgements: Judgement[]) {
+  const difficultyMap = groupBy(judgements, j =>
+    difficulties.findIndex(d => d.min <= j.difficulty && j.difficulty <= d.max)
+  );
+  const difficultyCount: {
+    name: string, value: number
+  }[] = [];
+  for (const [difficulty, items] of Object.entries(difficultyMap)) {
+    difficultyCount.push({
+      name: difficulties[parseInt(difficulty)].name,
+      value: items.length
+    })
+  }
+  return difficultyCount;
+}
 
 onMounted(() => {
   if (chartEl.value) {
@@ -27,7 +46,7 @@ onMounted(() => {
   }
 })
 
-watch(() => props.data, updateChart)
+watch(() => props.judgements, updateChart)
 
 function updateChart() {
   if (!chart) return
@@ -35,7 +54,7 @@ function updateChart() {
   const option: EChartsOption = {
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)',
+      formatter: '{b}: {c} ({d}%)',
     },
     legend: {
       orient: 'vertical',
@@ -54,7 +73,7 @@ function updateChart() {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: 'center',
         },
         emphasis: {
@@ -67,7 +86,7 @@ function updateChart() {
         labelLine: {
           show: false,
         },
-        data: props.data,
+        data: parsePieData(props.judgements),
       },
     ],
   }

@@ -1,106 +1,108 @@
 <template>
   <div class="practice-tab">
     <!-- 统计图表区 -->
-    <!-- <el-row class="section" :gutter="24">
-      <el-col :span="15">
-        <el-card>
-          <template #header> 练习情况 </template>
-        </el-card>
-      </el-col>
-      <el-col :span="9">
+    <el-row class="section" :gutter="24">
+      <el-col :span="12">
         <el-card body-style="padding: 4px">
-          <template #header> 难度分布 </template>
-          <chart-pie :data="dataDifficulty" />
+          <template #header>参与比赛</template>
+          <el-empty description="暂无比赛数据" />
         </el-card>
       </el-col>
-    </el-row> -->
+      <el-col :span="12">
+        <el-card body-style="padding: 4px">
+          <template #header>难度分布</template>
+          <chart-pie :judgements="judgements" />
+        </el-card>
+      </el-col>
+    </el-row>
 
-    <!-- 比赛列表 -->
+    <!-- 热度图 -->
     <el-card class="section">
-      <template #header> 参加的比赛 </template>
-      <el-empty description="暂无比赛数据" />
+      <template #header>练习情况</template>
+      <chart-contribution :judgements="judgements" />
     </el-card>
 
     <!-- 通过题目列表 -->
-    <!-- <el-card class="section">
-      <template #header> 通过的题目 </template>
-      <div v-for="(problems, level) in solvedProblemsByLevel" :key="level">
-        <template v-if="problems.length">
-          <el-divider content-position="left">{{ getLevelName(level) }}</el-divider>
+    <el-card class="section">
+      <template #header>通过试题</template>
+      <div v-for="[di, judgements] of Object.entries(grouped)" :key="di">
+        <template v-if="judgements.length > 0">
+          <el-divider content-position="left">{{ difficulties[parseInt(di)].name }}</el-divider>
           <el-row :gutter="20">
-            <el-col v-for="problem in problems" :key="problem.id" :xs="24" :sm="12" :md="8" :lg="6">
-              <router-link :to="`/problem/${problem.id}`" class="problem-card">
-                <span class="problem-id">{{ problem.id }}</span>
-                <span class="problem-title">{{ problem.i18n['en-US'].title }}</span>
+            <el-col v-for="judgement in judgements" :key="judgement.problem" :xs="4" :sm="3" :md="2" :lg="2">
+              <router-link :to="`/problem/${judgement.problem}`" class="problem-card">
+                <span class="problem-id">{{ judgement.problem }}</span>
               </router-link>
             </el-col>
           </el-row>
         </template>
       </div>
-    </el-card> -->
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
 // import { computed } from 'vue'
-import type { User } from '@/interface'
+import type { Judgement, User } from '@/interface'
 
+import { computed, onMounted, ref, watch } from 'vue'
+import ChartContribution from './ChartContribution.vue'
+import ChartPie from './ChartPie.vue'
 import { ElCard } from 'element-plus'
+import { apiPractice } from '@/api'
+import { useConfig } from '@/stores/config'
+import { floor, groupBy } from 'lodash-es'
 
-// import { useConfig } from '@/stores/config'
+const { difficulties } = useConfig().config
 
-// import ChartContribution from './ChartContribution.vue'
-// import ChartPie from './ChartPie.vue'
-// import { useTest } from '@/stores/test'
-
-const _props = defineProps<{
+const props = defineProps<{
   user: User
 }>()
 
-// const { difficulties } = useConfig().config
+const loading = ref(false)
+const judgements = ref<Judgement[]>([]);
 
-// 模拟数据
-// const solvedTime = useTest().dataSubmissions
-// const solvedProblems = useTest().dataProblems
-// const solvedTime = []
-// const solvedProblems = useTest().dataProblems
+const grouped = computed(() => {
+  return groupBy(judgements.value, j =>
+    difficulties.findIndex(d => d.min <= j.difficulty && j.difficulty <= d.max)
+  );
+})
 
-// // 按难度分组
-// const solvedProblemsByLevel = computed(() => {
-//   const groups: Record<number, Problem[]> = {}
+async function fetchPractice() {
 
-//   difficulties.forEach((level, index) => {
-//     groups[index] = solvedProblems
-//       .filter((p) => p.difficulty >= level.min && p.difficulty <= level.max)
-//       .sort((a, b) => a.id.localeCompare(b.id))
-//   })
+  // judgements.value = []
 
-//   return groups
-// })
+  // for(let i = 0;i < 2000;++ i){
+  //   judgements.value.push({
+  //     problem: 1000 + Math.floor(Math.random() * 500),
+  //     user: props.user.id,
+  //     judge: 'correct',
+  //     difficulty: 100 * (Math.floor(Math.random() * Math.random() * (35 - 8)) + 8),
+  //     stamp: new Date(2020 + Math.floor(Math.random() * 6), Math.floor(Math.random() * 12), Math.floor(Math.random() * 31))
+  //   })
+  // }
 
-// // 练习热度数据
-// const dataContribution = computed(() => {
-//   return difficulties.map((level, index) => ({
-//     name: level.name,
-//     value: solvedProblemsByLevel.value[index]?.length || 0,
-//   }))
-// })
+  loading.value = true
+  judgements.value = []
 
-// // 难度饼图数据
-// const dataDifficulty = computed(() => {
-//   return difficulties.map((level, index) => ({
-//     name: level.name,
-//     value: solvedProblemsByLevel.value[index]?.length || 0,
-//   }))
-// })
+  apiPractice({
+    user: props.user.id
+  })
+    .then((response) => {
+      judgements.value = response.judgements
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 
-// function getLevelName(index: number) {
-//   const level = difficulties[index]
-//   return `${level.name}`
-// }
+onMounted(() => {
+  fetchPractice()
+})
+watch(() => props.user, fetchPractice)
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .practice-tab {
   padding: 8px;
 
@@ -119,23 +121,25 @@ const _props = defineProps<{
 .problem-card {
   display: block;
   padding: 12px;
-  background: var(--el-bg-color);
+  background-color: var(--el-bg-color);
   border-radius: 4px;
   transition: all 0.3s;
 
   &:hover {
     transform: translateY(-3px);
     box-shadow: var(--el-box-shadow-light);
+    color: var(--el-color-primary);
+    background-color: var(--el-color-primary-light-9);
   }
 
   .problem-id {
     display: inline-block;
-    width: 60px;
-    color: var(--el-text-color-secondary);
+    width: 100%;
+    text-align: center;
   }
 
-  .problem-title {
+  /* .problem-title {
     color: var(--el-color-primary);
-  }
+  } */
 }
 </style>

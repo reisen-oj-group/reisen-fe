@@ -1,6 +1,8 @@
 import type {
   JudgeRequest,
   JudgeResponse,
+  ProblemAllRequest,
+  ProblemAllResponse,
   ProblemDeleteRequest,
   ProblemDeleteResponse,
   ProblemEditRequest,
@@ -22,15 +24,15 @@ export const apiProblemList = async (request: ProblemListRequest) => {
   })
 }
 
-export const apiProblemMine = async (request: ProblemListRequest) => {
-  return apiFetchDefault<ProblemListResponse>('/problem/mine', {
+export const apiProblemMine = async (request: ProblemAllRequest) => {
+  return apiFetchDefault<ProblemAllResponse>('/problem/mine', {
     method: 'POST',
     body: request,
   })
 }
 
-export const apiProblemAll = async (request: ProblemListRequest) => {
-  return apiFetchDefault<ProblemListResponse>('/problem/all', {
+export const apiProblemAll = async (request: ProblemAllRequest) => {
+  return apiFetchDefault<ProblemAllResponse>('/problem/all', {
     method: 'POST',
     body: request,
   })

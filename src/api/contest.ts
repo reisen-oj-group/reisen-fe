@@ -1,30 +1,35 @@
 import type {
-  ContestFinishedRequest,
-  ContestFinishedResponse,
+  Contest,
+  ContestAllRequest,
+  ContestAllResponse,
+  ContestListRequest,
+  ContestListResponse,
   ContestProblemsRequest,
   ContestProblemsResponse,
-  ContestRecentRequest,
-  ContestRecentResponse,
   ContestRequest,
   ContestResponse,
   RankingRequest,
   RankingResponse,
   RanklistRequest,
   RanklistResponse,
+  SignoutRequest,
+  SignoutResponse,
+  SignupRequest,
+  SignupResponse,
 } from '@/interface'
 
-import { apiFetchDefault } from '@/utils/ofetch'
+import { apiFetchDefault, apiFetchSilent } from '@/utils/ofetch'
 
-const processContestDates = (contest: any) => {
-  contest.createdAt = new Date(contest.createdAt)
-  contest.updatedAt = new Date(contest.updatedAt)
+const processContestDates = (contest: Contest) => {
+  contest.createdAt = new Date(contest.createdAt as unknown as number)
+  contest.updatedAt = new Date(contest.updatedAt as unknown as number)
   contest.startTime = new Date(contest.startTime)
   contest.endTime = new Date(contest.endTime)
   return contest
 }
 
-export const apiContestFinished = async (request: ContestFinishedRequest) => {
-  const data = await apiFetchDefault<ContestFinishedResponse>('/contest/finished', {
+export const apiContestList = async (request: ContestListRequest) => {
+  const data = await apiFetchDefault<ContestListResponse>('/contest/list', {
     method: 'POST',
     body: request,
   })
@@ -32,13 +37,12 @@ export const apiContestFinished = async (request: ContestFinishedRequest) => {
   return data
 }
 
-export const apiContestRecent = async (request: ContestRecentRequest) => {
-  const data = await apiFetchDefault<ContestRecentResponse>('/contest/recent', {
+export const apiContestAll = async (request: ContestAllRequest) => {
+  const data = await apiFetchDefault<ContestAllResponse>('/contest/all', {
     method: 'POST',
     body: request,
   })
-  data.running = data.running.map(processContestDates)
-  data.pending = data.pending.map(processContestDates)
+  data.contests = data.contests.map(processContestDates)
   return data
 }
 
@@ -51,8 +55,24 @@ export const apiContest = async (request: ContestRequest) => {
   return data
 }
 
+export const apiSignup = async (request: SignupRequest) => {
+  const data = await apiFetchDefault<SignupResponse>('/contest/signup', {
+    method: 'POST',
+    body: request,
+  })
+  return data
+}
+
+export const apiSignout = async (request: SignoutRequest) => {
+  const data = await apiFetchDefault<SignoutResponse>('/contest/signup', {
+    method: 'POST',
+    body: request,
+  })
+  return data
+}
+
 export const apiRanking = async (request: RankingRequest) => {
-  return apiFetchDefault<RankingResponse>('/contest/ranking', {
+  return apiFetchSilent<RankingResponse>('/contest/ranking', {
     method: 'POST',
     body: request,
   })

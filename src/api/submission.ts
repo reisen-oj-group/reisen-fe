@@ -13,8 +13,8 @@ export const apiSubmissionList = async (request: SubmissionListRequest) => {
     body: request,
   })
   for (const submission of response.submissions) {
-    submission.submission = new Date(submission.submission)
-    submission.evaluation = new Date(submission.evaluation)
+    submission.submittedAt = new Date(submission.submittedAt)
+    submission.processedAt = new Date(submission.processedAt)
   }
   return response
 }
@@ -27,7 +27,7 @@ export const apiSubmissionDetail = async (request: SubmissionDetailRequest) => {
     body: request,
   })
   const submission = response.submission
-  submission.submission = new Date(submission.submission)
-  submission.evaluation = new Date(submission.evaluation)
+  submission.submittedAt = new Date(submission.submittedAt)
+  submission.processedAt = new Date(submission.processedAt)
   return response
 }

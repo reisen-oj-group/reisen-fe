@@ -11,9 +11,9 @@
         >
           <el-option
             v-for="item in codeLangs"
-            :key="item.id"
-            :label="item.description"
-            :value="item.id"
+            :key="item!.id"
+            :label="item!.description"
+            :value="item!.id"
           />
         </el-select>
       </el-form-item>
@@ -119,11 +119,9 @@ const handleCodeUpload = (uploadFile: UploadFile) => {
 
   const extension = getExtension(file.name)
 
-  console.log(extension)
-
   // 尝试根据文件扩展名自动设置语言
   if (!form.lang) {
-    const matchedLang = find(codeLangs, (lang) => lang.ext.includes(extension.toLowerCase()))
+    const matchedLang = find(codeLangs, (lang) => lang!.ext.includes(extension.toLowerCase()))
     if (matchedLang) {
       form.lang = matchedLang.id
     }
@@ -135,8 +133,6 @@ const handleCodeUpload = (uploadFile: UploadFile) => {
     form.code = (e.target?.result as string) || ''
   }
   reader.readAsText(file)
-
-  console.log(form.code)
 }
 
 // 获取文件扩展名

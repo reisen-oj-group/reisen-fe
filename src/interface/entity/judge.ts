@@ -2,10 +2,11 @@ import type {
   CodeLangId,
   ContestId,
   ProblemId,
-  SubmissionId,
+  BaseModel,
   UserId,
   UserLangId,
   VerdictId,
+  SubmissionId,
 } from './enum'
 import type { ProblemCore } from './problem'
 import type { User } from './user'
@@ -47,15 +48,14 @@ export interface Testcase {
 }
 
 // 测试点的子集（辅助类型）
-export interface SubmissionCore {
+export interface SubmissionCore extends BaseModel {
   id: SubmissionId
-
   user: UserId
   problem: ProblemId // 关联试题
   contest?: ContestId // 关联比赛
 
-  submission: Date // 提交时间
-  evaluation: Date // 评测时间
+  submittedAt: Date // 提交时间
+  processedAt: Date // 评测时间
   lang: CodeLangId // 评测语言
 
   verdict: VerdictId // 评测结果
@@ -67,14 +67,12 @@ export interface SubmissionCore {
 
 // 表：题目结果
 export interface Judgement {
-  problem: ProblemId // 关联试题
-  contest: ContestId // 关联比赛
-  user: UserId // 关联用户
+  problem: ProblemId // 关联试题（类型为 number）
+  user: UserId // 关联用户（类型为 number）
 
-  judge: Judge // 题目评判（不同于 verdict）
-  attempt: number // 尝试次数，仅在 ACM 比赛有效
-  penalty: number // 最终罚时，仅在 ACM 比赛有效
-  time: number // 程序用时（取 AC 提交最短用时）
+  judge: Judge // 题目评判（类型为 'correct' | 'incorrect' | number（分数），只有 correct 的记为通过）
+  difficulty: number // 试题难度，防止计算练习数据时和 Problem 联合查询带来性能开销
+  stamp: Date // 通过时间
 }
 
 // 表：评测记录

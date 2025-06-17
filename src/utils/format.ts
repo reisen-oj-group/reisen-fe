@@ -1,7 +1,10 @@
 // 补零函数
 const padZero = (num: number) => num.toString().padStart(2, '0')
 
-export function formatDate(date: Date) {
+export function formatDate(date: Date | undefined) {
+  if(date === undefined){
+    return '未知日期'
+  }
   const now = new Date()
   const target = new Date(date)
 

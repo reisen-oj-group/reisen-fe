@@ -6,7 +6,7 @@
     </template>
     <template #sidebar>
       <contest-sidebar />
-      <problem-panel :loading="loading" :problem="problem" :result="result" />
+      <problem-panel :loading="loading" :problem="problem" :judgement="judgement" />
     </template>
   </layout-sidebar>
 </template>
@@ -30,7 +30,7 @@ const router = useRouter()
 const contestStore = useContest()
 
 const problem = ref<Problem | null>(null)
-const result = ref<Judgement | null>(null)
+const judgement = ref<Judgement | null>(null)
 
 const loading = ref(false)
 
@@ -52,7 +52,7 @@ async function getProblem() {
     await apiProblem({ problem: query })
       .then((response) => {
         problem.value = response.problem
-        if (response.result) result.value = response.result
+        if (response.judgement) judgement.value = response.judgement
       })
       .finally(() => {
         loading.value = false

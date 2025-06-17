@@ -1,52 +1,49 @@
 <template>
   <div class="contest-list-container">
-    <template v-if="!searchOld">
-      <template v-if="runningContests && runningContests.length > 0">
-        <el-divider class="running">正在进行</el-divider>
-
-        <div class="contest-section">
-          <contest-card
-            v-for="contest in runningContests"
-            :key="contest.id"
-            :contest="contest"
-            type="running"
-            @register="handleRegister"
-          />
-        </div>
-      </template>
-
-      <template v-if="pendingContests && pendingContests.length > 0">
-        <el-divider class="pending">即将开始</el-divider>
-
-        <div class="contest-section">
-          <contest-card
-            v-for="contest in pendingContests"
-            :key="contest.id"
-            :contest="contest"
-            type="pending"
-            @register="handleRegister"
-          />
-        </div>
-      </template>
-
-      <template v-if="!runningContests && !pendingContests"> 最近没有比赛。 </template>
-    </template>
-    <template v-else>
-      <el-alert title="目前正在检索历史比赛，如需返回请点击“清空”" type="info" :closable="false" />
+    <template v-if="searched">
+      <el-alert>当前正在检索比赛，若希望查看所有比赛请清空搜索选项</el-alert>
     </template>
 
-    <template v-if="finishedContests">
+    <template v-if="classified.running.length > 0">
+      <el-divider class="running">正在进行</el-divider>
+
+      <div class="contest-section">
+        <contest-card
+          v-for="contest in classified.running"
+          :key="contest.id"
+          :contest="contest"
+          type="running"
+          @register="handleRegister"
+        />
+      </div>
+    </template>
+
+    <template v-if="classified.pending.length > 0">
+      <el-divider class="pending">即将开始</el-divider>
+
+      <div class="contest-section">
+        <contest-card
+          v-for="contest in classified.pending"
+          :key="contest.id"
+          :contest="contest"
+          type="pending"
+          @register="handleRegister"
+        />
+      </div>
+    </template>
+
+    <template v-if="classified.finished.length > 0">
       <el-divider class="finished">已经结束</el-divider>
 
       <div class="contest-section">
         <contest-card
-          v-for="contest in finishedContests"
+          v-for="contest in classified.finished"
           :key="contest.id"
           :contest="contest"
           type="finished"
         />
         <el-pagination
-          :current-page="finishedPage"
+          :current-page="page"
           :page-size="10"
           :pager-count="11"
           :total="total"
@@ -58,23 +55,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import ContestCard from './ContestCard.vue'
 
 import { ElPagination, ElDivider, ElAlert } from 'element-plus'
 
-import { apiContestFinished, apiContestRecent } from '@/api/contest'
-import type { Contest, ContestFilterForm } from '@/interface'
+import { apiContestList } from '@/api/contest'
+import type { Contest, ContestFilterForm, ContestWithSignup } from '@/interface'
 
 // 比赛数据
-const runningContests = ref<Contest[] | null>(null)
-const pendingContests = ref<Contest[] | null>(null)
+const contests = ref<ContestWithSignup[] | null>(null)
+const classified =  ref<{
+  running: ContestWithSignup[],
+  pending: ContestWithSignup[],
+  finished: ContestWithSignup[],
+}>({
+  running: [],
+  pending: [],
+  finished: []
+});
 
-const finishedContests = ref<Contest[] | null>(null)
-const finishedPage = ref(1)
+watch(contests, () => {
+  const now = Date.now()
+  classified.value.running = []
+  classified.value.pending = []
+  classified.value.finished = []
+  if(contests.value === null){
+    return
+  }
+  for(const contest of contests.value){
+    const s = contest.startTime.getTime()
+    const e = contest.endTime.getTime()
+    if(s <= now && now <= e){
+      classified.value.running.push(contest)
+    } else 
+    if(now < s){
+      classified.value.pending.push(contest)
+    } else {
+      classified.value.finished.push(contest)
+    }
+  }
+})
+
+const page = ref(1)
 const total = ref(0)
 
-const searchOld = ref(false)
+const searched = ref(false)
 
 // 处理报名
 function handleRegister(contestId: number) {
@@ -87,53 +113,39 @@ const props = defineProps<{
 }>()
 
 const filter = ref(props.initFilter)
-const loadingU = ref(false)
-const loadingF = ref(false)
+const loading = ref(false)
 
 onMounted(() => {
-  getRecent()
   getList(true)
 })
 
 const emits = defineEmits(['page-change'])
 
-async function getRecent() {
-  loadingU.value = true
-  apiContestRecent({})
-    .then((response) => {
-      runningContests.value = response.running
-      pendingContests.value = response.pending
-    })
-    .finally(() => {
-      loadingU.value = false
-    })
-}
-
 async function getList(resetPage: boolean) {
-  loadingF.value = true
-  finishedContests.value = null
+  loading.value = true
+  contests.value = null
   if (resetPage) {
-    finishedPage.value = 1
+    page.value = 1
   }
-  apiContestFinished({ page: finishedPage.value, filter: filter.value })
+  apiContestList({ page: page.value, filter: filter.value })
     .then((response) => {
-      finishedContests.value = response.contests
+      contests.value = response.contests
       total.value = response.total
     })
     .finally(() => {
-      loadingF.value = false
+      loading.value = false
     })
 }
 
-function handlePageChange(page: number) {
-  finishedPage.value = page
-  emits('page-change', page)
+function handlePageChange(newPage: number) {
+  page.value = newPage
+  emits('page-change', newPage)
   getList(false)
 }
 
 function setFilter(newFilter: ContestFilterForm, cleaned: boolean) {
   filter.value = newFilter
-  searchOld.value = !cleaned
+  searched.value = !cleaned
   getList(true)
 }
 

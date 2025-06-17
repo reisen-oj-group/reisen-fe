@@ -12,9 +12,9 @@
           <el-select v-model="form.lang" clearable>
             <el-option
               v-for="lang in codeLangs"
-              :key="lang.id"
-              :value="lang.id"
-              :label="lang.description"
+              :key="lang!.id"
+              :value="lang!.id"
+              :label="lang!.description"
             />
           </el-select>
         </el-form-item>
@@ -22,9 +22,9 @@
           <el-select v-model="form.verdict" clearable>
             <el-option
               v-for="verdict in verdicts"
-              :key="verdict.id"
-              :value="verdict.id"
-              :label="verdict.description"
+              :key="verdict!.id"
+              :value="verdict!.id"
+              :label="verdict!.description"
             />
           </el-select>
         </el-form-item>
