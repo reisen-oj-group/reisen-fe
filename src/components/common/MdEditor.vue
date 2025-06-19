@@ -5,6 +5,7 @@
     :plugins="plugins"
     :show-editor="showEditor"
     :show-viewer="showViewer"
+    :height="height"
   />
 </template>
 
@@ -23,10 +24,12 @@ const lang = ref(config.userLang === 'zh-CN' ? zhCN : zhCN)
 
 const props = withDefaults(
   defineProps<{
-    narrow?: boolean | 'auto'
+    narrow?: boolean | 'auto',
+    height?: string,
   }>(),
   {
     narrow: 'auto',
+    height: '300px',
   },
 )
 const value = defineModel<string>({ required: true })

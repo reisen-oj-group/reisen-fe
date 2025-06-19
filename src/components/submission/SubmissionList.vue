@@ -242,6 +242,7 @@ table.submission-list-head {
     }
     &.verdict {
       font-weight: bold;
+      text-overflow: clip;
     }
   }
 }

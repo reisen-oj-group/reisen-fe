@@ -38,15 +38,27 @@ export function setupRouterGuard(router: Router) {
             return false
           })
         }
-        contestStore.exit()
+        await contestStore.exit()
       } else {
-        contestStore.refresh()
+        await contestStore.refresh()
       }
     } else {
       if (!to.path.startsWith('/contest/')) {
-        contestStore.exit()
+        await contestStore.exit()
       } else {
-        contestStore.refresh()
+        const array = to.path.split('/')
+        console.log(array)
+
+        if (array.length > 2) {
+          const id = parseInt(array[2])
+          if(!contestStore.currentContest || id != contestStore.currentContest.id){
+            await contestStore.enter(id)
+          } else {
+            await contestStore.refresh()
+          }
+        } else {
+          await contestStore.exit()
+        }
       }
     }
     // 检查路由是否需要认证

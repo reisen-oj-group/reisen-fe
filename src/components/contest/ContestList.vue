@@ -1,9 +1,5 @@
 <template>
   <div class="contest-list-container">
-    <template v-if="searched">
-      <el-alert>当前正在检索比赛，若希望查看所有比赛请清空搜索选项</el-alert>
-    </template>
-
     <template v-if="classified.running.length > 0">
       <el-divider class="running">正在进行</el-divider>
 
@@ -13,7 +9,8 @@
           :key="contest.id"
           :contest="contest"
           type="running"
-          @register="handleRegister"
+          @signup="handleSignup(contest)"
+          @signout="handleSignout(contest)"
         />
       </div>
     </template>
@@ -27,7 +24,8 @@
           :key="contest.id"
           :contest="contest"
           type="pending"
-          @register="handleRegister"
+          @signup="handleSignup(contest)"
+          @signout="handleSignout(contest)"
         />
       </div>
     </template>
@@ -42,29 +40,33 @@
           :contest="contest"
           type="finished"
         />
-        <el-pagination
-          :current-page="page"
-          :page-size="10"
-          :pager-count="11"
-          :total="total"
-          @update:current-page="handlePageChange"
-        />
       </div>
     </template>
+
+    <el-pagination
+      :current-page="currentPage"
+      :page-size="10"
+      :pager-count="11"
+      :total="total"
+      @update:current-page="handlePageChange"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import ContestCard from './ContestCard.vue'
 
-import { ElPagination, ElDivider, ElAlert } from 'element-plus'
+import { ElPagination, ElDivider } from 'element-plus'
 
-import { apiContestList } from '@/api/contest'
-import type { Contest, ContestFilterForm, ContestWithSignup } from '@/interface'
+import { apiContestList, apiSignout, apiSignup } from '@/api/contest'
+import type { Contest, ContestFilterParams, ContestWithSignup } from '@/interface'
+import { useRoute, useRouter } from 'vue-router'
+import { omitBy } from 'lodash-es'
+import Swal from 'sweetalert2'
 
 // 比赛数据
-const contests = ref<ContestWithSignup[] | null>(null)
+const contests = ref<ContestWithSignup[]>([])
 const classified =  ref<{
   running: ContestWithSignup[],
   pending: ContestWithSignup[],
@@ -80,9 +82,7 @@ watch(contests, () => {
   classified.value.running = []
   classified.value.pending = []
   classified.value.finished = []
-  if(contests.value === null){
-    return
-  }
+  
   for(const contest of contests.value){
     const s = contest.startTime.getTime()
     const e = contest.endTime.getTime()
@@ -97,37 +97,73 @@ watch(contests, () => {
   }
 })
 
-const page = ref(1)
-const total = ref(0)
-
-const searched = ref(false)
-
-// 处理报名
-function handleRegister(contestId: number) {
-  // 调用报名API
-  console.log('Register for contest:', contestId)
-}
-
 const props = defineProps<{
-  initFilter: ContestFilterForm
+  filter: ContestFilterParams
 }>()
 
-const filter = ref(props.initFilter)
+const route = useRoute()
+const router = useRouter()
+
+const total = ref(0)
+const currentPage = ref(Number(route.query.page || 1))
+
 const loading = ref(false)
 
-onMounted(() => {
-  getList(true)
-})
+// 处理报名
+function handleSignup(contest: Contest) {
+  Swal.fire({
+    title: `确认要报名比赛 ${contest.title} 吗？`,
+    text: '可以在比赛开始前取消报名。',
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      apiSignup({
+        contest: contest.id
+      }).then(fetchData)
+    }
+  })
+}
+
+// 处理取消报名
+function handleSignout(contest: Contest) {
+  Swal.fire({
+    title: `确认取消报名比赛 ${contest.title} 吗？`,
+    text: '可以在比赛开始前重新报名。',
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      apiSignout({
+        contest: contest.id
+      }).then(fetchData)
+    }
+  })
+}
 
 const emits = defineEmits(['page-change'])
 
-async function getList(resetPage: boolean) {
+async function fetchData() {
   loading.value = true
-  contests.value = null
-  if (resetPage) {
-    page.value = 1
-  }
-  apiContestList({ page: page.value, filter: filter.value })
+  contests.value = []
+
+  // 过滤掉 undefined 和空数组
+  const query = omitBy(
+    {
+      ...props.filter,
+      before: props.filter.before?.toISOString(),
+      after: props.filter.after?.toISOString(),
+      page: currentPage.value,
+    },
+    (v) => !v,
+  )
+  router.push({ query })
+
+  apiContestList(query)
     .then((response) => {
       contests.value = response.contests
       total.value = response.total
@@ -137,21 +173,25 @@ async function getList(resetPage: boolean) {
     })
 }
 
-function handlePageChange(newPage: number) {
-  page.value = newPage
-  emits('page-change', newPage)
-  getList(false)
-}
+// 监听筛选参数变化
+watch(
+  () => props.filter,
+  () => {
+    currentPage.value = 1
+    fetchData()
+  },
+  { deep: true },
+)
 
-function setFilter(newFilter: ContestFilterForm, cleaned: boolean) {
-  filter.value = newFilter
-  searched.value = !cleaned
-  getList(true)
-}
+// 监听分页变化
+watch(currentPage, fetchData)
 
-defineExpose({
-  setFilter,
-})
+// 初始化加载数据
+fetchData()
+
+const handlePageChange = (val: number) => {
+  currentPage.value = val
+}
 </script>
 
 <style lang="scss" scoped>

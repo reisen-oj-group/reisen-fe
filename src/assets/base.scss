@@ -41,6 +41,12 @@ a {
   text-decoration: none;
 }
 
+// fix it temporarily
+// TODO: update to new version of casket
+.cm-scroller {
+  overflow-anchor: none;
+}
+
 // ::-webkit-scrollbar {
 //   width: 8px;
 //   height: 8px;

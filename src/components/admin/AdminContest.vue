@@ -42,7 +42,13 @@
 
     <el-table :data="contests" v-loading="loading" border style="width: 100%; margin-top: 20px">
       <el-table-column prop="id" label="ID" width="80" />
-      <el-table-column prop="title" label="比赛名称" min-width="200" />
+      <el-table-column label="名称" min-width="200">
+        <template #default="{ row }">
+          <router-link :to="`/contest/${row.id}`" class="title-link">
+            {{ row.title }}
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" width="100">
         <template #default="{ row }">
           <el-tag :type="getStatusTagType(row)">
@@ -50,7 +56,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="时间" width="240">
+      <el-table-column label="时间" width="360">
         <template #default="{ row }">
           <div>{{ formatDate(row.startTime) }} ~ {{ formatDate(row.endTime) }}</div>
         </template>
@@ -130,7 +136,6 @@ const fetchContests = async () => {
     contests.value = res.contests
     pagination.total = res.total
   } catch (error) {
-    ElMessage.error('获取比赛列表失败')
   } finally {
     loading.value = false
   }
@@ -138,23 +143,8 @@ const fetchContests = async () => {
 
 const handleCreate = () => {}
 
-const handleEdit = (contest: Contest) => {}
-
-const handleMoreCommand = (command: string, contest: Contest) => {
-  switch (command) {
-    case 'problems':
-      router.push(`/admin/contests/${contest.id}/problems`)
-      break
-    case 'registrations':
-      router.push(`/admin/contests/${contest.id}/registrations`)
-      break
-    case 'rankings':
-      router.push(`/admin/contests/${contest.id}/rankings`)
-      break
-    case 'delete':
-      handleDelete(contest)
-      break
-  }
+const handleEdit = (contest: Contest) => {
+  router.push(`/contest/${contest.id}/edit`)
 }
 
 const handleDelete = (contest: Contest) => {

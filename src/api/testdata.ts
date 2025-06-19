@@ -13,7 +13,7 @@ import type {
 import { apiFetchDefault, apiFetchRemind } from '@/utils/ofetch'
 
 export const apiTestdataDownload = async (request: TestdataDownloadRequest) => {
-  return apiFetchDefault<TestdataDownloadResponse>('/testdata', {
+  return apiFetchDefault<TestdataDownloadResponse>('/testdata/download', {
     method: 'POST',
     body: request,
   })

@@ -34,7 +34,7 @@ const value = defineModel<string | undefined>({
 <style lang="scss" scoped>
 .editor {
   width: 100%;
-  height: 300px;
   line-height: 1;
+  overscroll-behavior: contain;
 }
 </style>

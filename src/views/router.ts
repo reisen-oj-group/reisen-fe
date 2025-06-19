@@ -72,7 +72,8 @@ const router = createRouter({
     {
       path: '/contest/create',
       name: 'contest-create',
-      component: ViewContestList,
+      component: () => import('@/views/ViewContestEdit.vue'),
+      props: true,
       meta: { minRole: Role.Jury },
     },
     {
@@ -85,7 +86,7 @@ const router = createRouter({
     {
       path: '/contest/:cid_str(\\d+)/edit',
       name: 'contest-edit',
-      component: import('@/views/ViewContestEdit.vue'),
+      component: () => import('@/views/ViewContestEdit.vue'),
       props: true,
       meta: { minRole: Role.Jury },
     },
@@ -113,11 +114,6 @@ const router = createRouter({
           component: () => import('@/components/admin/AdminUser.vue'),
           meta: { title: '用户列表' },
         },
-        // {
-        //   path: 'auth',
-        //   component: () => import('@/components/admin/AuthList.vue'),
-        //   meta: { title: '登录信息' }
-        // },
 
         // 题目管理
         {
@@ -125,16 +121,16 @@ const router = createRouter({
           component: () => import('@/components/admin/AdminProblem.vue'),
           meta: { title: '题目列表' },
         },
-        {
-          path: 'tags',
-          component: () => import('@/components/admin/AdminTag.vue'),
-          meta: { title: '标签分类' },
-        },
         // {
-        //   path: 'levels',
-        //   component: () => import('@/components/admin/LevelList.vue'),
-        //   meta: { title: '难度分级' }
+        //   path: 'tags',
+        //   component: () => import('@/components/admin/AdminTag.vue'),
+        //   meta: { title: '标签分类' },
         // },
+        {
+          path: 'levels',
+          component: () => import('@/components/admin/AdminDifficulty.vue'),
+          meta: { title: '难度分级' }
+        },
 
         // 比赛管理
         {
@@ -142,45 +138,30 @@ const router = createRouter({
           component: () => import('@/components/admin/AdminContest.vue'),
           meta: { title: '比赛列表' },
         },
-        // {
-        //   path: 'rankings',
-        //   component: () => import('@/components/admin/RankingList.vue'),
-        //   meta: { title: '比赛排名' }
-        // },
-        // {
-        //   path: 'registrations',
-        //   component: () => import('@/components/admin/RegistrationList.vue'),
-        //   meta: { title: '报名信息' }
-        // },
 
-        // // 评测管理
-        // {
-        //   path: 'submissions',
-        //   component: () => import('@/components/admin/SubmissionList.vue'),
-        //   meta: { title: '提交记录' }
-        // },
-        // {
-        //   path: 'results',
-        //   component: () => import('@/components/admin/ResultList.vue'),
-        //   meta: { title: '题目结果' }
-        // },
-        // {
-        //   path: 'verdicts',
-        //   component: () => import('@/components/admin/VerdictList.vue'),
-        //   meta: { title: '评测状态' }
-        // },
-        // {
-        //   path: 'code-langs',
-        //   component: () => import('@/components/admin/CodeLangList.vue'),
-        //   meta: { title: '编程语言' }
-        // },
+        // 评测管理
+        {
+          path: 'submissions',
+          component: () => import('@/components/admin/AdminSubmission.vue'),
+          meta: { title: '提交记录' }
+        },
+        {
+          path: 'verdicts',
+          component: () => import('@/components/admin/AdminVerdict.vue'),
+          meta: { title: '评测状态' }
+        },
+        {
+          path: 'code-langs',
+          component: () => import('@/components/admin/AdminCodeLang.vue'),
+          meta: { title: '编程语言' }
+        },
 
-        // // 系统配置
-        // {
-        //   path: 'user-langs',
-        //   component: () => import('@/components/admin/UserLangList.vue'),
-        //   meta: { title: '用户语言' }
-        // }
+        // 系统配置
+        {
+          path: 'user-langs',
+          component: () => import('@/components/admin/AdminUserLang.vue'),
+          meta: { title: '用户语言' }
+        }
       ],
     },
   ],

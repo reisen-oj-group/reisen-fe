@@ -1,12 +1,12 @@
 <template>
-  <table v-if="contest && problems.length > 0" class="problemset">
+  <table v-if="contest && Object.keys(problems).length > 0" class="problemset">
     <colgroup>
       <col class="col-label" />
       <col class="col-title" />
       <col class="col-acceptance" />
     </colgroup>
     <tbody>
-      <tr class="entry" v-for="{ problem, label } of problems" :key="problem.id">
+      <tr class="entry" v-for="(problem, label) in problems" :key="problem.id">
         <!-- 状态列 -->
 
         <td class="label">
@@ -16,7 +16,7 @@
         </td>
 
         <td class="title">
-          <router-link :to="`/contest/${contest.id}/problem/${problem.id}`" class="problem-title">
+          <router-link :to="`/contest/${contest.id}/${label}`" class="problem-title">
             {{ problem.title['en-US'] }}
           </router-link>
         </td>
@@ -55,12 +55,7 @@ const contestStore = useContest()
 const contest = computed(() => contestStore.currentContest)
 // const ranking = computed(() => contestStore.currentRanking)
 
-const problems = ref<
-  {
-    problem: ProblemCore
-    label: string | null
-  }[]
->([])
+const problems = ref<Record<string, ProblemCore>>({});
 
 const loading = ref(false)
 
@@ -68,30 +63,22 @@ function getProblems() {
   if (!contest.value) return
 
   loading.value = true
-  problems.value = []
+  problems.value = {}
   apiContestProblems({
     contest: contest.value.id,
   })
     .then((response) => {
+      response.problems.sort((a, b) => a.id - b.id)
       for (const problem of response.problems) {
-        problems.value.push({
-          problem: problem,
-          label: getLabel(problem.id),
-        })
+        const label = contestStore.getLabel(problem.id)
+        if(label !== null){
+          problems.value[label] = problem
+        }
       }
     })
     .finally(() => {
       loading.value = false
     })
-}
-
-function getLabel(problem: ProblemId) {
-  if (!contest.value) return null
-  const keys = Object.keys(contest.value.problems)
-  for (const label of keys) {
-    if (contest.value.problems[label] === problem) return label
-  }
-  return null
 }
 
 onMounted(() => {
@@ -149,7 +136,7 @@ table.problemset-head {
       width: auto;
     }
     &-acceptance {
-      width: 180px;
+      width: 300px;
     }
   }
 
@@ -171,6 +158,7 @@ table.problemset-head {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: flex-end;
 
   > .accept-number {
     margin-right: 1em;

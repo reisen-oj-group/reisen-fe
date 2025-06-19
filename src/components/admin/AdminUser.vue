@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column prop="register" label="注册时间">
         <template #default="{ row }">
-          {{ formatDate(row.register) }}
+          {{ formatDate(row.createdAt) }}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180">
@@ -236,9 +236,11 @@ const handleDelete = (user: User) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
   }).then((result) => {
-    apiUserDelete({
-      user: user.id
-    }).then(fetchUsers)
+    if (result.isConfirmed) {
+      apiUserDelete({
+        user: user.id
+      }).then(fetchUsers)
+    }
   })
 }
 

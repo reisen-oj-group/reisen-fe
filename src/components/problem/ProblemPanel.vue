@@ -28,7 +28,7 @@
       </template>
     </el-card>
 
-    <el-button type="primary" :disabled="!problem" @click="handleSubmit">提交</el-button>
+    <el-button type="primary" :disabled="problem === null || !problem.hasTestdata" @click="handleSubmit">提交</el-button>
 
     <el-space fill :fill-ratio="40">
       <el-button plain @click="gotoAllRecords">全部记录</el-button>

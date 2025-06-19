@@ -9,7 +9,7 @@
           </el-tab-pane>
 
           <!-- 比赛试题 -->
-          <el-tab-pane label="比赛试题" name="problemset">
+          <el-tab-pane v-if="contest.id !== 0" label="比赛试题" name="problemset">
             <contest-edit-problemset v-model="contest" />
           </el-tab-pane>
         </el-tabs>
@@ -43,7 +43,7 @@ const props = defineProps<{
 const contest = ref<Contest | null>(null)
 const loading = ref(false)
 
-async function getProblem() {
+async function getContest() {
   contest.value = null
 
   if (props.cid_str) {
@@ -65,7 +65,7 @@ async function getProblem() {
       status: 'private',
       startTime: new Date(),
       endTime: new Date(),
-      rule: 'IOI',
+      rule: 'ACM',
       problems: {},
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -74,9 +74,7 @@ async function getProblem() {
   }
 }
 
-onMounted(() => {
-  getProblem()
-})
+getContest()
 </script>
 
 <style lang="scss" scoped></style>

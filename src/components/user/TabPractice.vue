@@ -11,7 +11,7 @@
       <el-col :span="12">
         <el-card body-style="padding: 4px">
           <template #header>难度分布</template>
-          <chart-pie :judgements="judgements" />
+          <chart-pie :judgements="corrects" />
         </el-card>
       </el-col>
     </el-row>
@@ -19,24 +19,42 @@
     <!-- 热度图 -->
     <el-card class="section">
       <template #header>练习情况</template>
-      <chart-contribution :judgements="judgements" />
+      <chart-contribution :judgements="corrects" />
     </el-card>
 
     <!-- 通过题目列表 -->
     <el-card class="section">
       <template #header>通过试题</template>
-      <div v-for="[di, judgements] of Object.entries(grouped)" :key="di">
-        <template v-if="judgements.length > 0">
-          <el-divider content-position="left">{{ difficulties[parseInt(di)].name }}</el-divider>
-          <el-row :gutter="20">
-            <el-col v-for="judgement in judgements" :key="judgement.problem" :xs="4" :sm="3" :md="2" :lg="2">
-              <router-link :to="`/problem/${judgement.problem}`" class="problem-card">
-                <span class="problem-id">{{ judgement.problem }}</span>
-              </router-link>
-            </el-col>
-          </el-row>
-        </template>
-      </div>
+
+      <template v-if="Object.keys(grouped).length > 0">
+        <div v-for="[di, judgements] of Object.entries(grouped)" :key="di">
+          <template v-if="judgements.length > 0">
+            <el-divider content-position="left">{{ difficulties[parseInt(di)].name }}</el-divider>
+            <el-row :gutter="20">
+              <el-col v-for="judgement in judgements" :key="judgement.problem" :xs="4" :sm="3" :md="2" :lg="2">
+                <router-link :to="`/problem/${judgement.problem}`" class="problem-card">
+                  <span class="problem-id">{{ judgement.problem }}</span>
+                </router-link>
+              </el-col>
+            </el-row>
+          </template>
+        </div>
+      </template>
+      <template v-else>
+        <el-empty description="暂无通过试题" />
+      </template>
+    </el-card>
+
+    <el-card class="section" v-if="incorrects.length > 0">
+      <template #header>尝试试题</template>
+      
+      <el-row :gutter="20">
+        <el-col v-for="judgement in incorrects" :key="judgement.problem" :xs="4" :sm="3" :md="2" :lg="2">
+          <router-link :to="`/problem/${judgement.problem}`" class="problem-card">
+            <span class="problem-id">{{ judgement.problem }}</span>
+          </router-link>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -62,26 +80,21 @@ const props = defineProps<{
 const loading = ref(false)
 const judgements = ref<Judgement[]>([]);
 
+const corrects = computed(() => {
+  return judgements.value.filter(j => j.judge === 'correct')
+})
+
+const incorrects = computed(() => {
+  return judgements.value.filter(j => j.judge !== 'correct')
+})
+
 const grouped = computed(() => {
-  return groupBy(judgements.value, j =>
+  return groupBy(corrects.value, j =>
     difficulties.findIndex(d => d.min <= j.difficulty && j.difficulty <= d.max)
   );
 })
 
 async function fetchPractice() {
-
-  // judgements.value = []
-
-  // for(let i = 0;i < 2000;++ i){
-  //   judgements.value.push({
-  //     problem: 1000 + Math.floor(Math.random() * 500),
-  //     user: props.user.id,
-  //     judge: 'correct',
-  //     difficulty: 100 * (Math.floor(Math.random() * Math.random() * (35 - 8)) + 8),
-  //     stamp: new Date(2020 + Math.floor(Math.random() * 6), Math.floor(Math.random() * 12), Math.floor(Math.random() * 31))
-  //   })
-  // }
-
   loading.value = true
   judgements.value = []
 

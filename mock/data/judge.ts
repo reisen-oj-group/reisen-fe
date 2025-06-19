@@ -5,7 +5,7 @@ import type {
   SubmissionLite,
   Testcase,
   SubmissionFull,
-  Result,
+  Judgement,
 } from '../interface'
 import { mockProblems } from './problem'
 import { mockUsers } from './user'
@@ -13,21 +13,21 @@ import { mockUsers } from './user'
 export const mockSubmissionsCore: SubmissionCore[] = [
   {
     id: 1,
-    submission: new Date('2023-07-20T10:30:00'),
-    evaluation: new Date('2023-07-20T10:30:05'),
+    submittedAt: new Date('2023-07-20T10:30:00'),
+    processedAt: new Date('2023-07-20T10:30:05'),
     user: 1,
     problem: 1001,
     time: 42,
     memory: 1024,
     length: 120,
-    verdict: 'AC',
+    verdict: 'PD',
     lang: 'cpp',
     score: 100,
   },
   {
     id: 2,
-    submission: new Date('2023-07-20T11:15:00'),
-    evaluation: new Date('2023-07-20T11:15:10'),
+    submittedAt: new Date('2023-07-20T11:15:00'),
+    processedAt: new Date('2023-07-20T11:15:10'),
     user: 2,
     problem: 1002,
     time: 1500,
@@ -39,8 +39,8 @@ export const mockSubmissionsCore: SubmissionCore[] = [
   },
   {
     id: 3,
-    submission: new Date('2023-07-20T12:45:00'),
-    evaluation: new Date('2023-07-20T12:45:03'),
+    submittedAt: new Date('2023-07-20T12:45:00'),
+    processedAt: new Date('2023-07-20T12:45:03'),
     user: 3,
     problem: 1003,
     time: 85,
@@ -98,7 +98,7 @@ return 0;
       success: true,
       message: 'g++ -std=c++17 -O2 -Wall -Wextra -Werror\nCompilation finished successfully',
     },
-    detail: [...generateTestcases(5, 'AC'), ...generateTestcases(2, 'WA')],
+    detail: [...generateTestcases(5, 'PD'), ...generateTestcases(5, 'AC'), ...generateTestcases(2, 'WA')],
   },
   {
     ...mockSubmissionsCore[1],
@@ -173,19 +173,17 @@ export const mockSubmissionsFull: SubmissionFull[] = mockSubmissions.map((sub) =
   }
 })
 
-export const mockResults: Result[] = (() => {
-  const list: Result[] = []
+export const mockJudgements: Judgement[] = (() => {
+  const list: Judgement[] = []
   for (let i = 0; i < 100; ++i) {
-    const result: Result = {
+    const judgement: Judgement = {
       problem: 1000 + i,
       user: 1,
-      contest: random(0, 5),
       judge: sample(['correct', 'incorrect', random(0, 100)])!,
-      attempt: random(1, 10),
-      penalty: random(0, 300),
-      time: random(1, 1000),
+      difficulty: 1000,
+      stamp: new Date()
     }
-    list.push(result)
+    list.push(judgement)
   }
   return list
 })()

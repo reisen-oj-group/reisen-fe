@@ -47,7 +47,7 @@ export const apiAvatarUpload = async (request: AvatarUploadRequest) => {
   const formData = new FormData()
   formData.append('file', request.file)
 
-  return apiFetchRemind<AvatarUploadResponse>('/avatar/upload', {
+  return apiFetchRemind<AvatarUploadResponse>('/upload/avatar', {
     method: 'POST',
     body: formData,
   })

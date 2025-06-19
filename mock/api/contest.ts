@@ -1,12 +1,10 @@
 import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 
 import type {
-  ContestFinishedRequest,
-  ContestFinishedResponse,
+  ContestListRequest,
+  ContestListResponse,
   ContestProblemsRequest,
   ContestProblemsResponse,
-  ContestRecentRequest,
-  ContestRecentResponse,
   ContestRequest,
   ContestResponse,
   RankingRequest,
@@ -18,25 +16,13 @@ import { generateRanklist, mockContests, mockProblems, mockRankings } from '../d
 
 export default defineFakeRoute([
   {
-    url: '/api/contest/finished',
+    url: '/api/contest/list',
     method: 'post',
     timeout: 1000,
-    response: (_request: { body: Partial<ContestFinishedRequest> }) => {
-      const response: ContestFinishedResponse = {
-        contests: [mockContests[1]],
+    response: (_request: { body: Partial<ContestListRequest> }) => {
+      const response: ContestListResponse = {
+        contests: mockContests,
         total: 1000,
-      }
-      return response
-    },
-  },
-  {
-    url: '/api/contest/recent',
-    method: 'post',
-    timeout: 1000,
-    response: (_request: { body: Partial<ContestRecentRequest> }) => {
-      const response: ContestRecentResponse = {
-        running: [mockContests[0]],
-        pending: [mockContests[2]],
       }
       return response
     },

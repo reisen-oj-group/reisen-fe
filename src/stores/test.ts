@@ -1,22 +1,6 @@
 import { defineStore } from 'pinia'
 
-import type { Signup } from '@/interface'
-
 export const useTest = defineStore('testdata', () => {
-  // 比赛报名数据
-  const dataRegistrations: Signup[] = [
-    {
-      contest: 1,
-      user: 1,
-      register: new Date('2023-02-09'),
-    },
-    {
-      contest: 2,
-      user: 2,
-      register: new Date('2023-02-09'),
-    },
-  ]
-
   function generateMany(source: object[]) {
     const result: object[] = []
     for (let i = 0; i < 500; ++i) {
@@ -26,7 +10,6 @@ export const useTest = defineStore('testdata', () => {
   }
 
   return {
-    dataRegistrations,
     generateMany,
   }
 })

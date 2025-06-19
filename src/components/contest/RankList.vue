@@ -32,7 +32,7 @@
               {{ rank.ranking }}
             </td>
             <td class="name">
-              {{ rank.user }}
+              {{ rank.team }}
             </td>
             <td class="score-solved">
               {{ rank.detail.totalSolved }}
@@ -44,11 +44,25 @@
               <div v-if="cell !== null" class="result" :class="{
                 solved: cell.isSolved && !cell.isFirst,
                 first: cell.isFirst,
-                attempted: !cell.isSolved
+                attempted: !cell.isSolved && cell.attemptBF,
+                frozen: !cell.isSolved && !cell.attemptBF && cell.attemptAF
               }">
-                {{ cell.penalty }}
+                  <template v-if="cell.isSolved">
+                    {{ cell.penalty }}
+                  </template>
+                  <template v-else>
+                    &nbsp;
+                  </template>
                 <span>
-                  {{ cell.attemptBF }}
+                  <template v-if="cell.attemptBF && cell.attemptAF">
+                    {{ getTries(cell.attemptBF + cell.attemptAF) }}
+                  </template>
+                  <template v-else-if="cell.attemptBF">
+                    {{ getTries(cell.attemptBF) }}
+                  </template>
+                  <template v-else>
+                    {{ getTries(cell.attemptAF) }}
+                  </template>
                 </span>
               </div>
             </td>
@@ -134,6 +148,10 @@ function getTries(attempt: number) {
   background-color: #60e760;
 }
 
+.frozen {
+  background-color: #6666FF;
+}
+
 .first {
   background-color: #1daa1d;
 }
@@ -204,6 +222,7 @@ table.ranklist-head {
       text-align: center;
     }
     &.name {
+      font-weight: bold;
       text-align: center;
     }
     &.score-solved {

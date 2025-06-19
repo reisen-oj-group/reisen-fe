@@ -13,7 +13,7 @@ export interface AvatarUploadRequest {
 }
 
 export interface AvatarUploadResponse {
-  avatar: string
+  path: string
 }
 
 export type UserListRequest = UserFilterQuery

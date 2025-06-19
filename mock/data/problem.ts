@@ -1,5 +1,6 @@
-import type { Problem, ProblemCore, Statement } from '../interface'
+import type { Problem, ProblemCore, ProblemCoreWithJudgements, Statement } from '../interface'
 import { floor, random, sample } from 'lodash-es'
+import { mockJudgements } from './judge'
 
 export const mockStatements: Statement[] = [
   {
@@ -36,8 +37,22 @@ export const mockProblemsCore: ProblemCore[] = (() => {
       countCorrect: floor(count * random(0, 1, true)),
       countTotal: count,
       difficulty: random(8, 35) * 100,
+      provider: 0
     }
     list.push(problem)
+  }
+  return list
+})()
+
+export const mockProblemCoreWithJudgements: ProblemCoreWithJudgements[] = (() => {
+  const list: ProblemCoreWithJudgements[] = []
+  for (let i = 0; i < 200; ++i) {
+    const problem = sample(mockProblemsCore) || mockProblemsCore[0]
+
+    list.push({
+      ...problem,
+      judgements: mockJudgements
+    })
   }
   return list
 })()
@@ -51,10 +66,10 @@ export const mockProblems: Problem[] = (() => {
       ...problem,
       statements: {
         'en-US': mockStatements[0],
+        'zh-CN': mockStatements[0],
       },
-      hasTestdata: false,
-      hasConfig: false,
-      dataUpdated: new Date(0),
+      hasTestdata: true,
+      hasConfig: true,
     })
   }
   return list

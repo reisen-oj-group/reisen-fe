@@ -18,9 +18,10 @@ import SubmissionSidebar from '@/components/submission/SubmissionSidebar.vue'
 
 import { ElCard } from 'element-plus'
 
-import { apiSubmissionDetail } from '@/api/submission'
+import { apiSubmissionDetail, setupSubmissionWS } from '@/api/submission'
 import { onMounted, ref } from 'vue'
 import type { SubmissionFull, SubmissionId } from '@/interface'
+import { omit } from 'lodash-es'
 
 const props = defineProps<{
   rid_str: string
@@ -30,12 +31,34 @@ const rid: SubmissionId = parseInt(props.rid_str)
 const submission = ref<SubmissionFull | null>(null)
 const loading = ref(true)
 
+const unsubscribeWs = ref<() => void>(() => {})
+
+function needListening(verdict: string) {
+  return verdict === 'PD' || verdict === 'JD'
+}
+
 onMounted(() => {
   apiSubmissionDetail({
     id: rid,
   })
     .then((response) => {
       submission.value = response.submission
+
+      // 如果评测未完成，建立 WebSocket 连接
+      if (needListening(submission.value.verdict)) {
+        unsubscribeWs.value = setupSubmissionWS(rid, (updated) => {
+          submission.value = { 
+            problem: submission.value!.problem,
+            user: submission.value!.user,
+            ...omit(updated, ['problem', 'user'])
+          }
+          
+          // 评测完成时关闭连接
+          if (!needListening(updated.verdict)) {
+            unsubscribeWs.value()
+          }
+        })
+      }
     })
     .finally(() => {
       loading.value = false

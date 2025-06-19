@@ -21,6 +21,7 @@ export interface CodeLang {
   ratio: number // 时限比率，用于给更慢的语言乘上倍率
 }
 
+// 配置文件：用户语言
 export interface UserLang {
   id: UserLangId
   description: string // 语言描述，例如 “中文” 或者 “English”
@@ -74,6 +75,11 @@ export interface Judgement {
   difficulty: number // 试题难度，防止计算练习数据时和 Problem 联合查询带来性能开销
   stamp: Date // 通过时间
 }
+
+// export interface JudgementFull extends Omit<Judgement, 'problem' | 'user'> {
+//   problem: ProblemCore
+//   user: User
+// }
 
 // 表：评测记录
 export interface Submission extends SubmissionCore {

@@ -9,10 +9,20 @@ import type {
   UserId,
 } from '../entity'
 
-export interface ContestListRequest {
-  page: number
-  filter: ContestFilterForm
+export interface ContestFilterParams {
+  keyword?: string
+  rule?: ContestRule
+  difficulty?: ContestDifficulty
+  before?: Date
+  after?: Date
 }
+
+export type ContestFilterQuery = ContestFilterParams & {
+  size?: number
+  page?: number
+}
+
+export type ContestListRequest = ContestFilterQuery
 
 export interface ContestListResponse {
   total: number
@@ -64,7 +74,7 @@ export interface RankingRequest {
 }
 
 export interface RankingResponse {
-  ranking: Ranking
+  ranking?: Ranking
 }
 
 export interface RanklistRequest {
@@ -81,4 +91,12 @@ export interface ContestProblemsRequest {
 
 export interface ContestProblemsResponse {
   problems: ProblemCore[]
+}
+
+export interface ContestEditRequest {
+  contest: Contest
+}
+
+export interface ContestEditResponse {
+  contest: Contest
 }

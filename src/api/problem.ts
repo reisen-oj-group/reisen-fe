@@ -1,8 +1,10 @@
 import type {
+  Judgement,
   JudgeRequest,
   JudgeResponse,
   ProblemAllRequest,
   ProblemAllResponse,
+  ProblemCoreWithJudgements,
   ProblemDeleteRequest,
   ProblemDeleteResponse,
   ProblemEditRequest,
@@ -15,13 +17,25 @@ import type {
   ProblemSolvedResponse,
 } from '@/interface'
 
-import { apiFetchDefault, apiFetchRemind } from '@/utils/ofetch'
+import { apiFetchDefault, apiFetchRemind, apiFetchSilent } from '@/utils/ofetch'
+
+const processJudgementDates = (judgement: Judgement) => {
+  judgement.stamp = new Date(judgement.stamp as unknown as number)
+  return judgement
+}
+
+const processProblemDates = (problem: ProblemCoreWithJudgements) => {
+  problem.judgements = problem.judgements.map(processJudgementDates)
+  return problem
+}
 
 export const apiProblemList = async (request: ProblemListRequest) => {
-  return apiFetchDefault<ProblemListResponse>('/problem/list', {
+  const data = await apiFetchDefault<ProblemListResponse>('/problem/list', {
     method: 'POST',
     body: request,
   })
+  data.problems = data.problems.map(processProblemDates)
+  return data
 }
 
 export const apiProblemMine = async (request: ProblemAllRequest) => {
@@ -52,6 +66,13 @@ export const apiProblem = async (request: ProblemRequest) => {
   })
 }
 
+export const apiProblemCheck = async (request: ProblemRequest) => {
+  return apiFetchSilent<ProblemResponse>('/problem', {
+    method: 'POST',
+    body: request,
+  })
+}
+
 export const apiProblemEdit = async (request: ProblemEditRequest) => {
   return apiFetchRemind<ProblemEditResponse>('/problem/edit', {
     method: 'POST',
@@ -67,8 +88,15 @@ export const apiProblemDelete = async (request: ProblemDeleteRequest) => {
 }
 
 export const apiJudge = async (request: JudgeRequest) => {
-  return apiFetchDefault<JudgeResponse>('/problem/submit', {
-    method: 'POST',
-    body: request,
-  })
+  if(request.contest !== undefined){
+    return apiFetchDefault<JudgeResponse>('/contest/submit', {
+      method: 'POST',
+      body: request,
+    })
+  } else {
+    return apiFetchDefault<JudgeResponse>('/problem/submit', {
+      method: 'POST',
+      body: request,
+    })
+  }
 }

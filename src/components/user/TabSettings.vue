@@ -50,9 +50,10 @@
         <el-col :span="12" class="avatar-upload">
           <el-avatar :size="150" :src="avatarUrl" />
           <el-upload
-            action="/api/upload/avatar"
+            action="/api/image/avatar"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
+            :http-request="handleUpload"
+            accept="image/*"
           >
             <el-button type="primary">上传新头像</el-button>
           </el-upload>
@@ -76,9 +77,10 @@ import {
   ElRow,
   ElCol,
   ElCard,
+  type UploadRequestOptions,
 } from 'element-plus'
-import type { User } from '@/interface'
-import { apiLogout, apiUserEdit } from '@/api';
+import type { AvatarUploadResponse, User } from '@/interface'
+import { apiAvatarUpload, apiLogout, apiUserEdit } from '@/api';
 
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/auth';
@@ -109,6 +111,22 @@ function doLogout() {
   })
 }
 
+const uploading = ref(false)
+
+// 处理上传逻辑
+const handleUpload = async (options: UploadRequestOptions) => {
+  const { file } = options
+
+  uploading.value = true
+  apiAvatarUpload({
+    file: file
+  }).then((response) => {
+    avatarUrl.value = response.path
+  }) .finally(() => {
+    uploading.value = false
+  })
+}
+
 function doUpdateProfile() {
   // apiUserEdit({})
 }
@@ -117,10 +135,6 @@ function doUpdatePassword() {
   ElMessage.success('密码已修改')
 }
 
-function handleAvatarSuccess(res: { url: string }) {
-  avatarUrl.value = res.url
-  ElMessage.success('头像上传成功')
-}
 </script>
 
 <style lang="scss" scoped>

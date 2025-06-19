@@ -16,39 +16,47 @@
             <el-option v-for="i in 5" :key="i" :label="`${i}星`" :value="i" />
           </el-select>
         </el-form-item>
+        <el-form-item label="开始于" class="filter-item">
+          <el-date-picker style="width: calc(100% - 40px)" v-model="form.after" type="date" placeholder="选择日期"/>
+          <span style="margin-left: 0.5em">之后</span>
+        </el-form-item>
+        <el-form-item label="开始于" class="filter-item">
+          <el-date-picker style="width: calc(100% - 40px)" v-model="form.before" type="date" placeholder="选择日期"/>
+          <span style="margin-left: 0.5em">之前</span>
+        </el-form-item>
       </el-form>
 
       <div class="button-container">
-        <el-button type="primary" @click="clearFilter">清空</el-button>
-        <el-button type="primary" @click="doFilter">筛选</el-button>
+        <el-button type="primary" @click="handleSubmit">筛选</el-button>
+        <el-button plain type="primary" @click="handleReset">清空</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ContestFilterForm } from '@/interface'
+import type { ContestFilterParams } from '@/interface'
 import { ref } from 'vue'
 
 import { ElForm, ElFormItem, ElSelect, ElOption, ElButton, ElCard } from 'element-plus'
-
-const props = defineProps<{
-  initFilter: ContestFilterForm
-}>()
-
-const form = ref(props.initFilter)
+import { cloneDeep } from 'lodash-es';
 
 const emits = defineEmits<{
-  filter: [filter: ContestFilterForm, cleaned: boolean]
+  (e: 'filter-change', value: ContestFilterParams): void
 }>()
 
-const doFilter = () => {
-  emits('filter', form.value, false)
-}
+const props = defineProps<{
+  filter: ContestFilterParams
+}>()
 
-const clearFilter = () => {
+const form = ref<ContestFilterParams>(cloneDeep(props.filter))
+
+const handleSubmit = () => {
+  emits('filter-change', cloneDeep(form.value))
+}
+const handleReset = () => {
   form.value = {}
-  emits('filter', form.value, true)
+  emits('filter-change', {})
 }
 </script>
 

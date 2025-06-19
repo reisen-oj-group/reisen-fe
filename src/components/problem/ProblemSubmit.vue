@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" :title="`提交代码 - ${problem.id}`" width="800" @close="resetForm">
+  <el-dialog v-model="visible" :title="`提交代码 - ${problem.id}`" width="800" @close="resetForm" align-center append-to-body :z-index="1000">
     <el-form :model="form" label-width="auto">
       <el-form-item label="编程语言" required>
         <el-select
@@ -70,7 +70,9 @@
 <script lang="ts" setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { computed, reactive, ref, watch } from 'vue'
+import { ElDialog } from 'element-plus'
+
+import { computed, reactive, ref } from 'vue'
 import { faUpload, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 // import CodeEditor from '@/components/common/CodeEditor.vue'
 import { useConfig } from '@/stores/config'
@@ -80,9 +82,11 @@ import { find } from 'lodash-es'
 import type { UploadFile } from 'element-plus'
 
 import { useRouter } from 'vue-router'
-import type { Problem } from '@/interface'
+import type { ContestId, Problem } from '@/interface'
+import { useContest } from '@/stores/contest'
 
 const router = useRouter()
+const contestStore = useContest()
 
 const props = defineProps<{
   problem: Problem
@@ -154,6 +158,7 @@ const handleSubmit = async () => {
       problem: props.problem.id,
       lang: form.lang,
       code: form.code,
+      contest: contestStore.currentContest === null ? undefined : contestStore.currentContest.id,
     })
     router.push(`/submission/${response.submission}`)
 

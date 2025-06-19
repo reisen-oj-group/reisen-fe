@@ -1,6 +1,5 @@
-import { random, sample } from 'lodash-es'
-import type { Contest, Ranking, Registration, Result } from '../interface'
-import { mockResults } from './judge'
+import { random } from 'lodash-es'
+import type { ACMCell, Contest, Ranking, Signup } from '../interface'
 import { mockUsers } from './user'
 
 // 比赛测试数据
@@ -17,16 +16,16 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() + 3 * 60 * 60 * 1000), // 持续 5 小时
     rule: 'OI',
     problems: {
-      A: 'P1001',
-      B: 'P1002',
-      C: 'P1003',
-      D1: 'P1004',
-      D2: 'P1005',
-      E: 'P1006',
-      F: 'P1007',
-      G: 'P1008',
-      H: 'P1009',
-      I: 'P1010',
+      A: 1001,
+      B: 1002,
+      C: 1003,
+      D1: 1004,
+      D2: 1005,
+      E: 1006,
+      F: 1007,
+      G: 1008,
+      H: 1009,
+      I: 1010,
     },
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-01-15'),
@@ -43,8 +42,8 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 已结束
     rule: 'ACM',
     problems: {
-      A: 'P1001',
-      B: 'P1004',
+      A: 1001,
+      B: 1004,
     },
     createdAt: new Date('2023-02-10'),
     updatedAt: new Date('2023-02-10'),
@@ -61,9 +60,9 @@ export const mockContests: Contest[] = [
     endTime: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000), // 持续 1 天
     rule: 'IOI',
     problems: {
-      A: 'P1001',
-      B1: 'P1002',
-      B2: 'P1004',
+      A: 1001,
+      B1: 1002,
+      B2: 1004,
     },
     createdAt: new Date('2023-03-01'),
     updatedAt: new Date('2023-03-01'),
@@ -71,46 +70,64 @@ export const mockContests: Contest[] = [
 ]
 
 // 比赛报名数据
-export const mockRegistrations: Registration[] = [
+export const mockRegistrations: Signup[] = [
   {
     contest: 1,
     user: 1,
-    register: new Date('2023-02-09'),
+    stamp: new Date('2023-02-09'),
   },
   {
     contest: 2,
     user: 2,
-    register: new Date('2023-02-09'),
+    stamp: new Date('2023-02-09'),
   },
 ]
 
 // 比赛排名数据
 export const mockRankings: Ranking[] = [
   {
-    rank: 1,
+    ranking: 1,
     contest: 2,
     user: 1,
-    results: mockResults,
+    detail: {
+      type: 'ACM',
+      totalPenalty: 500,
+      totalSolved: 5,
+      problems: {
+        1001: generateACMCell(),
+        1002: generateACMCell(),
+        1003: generateACMCell(),
+        1004: generateACMCell(),
+      }
+    }
   },
   {
-    rank: 1,
+    ranking: 1,
     contest: 2,
     user: 2,
-    results: mockResults,
+    detail: {
+      type: 'ACM',
+      totalPenalty: 500,
+      totalSolved: 5,
+      problems: {
+        1001: generateACMCell(),
+        1002: generateACMCell(),
+        1003: generateACMCell(),
+        1004: generateACMCell(),
+      }
+    }
   },
 ]
 
-export function generateResult() {
-  const result: Result = {
-    problem: `P${random(1001, 1010)}`,
-    contest: 1,
-    user: random(1, mockUsers.length),
-    judge: sample(['correct', 'incorrect', random(1, 100)]) || 0,
-    attempt: random(1, 10),
-    penalty: random(1, 300),
-    time: 0,
+export function generateACMCell() {
+  const cell: ACMCell = {
+    isFirst: Math.random() < 0.1,   // 是否为一血
+    isSolved: Math.random() < 0.5,  // 是否已通过
+    attemptBF: random(0, 10),  // 封榜前尝试次数
+    attemptAF: random(0, 10),  // 封榜后尝试次数
+    penalty: random(1, 100),  // 罚时
   }
-  return result
+  return cell
 }
 
 export function generateRanklist() {
@@ -119,11 +136,16 @@ export function generateRanklist() {
     const item: Ranking = {
       contest: 1,
       user: random(1, mockUsers.length),
-      rank: i + 1,
-      results: [],
+      ranking: i + 1,
+      detail: {
+        type: 'ACM',
+        totalPenalty: 500,
+        totalSolved: 5,
+        problems: {}
+      }
     }
-    for (let j = random(1, 5); j >= 0; --j) {
-      item.results.push(generateResult())
+    for (let j = random(1, 20); j >= 0; --j) {
+      item.detail.problems[random(1000, 1050)] = generateACMCell()
     }
     ranklist.push(item)
   }

@@ -6,16 +6,11 @@
         <font-awesome-icon class="nav-icon" :icon="faHouse" />
         <span class="nav-label">返回前台</span>
       </el-menu-item>
+      <el-menu-item class="nav-item" index="/admin/users">
+        <font-awesome-icon class="nav-icon" :icon="faUser" />
+        <span class="nav-label">用户管理</span>
+      </el-menu-item>
       <el-sub-menu class="nav-item" index="1">
-        <template #title>
-          <font-awesome-icon class="nav-icon" :icon="faUser" />
-          <span class="nav-label">用户管理</span>
-        </template>
-        <el-menu-item class="nav-label" index="/admin/users">用户列表</el-menu-item>
-        <el-menu-item class="nav-label" index="/admin/auth">登录信息</el-menu-item>
-      </el-sub-menu>
-
-      <el-sub-menu class="nav-item" index="2">
         <template #title>
           <font-awesome-icon class="nav-icon" :icon="faBook" />
           <span class="nav-label">题目管理</span>
@@ -25,28 +20,22 @@
         <el-menu-item class="nav-label" index="/admin/levels">难度分级</el-menu-item>
       </el-sub-menu>
 
-      <el-sub-menu class="nav-item" index="3">
-        <template #title>
-          <font-awesome-icon class="nav-icon" :icon="faChartSimple" />
-          <span class="nav-label">比赛管理</span>
-        </template>
-        <el-menu-item class="nav-label" index="/admin/contests">比赛列表</el-menu-item>
-        <el-menu-item class="nav-label" index="/admin/rankings">比赛排名</el-menu-item>
-        <el-menu-item class="nav-label" index="/admin/registrations">报名信息</el-menu-item>
-      </el-sub-menu>
+      <el-menu-item class="nav-item" index="/admin/contests">
+        <font-awesome-icon class="nav-icon" :icon="faChartSimple" />
+        <span class="nav-label">比赛管理</span>
+      </el-menu-item>
 
-      <el-sub-menu class="nav-item" index="4">
+      <el-sub-menu class="nav-item" index="3">
         <template #title>
           <font-awesome-icon class="nav-icon" :icon="faChartPie" />
           <span class="nav-label">评测管理</span>
         </template>
         <el-menu-item class="nav-label" index="/admin/submissions">提交记录</el-menu-item>
-        <el-menu-item class="nav-label" index="/admin/results">题目结果</el-menu-item>
         <el-menu-item class="nav-label" index="/admin/verdicts">评测状态</el-menu-item>
         <el-menu-item class="nav-label" index="/admin/code-langs">编程语言</el-menu-item>
       </el-sub-menu>
 
-      <el-sub-menu class="nav-item" index="5">
+      <el-sub-menu class="nav-item" index="4">
         <template #title>
           <font-awesome-icon class="nav-icon" :icon="faSliders" />
           <span class="nav-label">系统配置</span>

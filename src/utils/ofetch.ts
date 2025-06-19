@@ -3,7 +3,7 @@ import { ofetch } from 'ofetch'
 import Swal from 'sweetalert2'
 
 export const showSuccess = (message: string) => {
-  return Swal.fire({ icon: 'success', title: '成功', text: message, timer: 500 })
+  return Swal.fire({ icon: 'success', title: '成功', text: message, timer: 1000 })
 }
 
 export const showError = (message: string) => {

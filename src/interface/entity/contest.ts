@@ -22,14 +22,14 @@ export interface Contest extends BaseModel {
 
 // 用于比赛列表
 export interface ContestWithSignup extends Contest {
-  signup?: Signup
+  signups?: Signup[]
 }
 
 // 表：比赛报名信息
 export interface Signup {
   contest: ContestId
   user: UserId
-  register: Date
+  stamp: Date
 }
 
 export interface ACMCell {
@@ -72,6 +72,7 @@ export type RankingDetail = ACMDetail | OIDetail | IOIDetail;
 export interface Ranking {
   contest: ContestId
   user: UserId
+  team: string
   ranking: number
   detail: RankingDetail
 }

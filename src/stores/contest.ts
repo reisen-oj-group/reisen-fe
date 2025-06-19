@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useAuth } from './auth'
-import type { Contest, ContestId, Ranking } from '@/interface'
+import type { Contest, ContestId, ProblemId, Ranking } from '@/interface'
 import { apiContest, apiRanking } from '@/api/contest'
 
 export const useContest = defineStore('contest', () => {
@@ -18,13 +18,25 @@ export const useContest = defineStore('contest', () => {
 
   const authStore = useAuth()
 
+  function getLabel(problem: ProblemId) {
+    if (!currentContest.value) return null
+    const keys = Object.keys(currentContest.value.problems)
+    for (const label of keys) {
+      if (currentContest.value.problems[label] === problem) return label
+    }
+    return null
+  }
+
+
   async function refresh() {
+    console.log('refreshing contest mode: ', currentContest.value?.id)
+
     if (currentContest.value && authStore.currentUser) {
       await apiRanking({
         contest: currentContest.value.id,
         user: authStore.currentUser.id,
       }).then((response) => {
-        currentRanking.value = response.ranking
+        currentRanking.value = response.ranking ?? null
       }).catch(() => {
         currentRanking.value = null
       })
@@ -39,6 +51,8 @@ export const useContest = defineStore('contest', () => {
     if (currentContest.value && currentContest.value.id === contest) {
       return
     }
+
+    console.log('entering contest mode: ', contest)
 
     loading.value = true
     await apiContest({ contest: contest })
@@ -61,6 +75,8 @@ export const useContest = defineStore('contest', () => {
 
   // 退出比赛模式
   async function exit() {
+    console.log('existing contest mode: ', currentContest.value?.id)
+
     currentContest.value = null
     currentRanking.value = null
     localStorage.removeItem('current-contest')
@@ -79,6 +95,7 @@ export const useContest = defineStore('contest', () => {
   return {
     currentContest,
     currentRanking,
+    getLabel,
     valid,
     enter,
     exit,

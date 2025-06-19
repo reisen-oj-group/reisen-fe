@@ -26,7 +26,24 @@ export interface SubmissionFilterParams {
 }
 
 export type SubmissionFilterQuery = SubmissionFilterParams & {
+  size?: number
   page?: number
+}
+
+export interface SubmissionDeleteRequest {
+  id: SubmissionId
+}
+
+export interface SubmissionDeleteResponse {
+  
+}
+
+export interface SubmissionRejudgeRequest {
+  id: SubmissionId
+}
+
+export interface SubmissionRejudgeResponse {
+  submission: SubmissionFull
 }
 
 export interface SubmissionDetailRequest {

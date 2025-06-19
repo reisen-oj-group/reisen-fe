@@ -47,7 +47,7 @@
       <el-table-column prop="id" label="ID" width="120" />
       <el-table-column label="标题" min-width="200">
         <template #default="{ row }">
-          <router-link :to="`/admin/problems/${row.id}`" class="title-link">
+          <router-link :to="`/problem/${row.id}`" class="title-link">
             {{ row.title['zh-CN'] || Object.values(row.title)[0] || '暂无标题' }}
           </router-link>
         </template>
@@ -188,9 +188,11 @@ const handleDelete = (problem: ProblemCore) => {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
   }).then((result) => {
-    apiProblemDelete({
-      problem: problem.id
-    }).then(fetchProblems)
+    if (result.isConfirmed) {
+      apiProblemDelete({
+        problem: problem.id
+      }).then(fetchProblems)
+    }
   })
 }
 

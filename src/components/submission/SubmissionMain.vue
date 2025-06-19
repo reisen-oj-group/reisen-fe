@@ -20,20 +20,31 @@
         <el-tab-pane label="测试点" name="testcases">
           <div class="testcase-container">
             <div v-for="(testcase, index) in submission.detail" :key="index" class="testcase-item">
-              <div
-                class="testcase-badge"
-                :style="{ backgroundColor: `${verdicts[testcase.verdict]?.color ?? '#0E1D69'}` }"
-                @click="showTestcase(testcase, index)"
-              >
-                <span class="testcase-id">#{{ index + 1 }}</span>
-                <span class="testcase-verdict">{{ verdicts[testcase.verdict]?.abbr ?? 'UKE' }}</span>
-                <span class="testcase-meta">
-                  <span v-if="testcase.time !== undefined">{{ testcase.time }}ms</span>
-                  <span v-if="testcase.memory !== undefined">{{
-                    formatMemory(testcase.memory)
-                  }}</span>
-                </span>
-              </div>
+              <!-- Juding -->
+              <template v-if="testcase.verdict === 'JD' || testcase.verdict === 'PD'">
+                <div
+                  class="testcase-badge pending"
+                  v-loading="true"
+                  element-loading-svg-view-box="0, 0, 50, 50"
+                  element-loading-background="transparent"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="testcase-badge"
+                  :style="{ backgroundColor: `${verdicts[testcase.verdict]?.color ?? '#0E1D69'}` }"
+                  @click="showTestcase(testcase, index)"
+                >
+                  <span class="testcase-id">#{{ index + 1 }}</span>
+                  <span class="testcase-verdict">{{ verdicts[testcase.verdict]?.abbr ?? 'UKE' }}</span>
+                  <span class="testcase-meta">
+                    <span v-if="testcase.time !== undefined">{{ testcase.time }}ms</span>
+                    <span v-if="testcase.memory !== undefined">{{
+                      formatMemory(testcase.memory)
+                    }}</span>
+                  </span>
+                </div>
+              </template>
             </div>
           </div>
         </el-tab-pane>
@@ -88,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 import {
   ElTabs,
   ElTabPane,
@@ -124,16 +135,16 @@ function showTestcase(testcase: Testcase, index: number) {
   testcaseDialogVisible.value = true
 }
 
-watch(
-  () => props.loading,
-  () => {
-    if (props.submission && props.submission.compile?.success) {
-      activeTab.value = 'testcases'
-    } else {
+watchEffect(() => {
+  if (props.submission) {
+    if (props.submission.compile?.success === false) {
       activeTab.value = 'compile'
+    } else if (props.submission.verdict === 'JD') {
+      // 评测中显示测试点标签页
+      activeTab.value = 'testcases'
     }
-  },
-)
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -214,6 +225,15 @@ watch(
 
   width: 6.5em;
   height: 6.5em;
+
+  &.pending {
+    background-color:#14558f;
+
+    &::v-deep(.circular .path) {
+      stroke-width: 4;
+      stroke: white;
+    }
+  }
 
   .testcase-id {
     position: absolute;

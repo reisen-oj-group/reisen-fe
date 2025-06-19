@@ -59,12 +59,25 @@ import { formatDate, formatMemory, formatTimeShort } from '@/utils/format'
 import { ElButton, ElCard } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useConfig } from '@/stores/config'
+import { useContest } from '@/stores/contest'
 
 const { codeLangs } = useConfig().config
 
 const router = useRouter()
+const contestStore = useContest()
+
 const goToProblem = () => {
-  if (props.submission) router.push(`/problem/${props.submission.problem.id}`)
+  const submission = props.submission
+  if (submission && submission.problem) {
+    if (submission.contest){
+      const contest = submission.contest
+        contestStore.enter(contest).then(() => {
+          router.push(`/contest/${contest}/${ contestStore.getLabel(submission.problem.id )}`)
+      })
+    } else {
+      router.push(`/problem/${submission.problem.id}`)
+    }
+  }
 }
 
 const props = defineProps<{

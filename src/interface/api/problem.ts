@@ -1,6 +1,7 @@
 import type { Problem, ProblemCore, ProblemId, Judgement, TagId, UserId, ProblemCoreWithJudgements } from '../entity'
 
 export interface ProblemListRequest extends ProblemFilterParams {
+  size?: number
   page?: number
 }
 
@@ -10,6 +11,7 @@ export interface ProblemListResponse {
 }
 
 export interface ProblemAllRequest extends ProblemFilterParams {
+  size?: number
   page?: number
 }
 

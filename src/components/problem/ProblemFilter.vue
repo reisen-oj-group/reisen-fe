@@ -10,9 +10,9 @@
             <el-input v-model.number="form.maxDifficulty" />
           </el-space>
         </el-form-item>
-        <el-form-item label="标签" class="filter-item">
+        <!-- <el-form-item label="标签" class="filter-item">
           <a class="tag-selector">标签选择器</a>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-input v-model="form.keywords" placeholder="题目名称、ID" class="filter-item">
           <template #prefix>

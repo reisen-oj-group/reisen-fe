@@ -19,7 +19,7 @@ import ProblemToolbar from '@/components/problem/ProblemToolbar.vue'
 
 import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, provide, ref, watch } from 'vue'
 import type { Problem, Judgement } from '@/interface'
 import { apiProblem } from '@/api'
 
@@ -28,6 +28,12 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const contestStore = useContest()
+
+const props = defineProps<{
+  plabel?: string
+  pid_str?: string
+  cid_str?: string
+}>()
 
 const problem = ref<Problem | null>(null)
 const judgement = ref<Judgement | null>(null)
@@ -61,12 +67,6 @@ async function getProblem() {
     loading.value = false
   }
 }
-
-const props = defineProps<{
-  plabel?: string
-  pid_str?: string
-  cid_str?: string
-}>()
 
 onMounted(() => {
   getProblem()

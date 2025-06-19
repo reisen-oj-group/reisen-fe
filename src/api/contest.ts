@@ -2,6 +2,8 @@ import type {
   Contest,
   ContestAllRequest,
   ContestAllResponse,
+  ContestEditRequest,
+  ContestEditResponse,
   ContestListRequest,
   ContestListResponse,
   ContestProblemsRequest,
@@ -18,7 +20,7 @@ import type {
   SignupResponse,
 } from '@/interface'
 
-import { apiFetchDefault, apiFetchSilent } from '@/utils/ofetch'
+import { apiFetchDefault, apiFetchRemind, apiFetchSilent } from '@/utils/ofetch'
 
 const processContestDates = (contest: Contest) => {
   contest.createdAt = new Date(contest.createdAt as unknown as number)
@@ -55,6 +57,15 @@ export const apiContest = async (request: ContestRequest) => {
   return data
 }
 
+export const apiContestEdit = async (request: ContestEditRequest) => {
+  const data = await apiFetchRemind<ContestEditResponse>('/contest/edit', {
+    method: 'POST',
+    body: request,
+  })
+  data.contest = processContestDates(data.contest)
+  return data
+}
+
 export const apiSignup = async (request: SignupRequest) => {
   const data = await apiFetchDefault<SignupResponse>('/contest/signup', {
     method: 'POST',
@@ -64,7 +75,7 @@ export const apiSignup = async (request: SignupRequest) => {
 }
 
 export const apiSignout = async (request: SignoutRequest) => {
-  const data = await apiFetchDefault<SignoutResponse>('/contest/signup', {
+  const data = await apiFetchDefault<SignoutResponse>('/contest/signout', {
     method: 'POST',
     body: request,
   })

@@ -17,6 +17,16 @@ export function queryStr(value: QueryValue) {
   return value ? value : undefined
 }
 
+export function queryDate(value: QueryValue) {
+  const str = queryStr(value)
+  if(str !== undefined){
+    const result = new Date(str)
+    return result ? result : undefined
+  } else {
+    return undefined
+  }
+}
+
 export function queryNoS(value: QueryValue) {
   value = toSingle(value)
   if (value && /d+/.test(value)) {

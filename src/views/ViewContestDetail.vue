@@ -62,10 +62,6 @@ const contest = computed(() => contestStore.currentContest)
 const loading = computed(() => contestStore.loading)
 
 const activeTab = ref('overview')
-const props = defineProps<{
-  cid_str: string
-}>()
-const cid: ContestId = parseInt(props.cid_str)
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   if (tab.paneName === 'ranking') {
@@ -73,10 +69,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
     router.push(`/contest/${contest.value!.id}/ranklist`)
   }
 }
-
-onMounted(() => {
-  contestStore.enter(cid)
-})
 </script>
 
 <style lang="scss" scoped>

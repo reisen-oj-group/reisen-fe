@@ -1,10 +1,10 @@
 <template>
   <layout-sidebar>
     <template #main>
-      <contest-list :init-filter="initFilter" ref="contests" />
+      <contest-list :filter="form" ref="contests" />
     </template>
     <template #sidebar>
-      <contest-filter :init-filter="initFilter" @filter="handleFilterSubmit" />
+      <contest-filter :filter="form" @filter-change="handleFilterChange" />
     </template>
   </layout-sidebar>
 </template>
@@ -13,18 +13,27 @@
 import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
 import ContestList from '@/components/contest/ContestList.vue'
 import ContestFilter from '@/components/contest/ContestFilter.vue'
-import type { ContestFilterForm } from '@/interface'
+import type { ContestDifficulty, ContestFilterForm, ContestFilterParams, ContestRule } from '@/interface'
 import { ref } from 'vue'
+import { useRoute, type LocationQuery } from 'vue-router'
+import { queryDate, queryNum, queryStr } from '@/utils/query'
 
-const contests = ref<InstanceType<typeof ContestList> | null>(null)
+const route = useRoute()
 
-const initFilter: ContestFilterForm = {
-  rule: undefined,
-  difficulty: undefined,
+function buildForm(query: LocationQuery) {
+  return {
+    rule: queryStr(query.rule) as ContestRule,
+    difficulty: queryNum(query.difficulty) as ContestDifficulty,
+    before: queryDate(query.before),
+    after: queryDate(query.before),
+    keyword: queryStr(query.keyword),
+  }
 }
 
-const handleFilterSubmit = (form: ContestFilterForm, cleaned: boolean) => {
-  contests.value?.setFilter(form, cleaned)
+const form = ref<ContestFilterParams>(buildForm(route.query))
+
+const handleFilterChange = (params: ContestFilterParams) => {
+  form.value = params
 }
 </script>
 
