@@ -1,5 +1,10 @@
 <template>
-  <layout-main>
+  <layout-main :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '题目列表', to: {name: 'problem-list'}},
+    {label: `#${ props.pid_str }`, to: {name: 'problem-detail', params: { 'pid_str': props.pid_str }}},
+    {label: '题目编辑'},
+    ]">
     <el-card>
       <template v-if="problem">
         <el-tabs v-model="activeTab">

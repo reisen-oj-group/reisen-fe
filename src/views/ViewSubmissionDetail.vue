@@ -1,5 +1,9 @@
 <template>
-  <layout-sidebar>
+  <layout-sidebar :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '提交列表', to: {name: 'submission-list'}},
+    {label: `#${ props.rid_str }`},
+    ]">
     <template #main>
       <el-card>
         <submission-main :submission="submission" :loading="loading" />

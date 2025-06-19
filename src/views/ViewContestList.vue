@@ -1,5 +1,8 @@
 <template>
-  <layout-sidebar>
+  <layout-sidebar :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '比赛列表'},
+    ]">
     <template #main>
       <contest-list :filter="form" ref="contests" />
     </template>

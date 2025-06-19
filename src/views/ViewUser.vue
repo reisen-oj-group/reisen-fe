@@ -1,5 +1,9 @@
 <template>
-  <layout-main>
+  <layout-main :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '用户主页'},
+    {label: `#${ props.uid_str || currentUser?.id || 0 }`},
+    ]">
     <div class="user-profile">
       <template v-if="visitingUser">
         <template v-if="uid === 0"> 尚未登录。 </template>

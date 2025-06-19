@@ -1,17 +1,16 @@
 <template>
   <el-header class="header">
     <div class="content">
-      Online Judge
-      <!-- TODO: breadcrumb -->
-      <!-- <div>
-        <el-breadcrumb separator="/" style="margin-top: 1em;">
-          <el-breadcrumb-item v-for="i in prop.bread" :key="i.label" :to="{ name: i.name }" >
+      <el-breadcrumb :separator-icon="ArrowRight" class="bread" separator="/">
+        <template v-for="i in props.bread" :key="i.label">
+          <el-breadcrumb-item v-if="i.to" :to="i.to" >
               {{ i.label }}
           </el-breadcrumb-item>
+          <el-breadcrumb-item v-else >
+              {{ i.label }}
+          </el-breadcrumb-item>
+        </template>
         </el-breadcrumb>
-
-        <h2 v-if="prop.title" style="color: var(--theme-color-1);">{{ prop.title }}</h2>
-      </div> -->
     </div>
 
     <div class="user">
@@ -30,13 +29,16 @@
 </template>
 
 <script setup lang="ts">
-import { ElHeader, ElAvatar, ElButton } from 'element-plus'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { ElHeader, ElAvatar, ElButton, ElBreadcrumb, ElBreadcrumbItem } from 'element-plus'
 
 import { useAuth } from '@/stores/auth'
+import type { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from 'vue-router';
 
-const _props = withDefaults(
+const props = withDefaults(
   defineProps<{
-    admin?: boolean
+    admin?: boolean,
+    bread?: { label: string, to?: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric}[]
   }>(),
   {
     admin: false,
@@ -55,6 +57,12 @@ const auth = useAuth()
   padding: 0 24px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.content {
+  > .bread {
+    font-size: 1.1em;
+  }
 }
 
 .user {

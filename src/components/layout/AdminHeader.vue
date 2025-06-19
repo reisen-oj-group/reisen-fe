@@ -1,17 +1,7 @@
 <template>
   <el-header class="header">
     <div class="content">
-      Online Judge 管理
-      <!-- TODO: breadcrumb -->
-      <!-- <div>
-        <el-breadcrumb separator="/" style="margin-top: 1em;">
-          <el-breadcrumb-item v-for="i in prop.bread" :key="i.label" :to="{ name: i.name }" >
-              {{ i.label }}
-          </el-breadcrumb-item>
-        </el-breadcrumb>
-
-        <h2 v-if="prop.title" style="color: var(--theme-color-1);">{{ prop.title }}</h2>
-      </div> -->
+      <strong>管理后台</strong> <span class="warn">请确保您的账号安全。</span>
     </div>
 
     <div class="user">
@@ -61,6 +51,10 @@ const auth = useAuth()
   padding: 0 24px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.warn {
+  color: var(--el-color-warning);
 }
 
 .user {

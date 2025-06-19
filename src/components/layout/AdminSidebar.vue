@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <div class="logo">LOGO 后台</div>
+    <div class="logo">ReisenOJ</div>
     <el-menu :default-active="activeMenu" class="nav-bar" :router="true" mode="vertical">
       <el-menu-item class="nav-item" index="/">
         <font-awesome-icon class="nav-icon" :icon="faHouse" />
@@ -85,10 +85,17 @@ const activeMenu = computed(() => {
 }
 
 .logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 60px;
+  background-color: #AC82DC;
+
+  color: white;
+
+  font-size: 1.5em;
+  font-weight: 500%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-bar {

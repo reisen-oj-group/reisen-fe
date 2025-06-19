@@ -1,5 +1,9 @@
 <template>
-  <layout-sidebar>
+  <layout-sidebar :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '比赛列表', to: {name: 'contest-list'}},
+    {label: `#${ props.cid_str }`},
+    ]">
     <template #main>
       <contest-toolbar />
 
@@ -38,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+
 import LayoutSidebar from '@/components/layout/LayoutSidebar.vue'
 import ContestSidebar from '@/components/contest/ContestSidebar.vue'
 
@@ -54,6 +59,10 @@ import type { ContestId } from '@/interface'
 
 import { useContest } from '@/stores/contest'
 import { useRouter } from 'vue-router'
+
+const props = defineProps<{
+  cid_str: string
+}>();
 
 const contestStore = useContest()
 const router = useRouter()

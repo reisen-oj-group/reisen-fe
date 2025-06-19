@@ -42,7 +42,7 @@ const router = createRouter({
     },
     {
       path: '/submission',
-      name: 'submission',
+      name: 'submission-list',
       component: ViewSubmissionList,
     },
     {

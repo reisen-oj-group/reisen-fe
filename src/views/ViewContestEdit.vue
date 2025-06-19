@@ -1,5 +1,10 @@
 <template>
-  <layout-main>
+  <layout-main :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '比赛列表', to: {name: 'contest-list'}},
+    {label: `#${ props.cid_str }`, to: {name: 'contest-detail', params: { 'cid_str': props.cid_str }}},
+    {label: '比赛编辑'},
+    ]">
     <el-card>
       <template v-if="contest">
         <el-tabs v-model="activeTab">

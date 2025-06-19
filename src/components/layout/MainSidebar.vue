@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <!-- TODO: Design a logo -->
-    <div class="logo">LOGO</div>
+    <div class="logo">R</div>
     <el-menu class="nav-bar" :router="true" default-active="1" mode="vertical">
       <el-menu-item class="nav-item" index="/">
         <font-awesome-icon class="nav-icon" :icon="faHouse" />
@@ -65,10 +65,17 @@ const auth = useAuth();
 }
 
 .logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 60px;
+  width: 60px;
+  background-color: #AC82DC;
+  color: white;
+
+  font-size: 2em;
+  font-weight: 500%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-bar {

@@ -1,5 +1,9 @@
 <template>
-  <layout-sidebar>
+  <layout-sidebar :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '题目列表', to: { name: 'problem-list'}},
+    {label:  `${ props.pid_str ? ( '#' + props.pid_str) : ( '比赛 ' + (props.cid_str ?? '') + ' ' + (props.plabel ?? '') ) }`},
+    ]">
     <template #main>
       <problem-toolbar :loading="loading" :problem="problem" />
       <problem-content :loading="loading" :problem="problem" />

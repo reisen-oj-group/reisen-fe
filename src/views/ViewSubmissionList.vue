@@ -1,5 +1,8 @@
 <template>
-  <layout-main>
+  <layout-main :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '提交列表'},
+    ]">
     <div class="submission-list-container">
       <submission-filter :filter="form" @filter-change="handleFilterChange" />
       <submission-list :filter="form" />

@@ -1,5 +1,8 @@
 <template>
-  <layout-sidebar>
+  <layout-sidebar :bread="[
+    {label: 'Reisen Online Judge', to: { name: 'home' }},
+    {label: '题目列表'}
+    ]">
     <template #main>
       <problem-list :filter="form" />
     </template>

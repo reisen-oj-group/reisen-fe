@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="layout-body">
-      <main-header />
+      <main-header :bread="props.bread" />
       <div class="content-wrapper">
         <div class="content">
           <main class="main-content">
@@ -23,6 +23,11 @@
 import MainHeader from './MainHeader.vue'
 import MainFooter from './MainFooter.vue'
 import MainSidebar from './MainSidebar.vue'
+import type { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from 'vue-router';
+
+const props = defineProps<{
+  bread?: { label: string, to?: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric}[]
+}>();
 </script>
 
 <style lang="scss" scoped>
